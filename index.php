@@ -48,6 +48,9 @@
                         <div id="form-Bottom-Span">
                             <span>Invalid username or password</span>
                         </div>
+                        <div>
+                            <p class="text-center mt-3">Don't have an account? <a href="./Assets/Pages/signup.php">Signup</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,10 +83,10 @@ $username = isset($_POST['username']) ? $_POST['username'] : "";
 $password = isset($_POST['password']) ? $_POST['password'] : "";
 
 if (!empty($username) && !empty($password)) {
-    $query = "SELECT * FROM user WHERE username = '$username' AND pass = '$password'";
+    $query = "SELECT * FROM users WHERE userName = '$username' AND pass = '$password'";
     $result = mysqli_query($connection, $query);
 
-    if (mysqli_num_rows($result) > 0) {
+    if ($result && mysqli_num_rows($result) > 0) {
         header("Location: ./Assets/Pages/dashboard.php");
     } else {
         echo '<style>#form-Bottom-Span{visibility: visible !important;}</style>';
