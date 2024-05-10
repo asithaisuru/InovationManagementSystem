@@ -12,7 +12,7 @@
         }
 
         .container {
-            margin-top: 100px;
+            margin-top: 50px;
         }
 
         input[type="text"],
@@ -53,6 +53,10 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <div style="margin-top:10px;">
+                <p>Already have an account? <a href="../../index.php">Login</a></p>
+            </div>
+
         </form>
     </div>
 </body>
@@ -86,9 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO users (userName, fname, lname, email, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$password')";
         if ($connection->query($sql) === TRUE) {
             echo '<script type="text/javascript">
-                window.onload = function () { alert("User registerd sucessfully."); }
+                window.onload = function () { alert("User registerd sucessfully. Please Login."); }
             </script>';
-            header("Location: ../../index.php");
         } else {
             echo "Error: " . $sql . "<br>" . $connection->error;
         }
