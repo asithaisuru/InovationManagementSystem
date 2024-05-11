@@ -20,7 +20,9 @@
             color: red;
             visibility: hidden;
         }
-        input[type="text"], input[type="password"] {
+
+        input[type="text"],
+        input[type="password"] {
             background-color: #f2f2f2;
             text-align: center;
         }
@@ -38,10 +40,12 @@
                     <div class="card-body">
                         <form action="index.php" method="POST">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="Username" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
@@ -49,7 +53,8 @@
                             <span>Invalid username or password</span>
                         </div>
                         <div>
-                            <p class="text-center mt-3">Don't have an account? <a href="./Assets/Pages/signup.php">Signup</a></p>
+                            <p class="text-center mt-3">Don't have an account? <a
+                                    href="./Assets/Pages/signup.php">Signup</a></p>
                         </div>
                     </div>
                 </div>
@@ -87,7 +92,16 @@ if (!empty($username) && !empty($password)) {
     $result = mysqli_query($connection, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
-        header("Location: ./Assets/Pages/dashboard.php");
+        $row = mysqli_fetch_assoc($result);
+        $role = $row['role'];
+
+        if ($role == 'Innovator') {
+            header("Location: ./Assets/Pages/innovator-dashboard.php");            
+        } else if ($role == 'Supplier') {
+            header("Location: ./Assets/Pages/supplier-dashboard.php");
+        } else if ($role == "Admin") {
+            header("Location: ./Assets/Pages/admin-dashboard.php");
+        }
     } else {
         echo '<style>#form-Bottom-Span{visibility: visible !important;}</style>';
     }

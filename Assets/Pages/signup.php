@@ -12,7 +12,7 @@
         }
 
         .container {
-            margin-top: 50px;
+            margin-top: 20px;
         }
 
         input[type="text"],
@@ -32,6 +32,7 @@
     <div class="container">
         <h2>Signup Form</h2>
         <form method="POST" action="signup.php">
+
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -49,15 +50,23 @@
                 <input type="text" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option disabled selected>--Select a role--</option>
+                    <option value="Innovator">Innovator</option>
+                    <option value="Supplier">Supplier</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <div style="margin-top:10px;">
-                <p>Already have an account? <a href="../../index.php">Login</a></p>
-            </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <div style="margin-top:10px;">
+        <p>Already have an account? <a href="../../index.php">Login</a></p>
+    </div>
 
-        </form>
+    </form>
     </div>
 </body>
 
@@ -74,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastname = $_POST["lastname"];
     $password = $_POST["password"];
     $email = $_POST["email"];
+    $role = $_POST["role"];
 
     $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
     if (!$connection) {
@@ -87,11 +97,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     } else {
-        $sql = "INSERT INTO users (userName, fname, lname, email, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$password')";
+        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$password')";
         if ($connection->query($sql) === TRUE) {
-            echo '<script type="text/javascript">
-                window.onload = function () { alert("User registerd sucessfully. Please Login."); }
-            </script>';
+            echo '<script type="text/javascript">            
+                    window.onload = function () { alert("User registered successfully. Please Login. Redirect to login page in 5 seconds..."); };
+                    setTimeout(function() {
+                        window.location.href = "../../index.php";
+                    }, 5000);
+                </script>';
         } else {
             echo "Error: " . $sql . "<br>" . $connection->error;
         }
