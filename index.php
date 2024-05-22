@@ -70,7 +70,6 @@
 </html>
 
 <?php
-require './Assets/PHP/function.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -96,8 +95,13 @@ if (!empty($username) && !empty($password)) {
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
-        setRole($role);
-        checkRole();
+        if ($role == 'Innovator') {
+            header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+        } else if ($role == 'Supplier') {
+            header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+        } else if ($role == "Admin") {
+            header("Location: Assets/Pages/Admin/admin-dashboard.php");
+        }
     } else {
         echo '<style>#form-Bottom-Span{visibility: visible !important;}</style>';
     }

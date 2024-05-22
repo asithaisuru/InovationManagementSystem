@@ -1,7 +1,3 @@
-<?php
-require_once "../../PHP/function.php";
-checkRole();
-?>
 
 <!DOCTYPE html>
 <html lang="en">
