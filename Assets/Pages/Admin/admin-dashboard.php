@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
     </div>
 
       <!-- Remove User Section -->
-      <div class="card mt-3">
+      <div class="container mt-5">
             <div class="card-body">
                 <h1 class="text-center">Remove User</h1>
                 <form action="remove_user.php" method="POST">
