@@ -19,14 +19,24 @@ if (!$connection) {
 }
 
 $query = "SELECT * FROM users WHERE userName = '$username'";
-    $result = mysqli_query($connection, $query);
+$result = mysqli_query($connection, $query);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $fname = $row['fname'];
-        $lname = $row['lname'];
-        $email = $row['email'];
-    }
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $fname = $row['fname'];
+    $lname = $row['lname'];
+    $email = $row['email'];
+}
+
+$query = "SELECT * FROM images WHERE userName = '$username'";
+$result = mysqli_query($connection, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $profilePic = "../../img/profilePics/".$row['image_url'];
+}else{
+    $profilePic = "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg";
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,71 +59,79 @@ $query = "SELECT * FROM users WHERE userName = '$username'";
 
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">
                     <div class="card-header">
                         <h3 class="text-white">Update Profile Picture</h3>
                     </div>
                     <img class="card-img-top"
-                        src="https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg"
+                        src=<?php echo $profilePic ?>
                         alt="Card image" style="width:100%">
                     <div class="card-body">
-                        <form action="profile.php" method="POST" enctype="multipart/form-data">
+                        <form action="../upload.php?un=<?php echo $username ?>" method="POST" enctype="multipart/form-data">
                             <div class="form-group mt-3">
                                 <input type="file" class="form-control" name="profile-pic" id="profile-pic">
                             </div>
+                            <div class="mt-4 mb-4 ms-auto" style="width: 200px;">
+                                <button type="submit" class="btn btn-primary" value="Upload" name="submit">Update Image</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card bg-dark border-3 border-white">
-                    <div class="card-header">
-                        <h3 class="text-white">Update Personal Information</h3>
-                    </div>
-                    <div class="card-body">
-                        <fieldset>
-                            <legend class="text-white">Persenal info:</legend>
-                            <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="username" placeholder="Enter Username"
-                                    name="username" value="<?php echo $username ?>">
-                                <label for="username">Username</label>
-                            </div>
-                            <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
-                                    name="fname" value="<?php echo $fname ?>">
-                                <label for="fname">First Name</label>
-                            </div>
-                            <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
-                                    name="lname" value="<?php echo $lname ?>">
-                                <label for="lname">Last Name</label>
-                            </div>
-                            <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="email" placeholder="Enter Email"
-                                    name="email" value="<?php echo $email ?>">
-                                <label for="lname">Email</label>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend class="text-white">Skills:</legend>
-                            <div id="selected-skills" class="list-group-item list-group-item-action"></div>
-                            <div class="mb-3">
-                                <div id="selected-skills" class="mb-3">
-                                    <div class="form-floating mb-3 mt-3">
-                                        <input type="text" class="form-control" id="skill-input" name="skill-input"
-                                            placeholder="Enter Skill">
-                                        <label for="skill-input">Skilled languages</label>
-                                    </div>
-                                    <div id="suggestions" class="list-group mt-1"></div>
+
+            <div class="col-lg-6">
+                <form action="profile.php" method="POST">
+                    <div class="card bg-dark border-3 border-white">
+                        <div class="card-header">
+                            <h3 class="text-white">Update Personal Information</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <fieldset>
+                                <legend class="text-white">Persenal info:</legend>
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                                        name="username" value="<?php echo $username ?>">
+                                    <label for="username">Username</label>
                                 </div>
-                            </div>
-                        </fieldset>
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
+                                        name="fname" value="<?php echo $fname ?>">
+                                    <label for="fname">First Name</label>
+                                </div>
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
+                                        name="lname" value="<?php echo $lname ?>">
+                                    <label for="lname">Last Name</label>
+                                </div>
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" class="form-control" id="email" placeholder="Enter Email"
+                                        name="email" value="<?php echo $email ?>">
+                                    <label for="lname">Email</label>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend class="text-white">Skills:</legend>
+                                <div id="selected-skills" class="list-group-item list-group-item-action"></div>
+                                <div class="mb-3">
+                                    <div id="selected-skills" class="mb-3">
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="text" class="form-control" id="skill-input" name="skill-input"
+                                                placeholder="Enter Skill">
+                                            <label for="skill-input">Skilled languages</label>
+                                        </div>
+                                        <div id="suggestions" class="list-group mt-1"></div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    <div class="mb-3 ms-auto" style="width: 200px;">
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                </div>
+                    </div>
             </div>
-            <div class="mt-2 ms-auto" style="width: 200px;">
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
+
             </form>
         </div>
 
@@ -241,3 +259,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+<?php include '../footer.php'; ?>

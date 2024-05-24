@@ -4,23 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- End of Bootstrap -->
 
-    <title>Document</title>
+    <title>Footer</title>
 </head>
 
 <body>
-<footer class="bg-dark text-white mt-5">
-        <div class="container py-4">
+    <hr class="text-white border-3">
+    <!-- <footer class="bg-dark text-white mt-5"> -->
+        <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     <h5>About Us</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum
+                        vestibulum.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white">Home</a></li>
@@ -29,7 +32,7 @@
                         <li><a href="#" class="text-white">Contact</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     <h5>Contact Us</h5>
                     <address>
                         1234 Street Name<br>
@@ -41,7 +44,7 @@
             </div>
             <div class="row mt-4">
                 <div class="col text-center">
-                <p>&copy;
+                    <p>&copy;
                         <?php
                         $stYear = 2024;
                         $nowyear = date("Y");
@@ -51,12 +54,12 @@
                             echo "$stYear - $nowyear";
                         }
                         ?>
-                         - Group 03. All rights reserved.
+                        - Group 03. All rights reserved.
                     </p>
                 </div>
             </div>
         </div>
-    </footer>
+    <!-- </footer> -->
 </body>
 
 </html>

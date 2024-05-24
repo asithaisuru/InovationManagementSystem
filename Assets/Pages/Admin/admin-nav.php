@@ -6,6 +6,26 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
+// Database connection
+$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$query = "SELECT * FROM images WHERE userName = '$username'";
+$result = mysqli_query($connection, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $profilePic = "../../img/profilePics/".$row['image_url'];
+}else{
+    $profilePic = "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg";
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +79,7 @@ if (isset($_SESSION['username'])) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://via.placeholder.com/50" alt="Profile" class="rounded-circle me-2">
+                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2" style="width:50px;height;50px;">
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
@@ -79,20 +99,20 @@ if (isset($_SESSION['username'])) {
     <hr class="text-white border-3">
 
     <script>
-function logout() {
-    // Perform logout action using fetch API
-    fetch('../logout.php')
-        .then(response => {
-            if (response.ok) {
-                // Redirect to the login page after logout
-                window.location.href = '../../../index.php'; // Replace "login.php" with the actual path to your login page
-            } else {
-                console.error('Logout failed');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-</script>
+        function logout() {
+            // Perform logout action using fetch API
+            fetch('../logout.php')
+                .then(response => {
+                    if (response.ok) {
+                        // Redirect to the login page after logout
+                        window.location.href = '../../../index.php'; // Replace "login.php" with the actual path to your login page
+                    } else {
+                        console.error('Logout failed');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 
 </html>
