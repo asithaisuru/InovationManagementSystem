@@ -18,15 +18,14 @@ if (isset($_SESSION['username'])) {
     <title>Admin - Dashboard</title>
 </head>
 
-<body>
-    <?php include 'admin-nav.php'; 
-    
-      ?>
-    
+<body class="bg-dark text-white border-white border-3">
+    <?php include 'admin-nav.php'; ?>
+
     <div class="container mt-5">
-        <h1 class="text-center">Admin Dashboard - Add User</h1>
-        <div class="card mt-4">
+        <h1 class="text-center">Admin Dashboard</h1>
+        <div class="card mt-4 border-white border-3 bg-dark text-white">
             <div class="card-body">
+                <h1 class="text-white text-center">Add User</h1>
                 <form action="add_user.php" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
@@ -54,8 +53,9 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 
-      <!-- Remove User Section -->
-      <div class="container mt-5">
+    <!-- Remove User Section -->
+    <div class="container mt-5">
+        <div class="card border-white border-3 bg-dark text-white">
             <div class="card-body">
                 <h1 class="text-center">Remove User</h1>
                 <form action="remove_user.php" method="POST">
@@ -69,11 +69,12 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 
-        <!-- User Table Section -->
-        <div class="container mt-5">
+    <!-- User Table Section -->
+    <div class="container mt-5">
+        <div class="card border-white border-3 bg-dark text-white">
             <div class="card-body">
                 <h1 class="text-center">Admin List</h1>
-                <table class="table table-bordered">
+                <table class="table table-bordered bg-dark">
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -109,7 +110,12 @@ if (isset($_SESSION['username'])) {
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    
-    
+
+
+
 </body>
+
+</html>
+
+
+<?php include '../footer.php'; ?>

@@ -47,7 +47,7 @@ if (isset($_POST['submit']) && isset($_FILES['profile-pic'])) {
                 move_uploaded_file($tmp_name, $img_upload_path);
 
                 // Insert into Database
-                $sql = "INSERT INTO images(userName,image_url) VALUES('$username','$new_img_name')";
+                $sql = "INSERT INTO profilePic(userName,image_url) VALUES('$username','$new_img_name')";
                 if (mysqli_query($connection, $sql)) {
                     echo "<p class='text-white'>Records inserted successfully.</p>";
                 } else {
