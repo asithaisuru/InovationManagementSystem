@@ -69,7 +69,7 @@ if (isset($_SESSION['username'])) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../../index.php">Logout</a></li>
+                            <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
                         </ul>
                     </li>
                 </div>
@@ -77,6 +77,13 @@ if (isset($_SESSION['username'])) {
         </div>
     </nav>
     <hr class="text-white border-3">
+
+    <script>
+        function logout() {
+            window.location.href = '../../../index.php';
+            session_destroy();
+        }
+    </script>
 </body>
 
 </html>

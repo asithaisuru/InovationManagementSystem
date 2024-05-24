@@ -1,4 +1,13 @@
 <?php
+session_start();
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} else {
+    // header("Location: ../../../index.php");
+    echo "<script>window.location.href='../../../index.php';</script>";
+    exit();
+}
+
 require_once __DIR__ . '/../../../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
@@ -26,7 +35,9 @@ if (!$connection) {
 </head>
 
 <body class="bg-dark text-white">
+
     <?php include 'admin-nav.php'; ?>
+
     <div class="container">
         <div class="row">
             <div class="col-6">
