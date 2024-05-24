@@ -18,6 +18,15 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+$query = "SELECT * FROM users WHERE userName = '$username'";
+    $result = mysqli_query($connection, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $fname = $row['fname'];
+        $lname = $row['lname'];
+        $email = $row['email'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -66,26 +75,26 @@ if (!$connection) {
                             <legend class="text-white">Persenal info:</legend>
                             <div class="form-floating mb-3 mt-3">
                                 <input type="text" class="form-control" id="username" placeholder="Enter Username"
-                                    name="username">
+                                    name="username" value="<?php echo $username ?>">
                                 <label for="username">Username</label>
                             </div>
                             <div class="form-floating mb-3 mt-3">
                                 <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
-                                    name="fname">
+                                    name="fname" value="<?php echo $fname ?>">
                                 <label for="fname">First Name</label>
                             </div>
                             <div class="form-floating mb-3 mt-3">
                                 <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
-                                    name="lname">
+                                    name="lname" value="<?php echo $lname ?>">
                                 <label for="lname">Last Name</label>
                             </div>
                             <div class="form-floating mb-3 mt-3">
                                 <input type="text" class="form-control" id="email" placeholder="Enter Email"
-                                    name="email">
+                                    name="email" value="<?php echo $email ?>">
                                 <label for="lname">Email</label>
                             </div>
                         </fieldset>
-                        <!-- <fieldset>
+                        <fieldset>
                             <legend class="text-white">Skills:</legend>
                             <div id="selected-skills" class="list-group-item list-group-item-action"></div>
                             <div class="mb-3">
@@ -98,7 +107,7 @@ if (!$connection) {
                                     <div id="suggestions" class="list-group mt-1"></div>
                                 </div>
                             </div>
-                        </fieldset> -->
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -182,10 +191,7 @@ if (!$connection) {
 </html>
 <?php
 // Database connection
-$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userName = mysqli_real_escape_string($connection, $_POST['username']);
