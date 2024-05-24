@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
         <!-- User Table Section -->
         <div class="container mt-5">
             <div class="card-body">
-                <h1 class="text-center">User List</h1>
+                <h1 class="text-center">Admin List</h1>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
