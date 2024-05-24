@@ -79,11 +79,20 @@ if (isset($_SESSION['username'])) {
     <hr class="text-white border-3">
 
     <script>
-        function logout() {
-            window.location.href = '../../../index.php';
-            session_destroy();
-        }
-    </script>
+function logout() {
+    // Perform logout action using fetch API
+    fetch('../logout.php')
+        .then(response => {
+            if (response.ok) {
+                // Redirect to the login page after logout
+                window.location.href = '../../../index.php'; // Replace "login.php" with the actual path to your login page
+            } else {
+                console.error('Logout failed');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
 </body>
 
 </html>
