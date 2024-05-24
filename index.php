@@ -1,3 +1,21 @@
+<?php
+session_start();
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// $dbHost = $_ENV['DB_HOST'];
+// $dbUser = $_ENV['DB_USER'];
+// $dbPassword = $_ENV['DB_PASSWORD'];
+// $dbName = $_ENV['DB_NAME'];
+
+$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,9 +31,9 @@
     <title>IMS - Login or Signup</title>
 </head>
 
-<body class="bg-dark">
-    <div class="container mt-4">
-        <div class="card p-5 bg-dark border-white border-3">
+<body class="bg-dark text-white">
+    <div class="container mt-5">
+        <div class="card p-4 bg-dark border-white border-3">
             <div class="mt-2 p-3 bg-primary text-white rounded">
                 <img class="card-img-top mx-auto d-block" src="./Assets/img/LogoWhite.png" alt="Logo"
                     style="width:150px;height:150px;">
@@ -34,14 +52,21 @@
                         <label for="username">Username</label>
                     </div>
 
-                    <div class="form-floating mt-3 mb-3">
-                        <input type="text" class="form-control" id="password" placeholder="Enter password"
+                    <div class="form-floating mt-3 mb-3 position-relative">
+                        <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password">
-                        <label for="pwd">Password</label>
+                        <label for="password">Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                            <i class="fa fa-eye" id="toggleIcon"></i>
+                        </button>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-block"><Strong>Login</Strong></button>
                         <hr style="border-top: 3px solid white; width: 100%; margin-top: 5px; margin-bottom: 5px;">
+                        <span class="text-center text-white">Don't have an Account ?</span>
                         <a href="Assets/Pages/signup.php" class="btn btn-success btn-block">Signup</a>
                     </div>
 
@@ -70,45 +95,58 @@
                 </div>
         </footer>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if(toggleIcon.classList.contains('fa-eye-slash')){
+                toggleIcon.classList.add('fa-eye');
+            }else{
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 </body>
 
 </html>
 
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// $dbHost = $_ENV['DB_HOST'];
-// $dbUser = $_ENV['DB_USER'];
-// $dbPassword = $_ENV['DB_PASSWORD'];
-// $dbName = $_ENV['DB_NAME'];
-
-$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 $username = isset($_POST['username']) ? $_POST['username'] : "";
 $password = isset($_POST['password']) ? $_POST['password'] : "";
 
+
 if (!empty($username) && !empty($password)) {
+    $_SESSION['username'] = $username;
     $query = "SELECT * FROM users WHERE userName = '$username' AND pass = '$password'";
     $result = mysqli_query($connection, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
-        if ($role == 'Innovator') {
-            header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+        if ($role == 'Innovator') {            
+            // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
         } else if ($role == 'Supplier') {
-            header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+            // header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
         } else if ($role == "Admin") {
-            header("Location: Assets/Pages/Admin/admin-dashboard.php");
+            // header("Location: Assets/Pages/Admin/admin-dashboard.php");
+            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
         }
     } else {
-        echo '<style>#form-Bottom-Span{visibility: visible !important;}</style>';
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+            alert('Invalid Username or Password');
+            });
+        </script>";
     }
 }
 ?>
