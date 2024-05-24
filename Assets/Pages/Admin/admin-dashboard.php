@@ -70,7 +70,7 @@ if (isset($_SESSION['username'])) {
     </div>
 
         <!-- User Table Section -->
-        <div class="card mt-4">
+        <div class="container mt-5">
             <div class="card-body">
                 <h1 class="text-center">User List</h1>
                 <table class="table table-bordered">
