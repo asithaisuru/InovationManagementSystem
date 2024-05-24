@@ -21,9 +21,9 @@ if (isset($_SESSION['username'])) {
 <body class="bg-dark text-white border-white border-3">
     <?php include 'admin-nav.php'; ?>
 
-    <div class="container mt-5">
+    <div class="container mt-5" >
         <h1 class="text-center">Admin Dashboard</h1>
-        <div class="card mt-4 border-white border-3 bg-dark text-white">
+        <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
                 <h1 class="text-white text-center">Add User</h1>
                 <form action="add_user.php" method="POST">
@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
 
     <!-- Remove User Section -->
     <div class="container mt-5">
-        <div class="card border-white border-3 bg-dark text-white">
+        <div class="card border-white border-3 bg-dark text-white" id="remove-user">
             <div class="card-body">
                 <h1 class="text-center">Remove User</h1>
                 <form action="remove_user.php" method="POST">
@@ -71,7 +71,7 @@ if (isset($_SESSION['username'])) {
 
     <!-- User Table Section -->
     <div class="container mt-5">
-        <div class="card border-white border-3 bg-dark text-white">
+        <div class="card border-white border-3 bg-dark text-white" id="admin-list">
             <div class="card-body">
                 <h1 class="text-center">Admin List</h1>
                 <table class="table table-bordered bg-dark">

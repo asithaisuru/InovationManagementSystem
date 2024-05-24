@@ -55,7 +55,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -66,12 +66,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                             User Manager
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Add User</a></li>
-                            <li><a class="dropdown-item" href="#">Remove User</a></li>
+                            <li><a class="dropdown-item" href="./admin-dashboard.php#add-user">Add User</a></li>
+                            <li><a class="dropdown-item" href="./admin-dashboard.php#remove-user">Remove User</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">View all users</a></li>
+                            <li><a class="dropdown-item" href="./admin-dashboard.php#admin-list">View all users</a></li>
                         </ul>
                     </li>
                 </ul>
