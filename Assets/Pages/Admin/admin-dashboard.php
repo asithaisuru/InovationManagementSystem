@@ -29,24 +29,41 @@ if (isset($_SESSION['username'])) {
                 <form action="add_user.php" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname" required>
+                        <input type="text" class="form-control" id="firstname"  placeholder="Enter First Name" name="firstname" required>
                     </div>
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" required>
+                        <input type="text" class="form-control" id="lastname"  placeholder="Enter Last Name" name="lastname" required>
                     </div>
+                    <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
+                    </div>
+
+                    <label for="email" class="form-label">Select Role:</label>
+
+                    <div class="form-floating mb-3 mt-3">
+                        <select class="form-select mt-3" required>
+                            <option disabled selected></option>
+                            <option>Admin</option>
+                        </select>
+                        <label for="email">Select Role</label>
+                    </div>
+
+
                     <div class="mb-3">
                         <label for="password" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
+                    <div class="mb-3 ">
+                    <label for="Re Enter password" class="form-label">Re Enter password:</label>
+                        <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
+                            name="repassword" required>
+                            </div>
                     <button type="submit" class="btn btn-primary">Add User</button>
                 </form>
             </div>
