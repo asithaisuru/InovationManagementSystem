@@ -21,7 +21,7 @@ if (isset($_SESSION['username'])) {
 <body class="bg-dark text-white border-white border-3">
     <?php include 'admin-nav.php'; ?>
 
-    <div class="container mt-5" >
+    <div class="container mt-5">
         <h1 class="text-center">Admin Dashboard</h1>
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
@@ -29,19 +29,23 @@ if (isset($_SESSION['username'])) {
                 <form action="add_user.php" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" required>
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                            name="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" id="firstname"  placeholder="Enter First Name" name="firstname" required>
+                        <input type="text" class="form-control" id="firstname" placeholder="Enter First Name"
+                            name="firstname" required>
                     </div>
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname"  placeholder="Enter Last Name" name="lastname" required>
+                        <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name"
+                            name="lastname" required>
                     </div>
                     <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
+                            required>
                     </div>
 
                     <label for="email" class="form-label">Select Role:</label>
@@ -53,17 +57,29 @@ if (isset($_SESSION['username'])) {
                         </select>
                         <label for="email">Select Role</label>
                     </div>
-
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+                    <div class="form-floating mt-3 mb-3 position-relative">
+                        <input type="password" class="form-control" id="password" placeholder="Enter password"
+                            name="password" required>
+                        <label for="password">Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword1"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px">
+                            <i class="fa fa-eye" id="toggleIcon1"></i>
+                        </button>
                     </div>
-                    <div class="mb-3 ">
-                    <label for="Re Enter password" class="form-label">Re Enter password:</label>
+
+                    <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
                             name="repassword" required>
-                            </div>
+                        <label for="repassword">Repeat Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword2"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                            <i class="fa fa-eye" id="toggleIcon2"></i>
+                        </button>
+                    </div>
                     <button type="submit" class="btn btn-primary">Add User</button>
                 </form>
             </div>
@@ -128,11 +144,40 @@ if (isset($_SESSION['username'])) {
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
+    <div id="footer">
+        <?php include '../footer.php'; ?>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        document.getElementById('togglePassword1').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon1');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        document.getElementById('togglePassword2').addEventListener('click', function () {
+            const passwordField = document.getElementById('repassword');
+            const toggleIcon = document.getElementById('toggleIcon2');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 
 </body>
 
 </html>
-
-
-<?php include '../footer.php'; ?>

@@ -76,7 +76,7 @@
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password" required>
-                        <label for="pwd">Password</label>
+                        <label for="password">Password</label>
                         <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0" id="togglePassword1" style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px">
                             <i class="fa fa-eye" id="toggleIcon1"></i>
                         </button>
