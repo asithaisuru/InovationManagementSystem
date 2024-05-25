@@ -22,7 +22,7 @@ if (isset($_SESSION['username'])) {
     <?php include 'admin-nav.php'; ?>
 
     <div class="container mt-5" >
-        <h1 class="text-center">Admin Dashboard</h1>
+        <h2 class="text-center">Admin Dashboard</h2>
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
                 <h1 class="text-white text-center">Add User</h1>
