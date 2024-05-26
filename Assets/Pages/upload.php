@@ -32,7 +32,7 @@ if (isset($_POST['submit']) && isset($_FILES['profile-pic'])) {
     $error = $_FILES['profile-pic']['error'];
 
     if ($error === 0) {
-        if ($img_size > 500000) {
+        if ($img_size > 1500000) {
             $em = "Sorry, your file is too large.";
             header("Location: ./Admin/profile.php?error=$em");
         } else {
