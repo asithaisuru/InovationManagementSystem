@@ -17,8 +17,6 @@ $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSW
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -33,15 +31,12 @@ if (!$connection) {
 <body class="bg-dark text-white border-white border-3">
     <?php include 'admin-nav.php'; ?>
 
-    <div class="container mt-5" >
+    <div class="container mt-5">
         <h2 class="text-center">Admin Dashboard</h2>
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
                 <h1 class="text-white text-center">Add Admin User</h1>
                 <form action="add_user.php" method="POST">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username:</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Enter Username"
                             name="username">
@@ -54,21 +49,10 @@ if (!$connection) {
                                 class="text-white"><kbd>Punctuation marks</kbd></span> are not allowed.
                         </small>
                     </div>
-                    <div class="mb-3">
-                        <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" id="firstname"  placeholder="Enter First Name" name="firstname" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname"">
                         <label for=" fname" class="text-dark">First Name</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name"
-                            name="lastname" required>
-                    </div>
-                    <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname">
                         <label for="lname" class="text-dark">Last Name</label>
@@ -88,13 +72,11 @@ if (!$connection) {
                             <i class="fa fa-eye" id="toggleIcon1"></i>
                         </button>
                     </div>
-
                     <div class="form-floating mt-3 mb-3 position-relative">
-
-                    <div class="form-floating mt-3 mb-3 position-relative">
-                        <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
-                            name="repassword" required>
-                            </div>
+                        <div class="form-floating mt-3 mb-3 position-relative">
+                            <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
+                                name="repassword" required>
+                        </div>
                         <label for="repassword" class="text-dark">Repeat Password</label>
                         <button type="button"
                             class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
@@ -146,36 +128,26 @@ if (!$connection) {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
-                            <th>Role</th>
                         </tr>
                     </thead>
+                    <!-- tablebody -->
                     <tbody>
-                        <?php if (!empty($users)):
-                            foreach ($users as $user):
-                                $query = "SELECT * FROM users WHERE role = 'Admin'";
-                                $result = mysqli_query($connection, $query);
-
-                                if ($result && mysqli_num_rows($result) > 0) {
-                                    $row = mysqli_fetch_assoc($result);
-                                    $fname = $row['fname'];
-                                    $lname = $row['lname'];
-                                    $email = $row['email'];
-                                }
-                                ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['firstname']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['lastname']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['role']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" class="text-center">No users found.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
+                        <?php
+                        $sql = "SELECT * FROM users WHERE role='Admin'";
+                        $result = mysqli_query($connection, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>" . $row['userName'] . "</td>";
+                                echo "<td>" . $row['fname'] . "</td>";
+                                echo "<td>" . $row['lname'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>No records found</td></tr>";
+                        }
+                        ?>
                 </table>
             </div>
         </div>
