@@ -25,7 +25,7 @@
                 </div>
                 <hr>
                 <h1 class="display-3 text-white text-center">Error</h1>
-                <h3 class="text-center">ERROR : </h3>
+                <h3 class="text-center">Unexpected error</h3>
             </div>
             
         </div>

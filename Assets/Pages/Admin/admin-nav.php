@@ -63,7 +63,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            User Manager
+                            User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="./admin-dashboard.php#add-user">Add User</a></li>
@@ -72,6 +72,20 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="./admin-dashboard.php#admin-list">View all users</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Project Management
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Add User</a></li>
+                            <li><a class="dropdown-item" href="#">Remove User</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Delete Project</a></li>
                         </ul>
                     </li>
                 </ul>
