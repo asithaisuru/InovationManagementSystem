@@ -32,8 +32,8 @@ $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    $profilePic = "../../img/profilePics/".$row['image_url'];
-}else{
+    $profilePic = "../../img/profilePics/" . $row['image_url'];
+} else {
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
 }
@@ -64,16 +64,16 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <div class="card-header">
                         <h3 class="text-white">Update Profile Picture</h3>
                     </div>
-                    <img class="card-img-top"
-                        src=<?php echo $profilePic ?>
-                        alt="Card image" style="width:100%">
+                    <img class="card-img-top" src=<?php echo $profilePic ?> alt="Card image" style="width:100%">
                     <div class="card-body">
-                        <form action="../upload.php?un=<?php echo $username ?>" method="POST" enctype="multipart/form-data">
+                        <form action="../upload.php?un=<?php echo $username ?>" method="POST"
+                            enctype="multipart/form-data">
                             <div class="form-group mt-3">
                                 <input type="file" class="form-control" name="profile-pic" id="profile-pic">
                             </div>
                             <div class="mt-4 mb-4 ms-auto" style="width: 200px;">
-                                <button type="submit" class="btn btn-primary" value="Upload" name="submit">Update Image</button>
+                                <button type="submit" class="btn btn-primary" value="Upload" name="submit">Update
+                                    Image</button>
                             </div>
                         </form>
                     </div>
@@ -126,9 +126,9 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 </div>
                             </fieldset>
                         </div>
-                    <div class="mb-3 ms-auto" style="width: 200px;">
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+                        <div class="mb-3 ms-auto" style="width: 200px;">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
                     </div>
             </div>
 

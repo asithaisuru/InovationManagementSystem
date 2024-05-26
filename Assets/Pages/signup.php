@@ -39,9 +39,11 @@
                         <label for="username">Username</label>
                         <small class="text-secondary"><span class="text-danger">* </span>
                             <span data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="!@#$%^&*()-=_+[]{}\|;:'&quot;,.<>?/" class="text-white"><kbd>Symbols</kbd></span> and
+                                title="!@#$%^&*()-=_+[]{}\|;:'&quot;,.<>?/" class="text-white"><kbd>Symbols</kbd></span>
+                            and
                             <span data-bs-toggle="tooltip" data-bs-placement="bottom" title=".,:;!?'()[]{}"
-                                class="text-white"><kbd>Punctuation marks</kbd></span> are not allowed.</small>
+                                class="text-white"><kbd>Punctuation marks</kbd></span> are not allowed.
+                        </small>
                     </div>
 
                     <div class="form-floating mb-3 mt-3">
@@ -77,7 +79,10 @@
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password" required>
                         <label for="password">Password</label>
-                        <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0" id="togglePassword1" style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px">
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword1"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px">
                             <i class="fa fa-eye" id="toggleIcon1"></i>
                         </button>
                     </div>
@@ -86,7 +91,10 @@
                         <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
                             name="repassword" required>
                         <label for="repassword">Repeat Password</label>
-                        <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0" id="togglePassword2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword2"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
                             <i class="fa fa-eye" id="toggleIcon2"></i>
                         </button>
                     </div>
@@ -134,9 +142,9 @@
             const toggleIcon = document.getElementById('toggleIcon1');
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
-            if(toggleIcon.classList.contains('fa-eye-slash')){
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
                 toggleIcon.classList.add('fa-eye');
-            }else{
+            } else {
                 toggleIcon.classList.add('fa-eye-slash');
             }
         });
@@ -146,9 +154,9 @@
             const toggleIcon = document.getElementById('toggleIcon2');
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
-            if(toggleIcon.classList.contains('fa-eye-slash')){
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
                 toggleIcon.classList.add('fa-eye');
-            }else{
+            } else {
                 toggleIcon.classList.add('fa-eye-slash');
             }
         });

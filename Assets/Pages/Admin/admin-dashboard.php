@@ -7,6 +7,18 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
+// Database connection
+$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,42 +37,36 @@ if (isset($_SESSION['username'])) {
         <h1 class="text-center">Admin Dashboard</h1>
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
-                <h1 class="text-white text-center">Add User</h1>
+                <h1 class="text-white text-center">Add Admin User</h1>
                 <form action="add_user.php" method="POST">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username:</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter Username"
-                            name="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" id="firstname" placeholder="Enter First Name"
-                            name="firstname" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name"
-                            name="lastname" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
-                            required>
-                    </div>
-
-                    <label for="email" class="form-label">Select Role:</label>
-
                     <div class="form-floating mb-3 mt-3">
-                        <select class="form-select mt-3" required>
-                            <option disabled selected></option>
-                            <option>Admin</option>
-                        </select>
-                        <label for="email">Select Role</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                            name="username">
+                        <label for="username" class="text-dark">Username</label>
+                        <small class="text-secondary"><span class="text-danger">* </span>
+                            <span data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="!@#$%^&*()-=_+[]{}\|;:'&quot;,.<>?/" class="text-white"><kbd>Symbols</kbd></span>
+                            and
+                            <span data-bs-toggle="tooltip" data-bs-placement="bottom" title=".,:;!?'()[]{}"
+                                class="text-white"><kbd>Punctuation marks</kbd></span> are not allowed.
+                        </small>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname"">
+                        <label for=" fname" class="text-dark">First Name</label>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname">
+                        <label for="lname" class="text-dark">Last Name</label>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email">
+                        <label for="lname" class="text-dark">Email</label>
                     </div>
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password" required>
-                        <label for="password">Password</label>
+                        <label for="password" class="text-dark">Password</label>
                         <button type="button"
                             class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
                             id="togglePassword1"
@@ -72,7 +78,7 @@ if (isset($_SESSION['username'])) {
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
                             name="repassword" required>
-                        <label for="repassword">Repeat Password</label>
+                        <label for="repassword" class="text-dark">Repeat Password</label>
                         <button type="button"
                             class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
                             id="togglePassword2"
@@ -86,11 +92,20 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 
+    <?php
+    $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
+    if ($status == "success") {
+        echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <strong>Success!</strong> Profile created successfully.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    }
+    ?>
     <!-- Remove User Section -->
     <div class="container mt-5">
         <div class="card border-white border-3 bg-dark text-white" id="remove-user">
             <div class="card-body">
-                <h1 class="text-center">Remove User</h1>
+                <h1 class="text-center">Remove Admin User</h1>
                 <form action="remove_user.php" method="POST">
                     <div class="mb-3">
                         <label for="remove_username" class="form-label">Username:</label>
@@ -118,8 +133,18 @@ if (isset($_SESSION['username'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($users)): ?>
-                            <?php foreach ($users as $user): ?>
+                        <?php if (!empty($users)):
+                            foreach ($users as $user):
+                                $query = "SELECT * FROM users WHERE role = 'Admin'";
+                                $result = mysqli_query($connection, $query);
+
+                                if ($result && mysqli_num_rows($result) > 0) {
+                                    $row = mysqli_fetch_assoc($result);
+                                    $fname = $row['fname'];
+                                    $lname = $row['lname'];
+                                    $email = $row['email'];
+                                }
+                                ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($user['username']); ?></td>
                                     <td><?php echo htmlspecialchars($user['firstname']); ?></td>

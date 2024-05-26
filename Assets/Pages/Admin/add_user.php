@@ -1,13 +1,12 @@
 <?php
-require_once __DIR__ . '/../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+require_once __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $file = $_FILES["file"];
     $username = $_POST["username"];
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
+    $firstname = $_POST["fname"];
+    $lastname = $_POST["lname"];
     $password = $_POST["password"];
     $email = $_POST["email"];
     $repassword = $_POST["repassword"];
@@ -31,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     }
-    $role = $_POST["role"];
 
     $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
     if (!$connection) {
@@ -45,16 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     } else {
-        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$password')";
+        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', 'Admin', '$password')";
         if ($connection->query($sql) === TRUE) {
             echo '<script type="text/javascript">            
-                    window.onload = function () { alert("User registered successfully. Please Login. Redirect to login page in 5 seconds..."); };
-                    setTimeout(function() {
-                        window.location.href = "../../index.php";
-                    }, 5000);
+                    window.onload = function () { alert("User registered successfully. Please Login. Redirect to Admin Dashdoard page..."); };
+                    
+                        window.location.href = "./admin-dashboard.php?status=success";
+                    
                 </script>';
         } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
+            // echo "Error: " . $sql . "<br>" . $connection->error;
+            $error = $connection->error;
+            echo '<script> window.location.href = "../error.php?error='.$error.'"; </script>';
+            
         }
     }
 
