@@ -173,8 +173,8 @@ $dotenv->load();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $file = $_FILES["file"];
     $username = $_POST["username"];
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
+    $firstname = $_POST["fname"];
+    $lastname = $_POST["lname"];
     $password = $_POST["password"];
     $email = $_POST["email"];
     $repassword = $_POST["repassword"];
