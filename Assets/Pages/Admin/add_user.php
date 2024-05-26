@@ -48,13 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script type="text/javascript">            
                     window.onload = function () { alert("User registered successfully. Please Login. Redirect to Admin Dashdoard page..."); };
                     
-                        window.location.href = "./admin-dashboard.php?status=success";
+                        window.location.href = "./admin-dashboard.php?status=success#add-user";
                     
                 </script>';
         } else {
             // echo "Error: " . $sql . "<br>" . $connection->error;
             $error = $connection->error;
-            echo '<script> window.location.href = "../error.php?error='.$error.'"; </script>';
+            echo '<script> window.location.href = "../error.php?error='.$error.'#add-user"; </script>';
             
         }
     }

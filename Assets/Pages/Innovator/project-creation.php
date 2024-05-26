@@ -44,6 +44,53 @@ if (!$connection) {
                 <textarea class="form-control" id="pdis" name="pdis" rows="10" required></textarea>
                 <label for="pdis" class="text-dark">Project Description</label>
             </div>
+
+            <div id="task-container" class="border-3 border-white">
+                <div id="taskDiv1" class="form-floating mb-3 mt-3">
+                    <input type="text" class="form-control" id="task1" placeholder="Enter Task 1" name="task1" required>
+                    <label for="task1" class="text-dark">Task 1</label>
+
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="addTask()">Add Task</button>
+            <button class="btn btn-danger delete-task" onclick="deleteTask()">Delete Task</button>
+
+            <script>
+                let taskCount = 1;
+                disableDeleteButton();
+
+                function disableDeleteButton(){
+                    if (taskCount == 1) {
+                        document.querySelector('.delete-task').disabled = true;
+                    } else if(taskCount > 1){
+                        document.querySelector('.delete-task').disabled = false;
+                    }
+                }
+                function addTask() {
+                    taskCount++;
+                    const taskContainer = document.getElementById('task-container');
+                    const newTask = document.createElement('div');
+                    newTask.setAttribute('id', 'taskDiv' + taskCount);
+                    newTask.classList.add('form-floating', 'mb-3', 'mt-3');
+                    newTask.innerHTML = `
+                        <input type="text" class="form-control" id="task${taskCount}" placeholder="Enter Task ${taskCount}" name="task${taskCount}" required>
+                        <label for="task${taskCount}" class="text-dark">Task ${taskCount}</label>
+                    `;
+                    taskContainer.appendChild(newTask);
+                    
+                    disableDeleteButton();
+                }
+
+                function deleteTask() {
+                    const taskContainer = document.getElementById('task-container');
+                    if (taskCount > 1) {
+                        taskContainer.removeChild(taskContainer.lastChild);
+                        taskCount--;
+                    }
+                    disableDeleteButton();
+                }
+            </script>
+
             <div class="form-floating mb-3 mt-3">
                 <select class="form-select mt-3" required name="role" id="role">
                     <option disabled selected></option>
@@ -62,21 +109,22 @@ if (!$connection) {
             </div>
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <div class="form-floating mb-3 mt-3">
+                    <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="sdate" name="sdate" required>
                         <label for="sdate">Start Date</label>
                     </div>
                 </div>
                 <div class="col-md-6 text-center">
-                    <div class="form-floating mb-3 mt-3">
+                    <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="edate" name="edate" required>
                         <label for="edate">End Date</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Create Project</button>
+            </div>
+            <button type="submit" class="btn btn-primary col-md-12">Create Project</button>
         </form>
     </div>
-<?php include '../footer.php' ?>
+    <?php include '../footer.php' ?>
 </body>
 
 </html>

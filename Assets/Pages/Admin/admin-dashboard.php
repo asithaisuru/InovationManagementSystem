@@ -121,6 +121,32 @@ if ($_SESSION['role'] == "Admin") {
                 </form>
             </div>
         </div>
+
+        <?php
+        $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
+        if ($status == "userremovesuccess") {
+            echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+            <strong>Success!</strong> User Removed successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }else if($status == "userremovefailed"){
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>ERROR!!</strong> User Removal failed.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }else if($status == "userremoveusernotfound"){
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>ERROR!!</strong> User not found.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }else if($status == "userremovemethodnotpost"){
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>ERROR!!</strong> Method Error.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+        ?>
+
     </div>
 
     <!-- User Table Section -->
@@ -128,76 +154,78 @@ if ($_SESSION['role'] == "Admin") {
         <div class="card border-white border-3 bg-dark text-white" id="admin-list">
             <div class="card-body">
                 <h1 class="text-center">Admin List</h1>
-                <table class="table table-bordered bg-dark">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <!-- tablebody -->
-                    <tbody>
-                        <?php
-                        $sql = "SELECT * FROM users WHERE role='Admin'";
-                        $result = mysqli_query($connection, $sql);
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>" . $row['userName'] . "</td>";
-                                echo "<td>" . $row['fname'] . "</td>";
-                                echo "<td>" . $row['lname'] . "</td>";
-                                echo "<td>" . $row['email'] . "</td>";
-                                echo "</tr>";
+                <div class="table-responsive-lg">
+                    <table class="table table-bordered table-hover table-dark table-lg bg-dark">
+                        <thead>
+                            <tr>
+                                <th class="bg-secondary">Username</th>
+                                <th class="bg-secondary">First Name</th>
+                                <th class="bg-secondary">Last Name</th>
+                                <th class="bg-secondary">Email</th>
+                            </tr>
+                        </thead>
+                        <!-- tablebody -->
+                        <tbody>
+                            <?php
+                            $sql = "SELECT * FROM users WHERE role='Admin'";
+                            $result = mysqli_query($connection, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['userName'] . "</td>";
+                                    echo "<td>" . $row['fname'] . "</td>";
+                                    echo "<td>" . $row['lname'] . "</td>";
+                                    echo "<td>" . $row['email'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='4'>No records found</td></tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='4'>No records found</td></tr>";
-                        }
-                        ?>
-                </table>
+                            ?>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
 
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    <div id="footer">
-        <?php include '../footer.php'; ?>
-    </div>
+        <div id="footer">
+            <?php include '../footer.php'; ?>
+        </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script>
-        document.getElementById('togglePassword1').addEventListener('click', function () {
-            const passwordField = document.getElementById('password');
-            const toggleIcon = document.getElementById('toggleIcon1');
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            if (toggleIcon.classList.contains('fa-eye-slash')) {
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        });
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+        <script>
+            document.getElementById('togglePassword1').addEventListener('click', function () {
+                const passwordField = document.getElementById('password');
+                const toggleIcon = document.getElementById('toggleIcon1');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                if (toggleIcon.classList.contains('fa-eye-slash')) {
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
 
-        document.getElementById('togglePassword2').addEventListener('click', function () {
-            const passwordField = document.getElementById('repassword');
-            const toggleIcon = document.getElementById('toggleIcon2');
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            if (toggleIcon.classList.contains('fa-eye-slash')) {
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        });
-    </script>
+            document.getElementById('togglePassword2').addEventListener('click', function () {
+                const passwordField = document.getElementById('repassword');
+                const toggleIcon = document.getElementById('toggleIcon2');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                if (toggleIcon.classList.contains('fa-eye-slash')) {
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+        </script>
 
 </body>
 
