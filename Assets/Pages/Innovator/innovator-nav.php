@@ -39,6 +39,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- End of Bootstrap -->
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- End of Font Awesome -->
     <title>Innovator-nav</title>
 </head>
 
@@ -75,6 +78,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </li>
                 </ul>
                 <div class="navbar-nav">
+                    <a class="nav-link me-2 mt-3" href="../chat/chat.php">
+                        <i class="fas fa-comment fa-lg"></i>
+                    </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
