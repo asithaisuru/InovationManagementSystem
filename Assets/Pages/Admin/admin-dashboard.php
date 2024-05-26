@@ -63,7 +63,8 @@ if (!$connection) {
                     </div>
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname"  placeholder="Enter Last Name" name="lastname" required>
+                        <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name"
+                            name="lastname" required>
                     </div>
                     <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
@@ -87,6 +88,8 @@ if (!$connection) {
                             <i class="fa fa-eye" id="toggleIcon1"></i>
                         </button>
                     </div>
+
+                    <div class="form-floating mt-3 mb-3 position-relative">
 
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
@@ -183,11 +186,40 @@ if (!$connection) {
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
+    <div id="footer">
+        <?php include '../footer.php'; ?>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        document.getElementById('togglePassword1').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon1');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        document.getElementById('togglePassword2').addEventListener('click', function () {
+            const passwordField = document.getElementById('repassword');
+            const toggleIcon = document.getElementById('toggleIcon2');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 
 </body>
 
 </html>
-
-
-<?php include '../footer.php'; ?>
