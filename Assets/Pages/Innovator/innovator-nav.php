@@ -45,7 +45,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="admin-dashboard.php"><img src="../../img/LogoWhite.png"
+            <a class="navbar-brand" href="./innovator-dashboard.php"><img src="../../img/LogoWhite.png"
                     style="width:50px;height:50px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
