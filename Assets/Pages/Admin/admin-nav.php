@@ -7,15 +7,7 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
-$dotenv->load();
-
-// Database connection
-$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include '../dbconnection.php';
 
 $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
@@ -54,6 +46,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                <!-- User Management -->
                     <li class="nav-item">
                         <a class="nav-link" href="./admin-dashboard.php">Home</a>
                     </li>
@@ -66,14 +59,15 @@ if ($result && mysqli_num_rows($result) > 0) {
                             User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="./admin-dashboard.php#add-user">Add User</a></li>
-                            <li><a class="dropdown-item" href="./admin-dashboard.php#remove-user">Remove User</a></li>
+                            <li><a class="dropdown-item" href="./user-management.php#add-user">Add User</a></li>
+                            <li><a class="dropdown-item" href="./user-management.php#remove-user">Remove User</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./admin-dashboard.php#admin-list">View all users</a></li>
+                            <li><a class="dropdown-item" href="./user-management.php#admin-list">View all users</a></li>
                         </ul>
                     </li>
+                    <!-- Project Management -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">

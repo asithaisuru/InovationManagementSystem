@@ -1,7 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
-$dotenv->load();
+include '../dbconnection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
@@ -30,11 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     }
-
-    $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
-    if (!$connection) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
     $query = "SELECT * FROM users WHERE userName='$username'";
     $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) > 0) {
@@ -48,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script type="text/javascript">            
                     window.onload = function () { alert("User registered successfully. Please Login. Redirect to Admin Dashdoard page..."); };
                     
-                        window.location.href = "./admin-dashboard.php?status=success#add-user";
+                        window.location.href = "./user-management.php?status=success#add-user";
                     
                 </script>';
         } else {
