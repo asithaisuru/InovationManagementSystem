@@ -47,9 +47,14 @@ if (isset($_POST['submit']) && isset($_FILES['profile-pic'])) {
                 move_uploaded_file($tmp_name, $img_upload_path);
 
                 // Insert into Database
-                $sql = "INSERT INTO profilePic(userName,image_url) VALUES('$username','$new_img_name')";
+                $sql = "INSERT INTO profilePic(userName,image_url) VALUES('$username','$new_img_name') ON DUPLICATE KEY UPDATE image_url = '$new_img_name'";
                 if (mysqli_query($connection, $sql)) {
                     echo "<p class='text-white'>Records inserted successfully.</p>";
+                    // Remove old file
+                    $old_img_path = '../img/profilePics/' . $_SESSION['image_url'];
+                    if (file_exists($old_img_path)) {
+                        unlink($old_img_path);
+                    }
                 } else {
                     echo "<p class='text-white'>ERROR: Could not able to execute $sql. " . mysqli_error($connection) . "</p>";
                     echo "<p class='text-white'>ERROR: Could not able to execute $sql. " . mysqli_error($conn) . "</p>";
