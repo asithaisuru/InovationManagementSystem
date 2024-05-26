@@ -19,21 +19,13 @@
         <div class="container py-4">
         <hr class="text-white border-3">
             <div class="row">
-                <div class="col-md-4 text-center">
+                <div class="col-md-6 text-center">
                     <h5>About Us</h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum
                         vestibulum.</p>
                 </div>
-                <div class="col-md-4 text-center">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">About</a></li>
-                        <li><a href="#" class="text-white">Services</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 text-center">
+               
+                <div class="col-md-6 text-center">
                     <h5>Contact Us</h5>
                     <address>
                         1234 Street Name<br>

@@ -124,13 +124,14 @@ $password = isset($_POST['password']) ? $_POST['password'] : "";
 
 
 if (!empty($username) && !empty($password)) {
-    $_SESSION['username'] = $username;
     $query = "SELECT * FROM users WHERE userName = '$username' AND pass = '$password'";
     $result = mysqli_query($connection, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
         if ($role == 'Innovator') {            
             // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
             echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";

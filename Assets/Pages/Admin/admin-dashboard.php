@@ -17,6 +17,12 @@ $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSW
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+if ($_SESSION['role']=="Admin") {}else{
+    echo "<script>window.location.href='../../../index.php';</script>";
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

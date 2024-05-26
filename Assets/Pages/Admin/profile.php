@@ -57,7 +57,13 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <body class="bg-dark text-white">
 
-    <?php include 'admin-nav.php'; ?>
+    <?php
+    if ($_SESSION['role'] == "admin") {
+        include './admin-nav.php';
+    } else if ($_SESSION['role'] == "Innovator") {
+        include '../Innovator/innovator-nav.php';
+    }
+    ?>
 
     <div class="container">
         <div class="row">
