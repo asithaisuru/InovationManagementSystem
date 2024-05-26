@@ -65,14 +65,14 @@
                     </div>
 
                     <div class="form-floating mb-3 mt-3">
-                        <select class="form-select mt-3" required>
+                        <select class="form-select mt-3" required name="role" id="role">
                             <option disabled selected></option>
-                            <option>Innovator</option>
-                            <option>Supplier</option>
-                            <option>Lawyer</option>
-                            <option>Marketing Manager</option>
+                            <option value="Innovator">Innovator</option>
+                            <option value="Supplier">Supplier</option>
+                            <option value="Lawyer">Lawyer</option>
+                            <option value="Marketing Manager">Marketing Manager</option>
                         </select>
-                        <label for="email">Select Role</label>
+                        <label for="role">Select Role</label>
                     </div>
 
                     <div class="form-floating mt-3 mb-3 position-relative">
