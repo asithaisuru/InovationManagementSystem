@@ -18,7 +18,8 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-if ($_SESSION['role']=="Admin") {}else{
+if ($_SESSION['role'] == "Admin") {
+} else {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
@@ -82,8 +83,8 @@ if ($_SESSION['role']=="Admin") {}else{
                         <div class="form-floating mt-3 mb-3 position-relative">
                             <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
                                 name="repassword" required>
+                            <label for="repassword" class="text-dark">Repeat Password</label>
                         </div>
-                        <label for="repassword" class="text-dark">Repeat Password</label>
                         <button type="button"
                             class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
                             id="togglePassword2"
