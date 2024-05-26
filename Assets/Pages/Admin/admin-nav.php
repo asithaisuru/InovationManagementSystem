@@ -7,7 +7,15 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
-include '../dbconnection.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
+// Database connection
+$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
@@ -93,7 +101,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Reset Password</a></li>
+                            <li><a class="dropdown-item" href="./resetpassword.php">Reset Password</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
