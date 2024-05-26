@@ -33,12 +33,15 @@ if (!$connection) {
 <body class="bg-dark text-white border-white border-3">
     <?php include 'admin-nav.php'; ?>
 
-    <div class="container mt-5">
-        <h1 class="text-center">Admin Dashboard</h1>
+    <div class="container mt-5" >
+        <h2 class="text-center">Admin Dashboard</h2>
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
                 <h1 class="text-white text-center">Add Admin User</h1>
                 <form action="add_user.php" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Enter Username"
                             name="username">
@@ -51,10 +54,20 @@ if (!$connection) {
                                 class="text-white"><kbd>Punctuation marks</kbd></span> are not allowed.
                         </small>
                     </div>
+                    <div class="mb-3">
+                        <label for="firstname" class="form-label">First Name:</label>
+                        <input type="text" class="form-control" id="firstname"  placeholder="Enter First Name" name="firstname" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname"">
                         <label for=" fname" class="text-dark">First Name</label>
                     </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="lastname"  placeholder="Enter Last Name" name="lastname" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname">
                         <label for="lname" class="text-dark">Last Name</label>
@@ -78,6 +91,7 @@ if (!$connection) {
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="repassword" placeholder="Re Enter password"
                             name="repassword" required>
+                            </div>
                         <label for="repassword" class="text-dark">Repeat Password</label>
                         <button type="button"
                             class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
@@ -169,40 +183,11 @@ if (!$connection) {
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    <div id="footer">
-        <?php include '../footer.php'; ?>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script>
-        document.getElementById('togglePassword1').addEventListener('click', function () {
-            const passwordField = document.getElementById('password');
-            const toggleIcon = document.getElementById('toggleIcon1');
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            if (toggleIcon.classList.contains('fa-eye-slash')) {
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        });
-
-        document.getElementById('togglePassword2').addEventListener('click', function () {
-            const passwordField = document.getElementById('repassword');
-            const toggleIcon = document.getElementById('toggleIcon2');
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            if (toggleIcon.classList.contains('fa-eye-slash')) {
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        });
-    </script>
 
 </body>
 
 </html>
+
+
+<?php include '../footer.php'; ?>
