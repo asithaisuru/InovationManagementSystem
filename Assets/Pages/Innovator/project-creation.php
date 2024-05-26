@@ -26,7 +26,7 @@ if (!$connection) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMS - Create Project</title>
 </head>
-<body>
-    
+<body class="bg-dark">
+    <?php include 'innovator-nav.php'; ?>
 </body>
 </html>

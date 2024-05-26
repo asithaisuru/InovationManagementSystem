@@ -59,17 +59,17 @@ if (isset($_POST['submit']) && isset($_FILES['profile-pic'])) {
                     echo "<p class='text-white'>ERROR: Could not able to execute $sql. " . mysqli_error($connection) . "</p>";
                     echo "<p class='text-white'>ERROR: Could not able to execute $sql. " . mysqli_error($conn) . "</p>";
                 }
-                header("Location: ./Admin/profile.php?success=Image uploaded successfully");
+                header("Location: ./Admin/profile.php?status=success&msg=Image uploaded successfully");
             } else {
-                $em = "You can't upload files of this type";
-                header("Location: ./Admin/profile.php?error=$em");
+                $em = "File type is not allowed! Please upload a PNG, JPG or JPEG file.";
+                header("Location: ./Admin/profile.php?status=error&msg=$em");
             }
         }
     } else {
-        $em = "unknown error occurred!";
-        header("Location: ./Admin/profile.php?error=$em");
+        $em = "Unknown error occurred! Please check if the file is uploaded properly.";
+        header("Location: ./Admin/profile.php?status=error&msg=$em");
     }
 
 } else {
-    header("Location: ./Admin/profile.php?error=Please select an img file");
+    header("Location: ./Admin/profile.php?status=error&msg=Please select an img file");
 }

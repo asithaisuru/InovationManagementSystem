@@ -58,7 +58,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <body class="bg-dark text-white">
 
     <?php
-    if ($_SESSION['role'] == "admin") {
+    if ($_SESSION['role'] == "Admin") {
         include './admin-nav.php';
     } else if ($_SESSION['role'] == "Innovator") {
         include '../Innovator/innovator-nav.php';
@@ -213,6 +213,22 @@ if ($result && mysqli_num_rows($result) > 0) {
             });
         </script>
 </body>
+
+<?php
+$status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
+$msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
+if ($status == "success") {
+    echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <strong>Success!</strong> ' . $msg . '
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+}else if($status == "error"){
+    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <strong>ERROR!!</strong> ' . $msg . '
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+}
+?>
 
 </html>
 <?php

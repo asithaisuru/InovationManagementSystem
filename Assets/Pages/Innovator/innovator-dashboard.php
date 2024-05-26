@@ -46,7 +46,7 @@ if (!$connection) {
 
     <div class="container mt-5">
         <h2 class="text-center">Innovator Dashboard</h2>
-        <button class="btn btn-success">Create Project</button>
+        <a href="./project-creation.php" class="btn btn-success">Create Project</a>
     </div>
 
 
