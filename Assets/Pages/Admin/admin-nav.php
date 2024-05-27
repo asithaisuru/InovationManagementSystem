@@ -43,8 +43,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     <title>Admin-nav</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="text-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
         <div class="container">
             <a class="navbar-brand" href="admin-dashboard.php"><img src="../../img/LogoWhite.png"
                     style="width:50px;height:50px;"></a>

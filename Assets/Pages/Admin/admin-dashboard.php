@@ -19,15 +19,15 @@ include '../dbconnection.php';
     <title>Document</title>
 </head>
 
-<body class="bg-dark text-white text-center">
+<body class="bg-dark text-white">
     <?php include 'admin-nav.php'; ?>
-    <div class="container">
+    <div class="container text-center">
         <h1>Admin Dashboard</h1>
         <p>This is the Admin Dashboard. You can create manage Admin profiles, projects</p>
 
     </div>
 
-    <div id="footer" class="d-block fixed-bottom">
+    <div id="footer">
         <?php include '../footer.php' ?>
     </div>
 </body>

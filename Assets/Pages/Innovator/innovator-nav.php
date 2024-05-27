@@ -44,8 +44,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     <title>Innovator-nav</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="text-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
         <div class="container">
             <a class="navbar-brand" href="./innovator-dashboard.php"><img src="../../img/LogoWhite.png"
                     style="width:50px;height:50px;"></a>
@@ -77,9 +77,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </li>
                 </ul>
                 <div class="navbar-nav">
-                    <a class="nav-link me-2 mt-3" href="../chat/chat.php">
-                        <i class="fas fa-comment fa-lg"></i>
-                    </a>
+                    <li class="nav-item">
+                        <a class="nav-link me-2 mt-3" href="../chat/chat.php">
+                            <i class="fas fa-comment fa-lg"></i>
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"

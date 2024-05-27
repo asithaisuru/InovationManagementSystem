@@ -17,7 +17,7 @@ if (isset($_SESSION['username'])) {
     <title>Document</title>
 </head>
 
-<body class="bg-dark text-white text-center">
+<body class="bg-dark text-white">
     <?php
     if ($_SESSION['role'] == "Admin") {
         include './admin-nav.php';
@@ -38,26 +38,85 @@ if (isset($_SESSION['username'])) {
                     <label for="username" class="text-dark">Username</label>
                 </div>
                 <form action="resetpassword.php" method="POST">
-                    <div class="form-floating mb-3 mt-3">
+                    <div class="form-floating mb-3 mt-3 position-relative">
                         <input type="password" class="form-control" id="oldpassword" placeholder="Enter Old Password"
                             name="oldpassword" required>
                         <label for="oldpassword" class="text-dark">Old Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword3"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                            <i class="fa fa-eye" id="toggleIcon3"></i>
+                        </button>
                     </div>
-                    <div class="form-floating mb-3 mt-3">
+                    <div class="form-floating mb-3 mt-3 position-relative">
                         <input type="password" class="form-control" id="newpassword" placeholder="Enter New Password"
                             name="newpassword" required>
                         <label for="newpassword" class="text-dark">New Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword1"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px">
+                            <i class="fa fa-eye" id="toggleIcon1"></i>
+                        </button>
                     </div>
-                    <div class="form-floating mb-3 mt-3">
+                    <div class="form-floating mb-3 mt-3 position-relative">
                         <input type="password" class="form-control" id="confirmpassword"
                             placeholder="Confirm New Password" name="confirmpassword" required>
                         <label for="confirmpassword" class="text-dark">Confirm New Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword2"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                            <i class="fa fa-eye" id="toggleIcon2"></i>
+                        </button>
                     </div>
                     <button type="submit" class="btn btn-primary">Reset Password</button>
                 </form>
 
             </div>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+        <script>
+            document.getElementById('togglePassword1').addEventListener('click', function () {
+                const passwordField = document.getElementById('newpassword');
+                const toggleIcon = document.getElementById('toggleIcon1');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                if (toggleIcon.classList.contains('fa-eye-slash')) {
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+
+            document.getElementById('togglePassword2').addEventListener('click', function () {
+                const passwordField = document.getElementById('confirmpassword');
+                const toggleIcon = document.getElementById('toggleIcon2');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                if (toggleIcon.classList.contains('fa-eye-slash')) {
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+            document.getElementById('togglePassword3').addEventListener('click', function () {
+                const passwordField = document.getElementById('oldpassword');
+                const toggleIcon = document.getElementById('toggleIcon3');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                if (toggleIcon.classList.contains('fa-eye-slash')) {
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+        </script>
 
 </body>
 
