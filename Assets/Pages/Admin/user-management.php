@@ -8,6 +8,17 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
+if (isset($_SESSION["role"])) {
+    if ($_SESSION["role"] == "Admin") {
+    } else {
+        echo "<script>window.location.href='../../../index.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>window.location.href='../../../index.php';</script>";
+    exit();
+}
+
 include '../dbconnection.php';
 
 if ($_SESSION['role'] == "Admin") {
@@ -59,6 +70,14 @@ if ($_SESSION['role'] == "Admin") {
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email">
                         <label for="lname" class="text-dark">Email</label>
+                    </div>
+                    <div class="form-floating mb-3 mt-3">
+                        <select class="form-select mt-3" required name="role" id="role">
+                            <option disabled selected></option>
+                            <option value="Admin">Admin</option>
+                            <option value="Moderator">Moderator</option>
+                        </select>
+                        <label for="role">Select Role</label>
                     </div>
                     <div class="form-floating mt-3 mb-3 position-relative">
                         <input type="password" class="form-control" id="password" placeholder="Enter password"

@@ -21,11 +21,19 @@ include '../dbconnection.php';
 
 <body class="bg-dark text-white">
     <?php include 'admin-nav.php'; ?>
-    <div class="container text-center">
-        <h1>Admin Dashboard</h1>
-        <p>This is the Admin Dashboard. You can create manage Admin profiles, projects</p>
 
-    </div>
+    <?php if ($_SESSION['role'] == "Admin"): ?>
+        <div class="container text-center">
+            <h1>Admin Dashboard</h1>
+            <p>This is the Admin Dashboard. You can create manage Admin profiles, projects</p>
+        </div>
+
+    <?php elseif ($_SESSION['role'] == "Moderator"): ?>
+        <div class="container text-center">
+            <h1>Moderator Dashboard</h1>
+            <p>This is the Moderator Dashboard. You can manage projects and solve problems of coustomers.</p>
+        </div>
+    <?php endif; ?>
 
     <div id="footer">
         <?php include '../footer.php' ?>

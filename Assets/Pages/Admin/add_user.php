@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $email = $_POST["email"];
     $repassword = $_POST["repassword"];
+    $role = $_POST["role"];
 
     if ($password != $repassword) {
         echo '<script type="text/javascript">
@@ -36,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     } else {
-        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', 'Admin', '$password')";
+        include '../password.php';
+        $hashpw = hashPassword($password);
+        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$hashpw')";
         if ($connection->query($sql) === TRUE) {
             echo '<script type="text/javascript">            
                     window.onload = function () { alert("User registered successfully. Please Login. Redirect to Admin Dashdoard page..."); };

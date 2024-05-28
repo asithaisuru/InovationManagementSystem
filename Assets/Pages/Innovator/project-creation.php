@@ -51,13 +51,14 @@ include '../dbconnection.php';
                 let taskCount = 1;
                 disableDeleteButton();
 
-                function disableDeleteButton(){
+                function disableDeleteButton() {
                     if (taskCount == 1) {
                         document.querySelector('.delete-task').disabled = true;
-                    } else if(taskCount > 1){
+                    } else if (taskCount > 1) {
                         document.querySelector('.delete-task').disabled = false;
                     }
                 }
+
                 function addTask() {
                     taskCount++;
                     const taskContainer = document.getElementById('task-container');
@@ -69,7 +70,7 @@ include '../dbconnection.php';
                         <label for="task${taskCount}" class="text-dark">Task ${taskCount}</label>
                     `;
                     taskContainer.appendChild(newTask);
-                    
+
                     disableDeleteButton();
                 }
 
@@ -84,7 +85,7 @@ include '../dbconnection.php';
             </script>
 
             <div class="form-floating mb-3 mt-3">
-                <select class="form-select mt-3" required name="role" id="role">
+                <select class="form-select mt-3" required name="projectCategory" id="projectCategory">
                     <option disabled selected></option>
                     <option value="Web Development">Web Development</option>
                     <option value="Mobile Development">Mobile Development</option>
@@ -102,7 +103,8 @@ include '../dbconnection.php';
             <div class="row">
                 <div class="col-md-6 text-center">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="sdate" name="sdate" required>
+                        <input type="date" class="form-control" id="sdate" name="sdate" required
+                            value="<?php echo date('Y-m-d') ?>">
                         <label for="sdate">Start Date</label>
                     </div>
                 </div>
@@ -120,3 +122,7 @@ include '../dbconnection.php';
 </body>
 
 </html>
+
+<?php
+// $taskCount = "<script>taskCount</script>";
+    ?>

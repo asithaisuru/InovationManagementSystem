@@ -21,8 +21,8 @@ $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    $profilePic = "../../img/profilePics/".$row['image_url'];
-}else{
+    $profilePic = "../../img/profilePics/" . $row['image_url'];
+} else {
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
 }
@@ -54,27 +54,31 @@ if ($result && mysqli_num_rows($result) > 0) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                <!-- User Management -->
+                    <!-- User Management -->
                     <li class="nav-item">
                         <a class="nav-link" href="./admin-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./admin-dashboard.php#footer">About</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            User Management
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="./user-management.php#add-user">Add User</a></li>
-                            <li><a class="dropdown-item" href="./user-management.php#remove-user">Remove User</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
+                    <?php if ($_SESSION['role'] !== "Moderator"): ?>
+                        <div id="user_management">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    User Management
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="./user-management.php#add-user">Add User</a></li>
+                                    <li><a class="dropdown-item" href="./user-management.php#remove-user">Remove User</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="./user-management.php#admin-list">View all users</a></li>
+                                </ul>
                             </li>
-                            <li><a class="dropdown-item" href="./user-management.php#admin-list">View all users</a></li>
-                        </ul>
-                    </li>
+                        </div>
+                    <?php endif; ?>
                     <!-- Project Management -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -95,7 +99,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2" style="width:50px;height;50px;">
+                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
+                                style="width:50px;height;50px;">
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">

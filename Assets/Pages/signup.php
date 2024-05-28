@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -167,6 +171,7 @@
 
 <?php
 include './dbconnection.php';
+include './password.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $file = $_FILES["file"];
@@ -206,7 +211,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>';
         exit();
     } else {
-        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$password')";
+        $hashpw = hashPassword($password);
+        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$hashpw')";
         if ($connection->query($sql) === TRUE) {
             echo '<script type="text/javascript">            
                     window.onload = function () { alert("User registered successfully. Please Login. Redirect to login page in 5 seconds..."); };

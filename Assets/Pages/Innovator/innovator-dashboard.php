@@ -50,7 +50,7 @@ include '../dbconnection.php';
                         <a href="#" class="btn btn-danger d-block">Remove Project</a>
                     </div>
                     <div class="col-lg-2 mb-2">
-                        <a href="#" class="btn btn-primary d-block">Edit Project</a>
+                        <a href="./edit-project.php" class="btn btn-primary d-block">Edit Project</a>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@ include '../dbconnection.php';
 
 
 
-    <div><?php include '../footer.php' ?></div>
+    <div id="footer"><?php include '../footer.php' ?></div>
 </body>
 
 </html>

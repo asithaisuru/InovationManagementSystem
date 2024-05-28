@@ -32,6 +32,10 @@ if (!$connection) {
 </head>
 
 <body class="bg-dark text-white">
+    <?php
+    // $password = "12345678";
+    // $hash1 = '$2y$10$RKF5jzLDIgZ6SFUpovJgnuXgp.n3DlPN3JRy1E.4hs.ZhkqS5pwTm';
+    ?>
     <div class="container mt-5">
         <div class="card p-4 bg-dark border-white border-3">
             <div class="mt-2 p-3 bg-primary text-white rounded">
@@ -106,9 +110,9 @@ if (!$connection) {
             const toggleIcon = document.getElementById('toggleIcon');
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
-            if(toggleIcon.classList.contains('fa-eye-slash')){
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
                 toggleIcon.classList.add('fa-eye');
-            }else{
+            } else {
                 toggleIcon.classList.add('fa-eye-slash');
             }
         });
@@ -118,34 +122,45 @@ if (!$connection) {
 </html>
 
 <?php
+include './Assets/Pages/password.php';
 
 $username = isset($_POST['username']) ? $_POST['username'] : "";
 $password = isset($_POST['password']) ? $_POST['password'] : "";
 
 
 if (!empty($username) && !empty($password)) {
-    $query = "SELECT * FROM users WHERE userName = '$username' AND pass = '$password'";
+    $query = "SELECT * FROM users WHERE userName = '$username'";
     $result = mysqli_query($connection, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
+        $hash = $row['pass'];
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role;
-        if ($role == 'Innovator') {            
-            // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
-            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
-        } else if ($role == 'Supplier') {
-            // header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
-            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
-        } else if ($role == "Admin") {
-            // header("Location: Assets/Pages/Admin/admin-dashboard.php");
-            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
-        }
-    } else {
-        echo "<script>
+        $_SESSION['pass'] = $password;
+        if (verifyPassword($password, $hash)) {
+            if ($role == 'Innovator') {
+                // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+                echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
+            } else if ($role == 'Supplier') {
+                // header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+                echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
+            } else if ($role == "Admin" || $role == "Moderator") {
+                // header("Location: Assets/Pages/Admin/admin-dashboard.php");
+                echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
+            }
+        } else {
+            echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
             alert('Invalid Username or Password');
+            });
+        </script>";
+        }
+    }else{
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+            alert('User not found');
             });
         </script>";
     }

@@ -64,15 +64,15 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            User Manager
+                            Project Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Add User</a></li>
-                            <li><a class="dropdown-item" href="#">Remove User</a></li>
+                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a></li>
+                            <li><a class="dropdown-item" href="../Innovator/edit-project.php">Edit Project</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./admin-dashboard.php#admin-list">View all users</a></li>
+                            <li><a class="dropdown-item" href="#">Delete Project</a></li>
                         </ul>
                     </li>
                 </ul>
