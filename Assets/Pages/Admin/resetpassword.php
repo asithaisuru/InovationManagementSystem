@@ -124,6 +124,7 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+include '../password.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $oldpassword = $_POST['oldpassword'];
     $newpassword = $_POST['newpassword'];
@@ -134,36 +135,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($newpassword == $confirmpassword) {
         // echo "password match";
-        $sql = "SELECT * FROM users WHERE userName = '$username' AND pass = '$oldpassword'";
+        $sql = "SELECT * FROM users WHERE userName = '$username'";
         $result = mysqli_query($connection, $sql);
         // echo mysqli_num_rows($result);
         if ($result && mysqli_num_rows($result) > 0) {
-            $sql = "UPDATE users SET pass = '$newpassword' WHERE userName = '$username'";
-            $result = mysqli_query($connection, $sql);
-            // echo $result;
-            if ($result) {
-                echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+            if ($row = mysqli_fetch_assoc($result)) {
+                $hash = $row['pass'];
+                if (verifyPassword($oldpassword, $hash)) {
+                    $hashnewpassword = hashPassword($newpassword);
+                    $sql = "UPDATE users SET pass = '$hashnewpassword' WHERE userName = '$username'";
+                    $result = mysqli_query($connection, $sql);
+                    // echo $result;
+                    if ($result) {
+                        echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
                         <strong>Success!</strong> Password Reset Successful.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
-            } else {
-                echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    } else {
+                        echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                         <strong>ERROR!!</strong> Password Reset Failed.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
-            }
-        } else {
-            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    }
+                } else {
+                    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> Old Password is Incorrect.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>';
-        }
-    } else {
-        // echo 'password do not match';
-        echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                </div>';
+                }
+            } else {
+                echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <strong>ERROR!!</strong> User not found.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+            }
+        } else {
+            // echo 'password do not match';
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> New Password and Confirm Password do not match.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
+        }
     }
 }
 
