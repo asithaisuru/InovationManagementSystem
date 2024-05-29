@@ -39,7 +39,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- End of Bootstrap -->
     <title>Profile Editor</title>
 </head>
 
@@ -220,9 +223,6 @@ if ($status == "success") {
 
 </html>
 <?php
-// Database connection
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newuserName = mysqli_real_escape_string($connection, $_POST['username']);
     $newfname = mysqli_real_escape_string($connection, $_POST['fname']);
@@ -264,9 +264,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 }
                 echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-        <strong>Success!</strong> Profile updated successfully.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>';
+                    <strong>Success!</strong> Profile updated successfully.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
             }
         } else {
             echo "Error: " . $query . "<br>" . mysqli_error($connection);
@@ -277,6 +277,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+include '../footer.php'; 
 ?>
-
-<?php include '../footer.php'; ?>
