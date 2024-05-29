@@ -19,7 +19,8 @@
     </script>
     <!--End of Tawk.to Script-->
 </head>
-<body>
+<body class="bg-dark text-white">
+    <?php include 'supplier-nav.php'; ?>
     <h1>Welcome to Supplier Dashboard</h1>
 </body>
 </html>
