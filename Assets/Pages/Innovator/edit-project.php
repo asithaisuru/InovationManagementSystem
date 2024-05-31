@@ -44,14 +44,21 @@ include '../dbconnection.php';
                 <div class="form-floating mb-3 mt-3">
                     <select class="form-select mt-3" required name="pID" id="pID">
                         <?php
-                        // $sql = "SELECT * FROM projects WHERE createby='$username'";
+                        $sql = "SELECT * FROM project WHERE createdBy = '$username';";
+                        $result = mysqli_query($connection, $sql);
+                        echo "<option disabled selected></option>";
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<option value=".$row['pid'].">" . $row['pid'] . " - " . $row['pname'] . "</option>";
+                            }
+                        // $sql = "SELECT * FROM project WHERE createBy='$username'";
                         // $result = mysqli_query($connection, $sql);
+                        // echo "<option disabled></option>";
                         // if (mysqli_num_rows($result) > 0) {
                         //     while ($row = mysqli_fetch_assoc($result)) {
-                        //         echo "<option>" . $row['pid'] . "</option>";
+                        //         echo "<option>" . $row['pid'] . " - " . $row['pname'] . "</option>";
                         //     }
-                        // } else 
-                        {
+                        } else {
                             echo "<option disabled>--Projects not found--</option>";
                         }
                         ?>
@@ -113,10 +120,10 @@ include '../dbconnection.php';
                         taskContainer.appendChild(newTask);
                         disableDeleteButton();
                     }
-                    </script>
-                    
-    </div >
+                </script>
 
-</body >
+            </div>
 
-</html >
+</body>
+
+</html>

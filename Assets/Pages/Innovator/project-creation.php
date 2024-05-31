@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if($role != 'Innovator'){
+    if ($role != 'Innovator') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -13,7 +13,6 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     exit();
 }
 
-include '../dbconnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +29,23 @@ include '../dbconnection.php';
 
     <div class="container mt-5 text-white">
         <h2 class="text-center">Create Project</h2>
+
+        <?php
+        $status = isset($_GET['projectcreationstatus']) ? htmlspecialchars($_GET['projectcreationstatus']) : "";
+        $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
+        if ($status == "success") {
+            echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <strong>Success!</strong> ' . $msg . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        } else if ($status == "error") {
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <strong>ERROR!!</strong> ' . $msg . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+        ?>
+
         <form action="project-creation.php" method="POST">
             <div class="form-floating mb-3 mt-3">
                 <input type="text" class="form-control" id="pname" placeholder="Enter Project Name" name="pname"
@@ -46,9 +62,13 @@ include '../dbconnection.php';
                 <div id="taskDiv1" class="form-floating mb-3 mt-3">
                     <input type="text" class="form-control" id="task1" placeholder="Enter Task 1" name="task1" required>
                     <label for="task1" class="text-dark">Task 1</label>
-
+                </div>
+                <div class="form-floating mb-3 mt-3">
+                    <textarea class="form-control" id="t1dis" name="t1dis" rows="10" required></textarea>
+                    <label for="t1dis" class="text-dark">Task 1 Description</label>
                 </div>
             </div>
+            <input type="hidden" name="taskCount" id="taskCount" value="1">
             <button class="btn btn-primary" onclick="addTask()">Add Task</button>
             <button class="btn btn-danger delete-task" onclick="deleteTask()">Delete Task</button>
 
@@ -74,17 +94,27 @@ include '../dbconnection.php';
                         <input type="text" class="form-control" id="task${taskCount}" placeholder="Enter Task ${taskCount}" name="task${taskCount}" required>
                         <label for="task${taskCount}" class="text-dark">Task ${taskCount}</label>
                     `;
+                    const newTaskDescription = document.createElement('div');
+                    newTaskDescription.classList.add('form-floating', 'mb-3', 'mt-3');
+                    newTaskDescription.innerHTML = `
+                        <textarea class="form-control" id="t${taskCount}dis" name="t${taskCount}dis" rows="10" required></textarea>
+                        <label for="t${taskCount}dis" class="text-dark">Task ${taskCount} Description</label>
+                    `;
                     taskContainer.appendChild(newTask);
+                    taskContainer.appendChild(newTaskDescription);
 
+                    document.getElementById('taskCount').value = taskCount;
                     disableDeleteButton();
                 }
 
                 function deleteTask() {
                     const taskContainer = document.getElementById('task-container');
                     if (taskCount > 1) {
+                        taskContainer.removeChild(taskContainer.lastChild.previousSibling);
                         taskContainer.removeChild(taskContainer.lastChild);
                         taskCount--;
                     }
+                    document.getElementById('taskCount').value = taskCount;
                     disableDeleteButton();
                 }
             </script>
@@ -129,5 +159,35 @@ include '../dbconnection.php';
 </html>
 
 <?php
+include '../dbconnection.php';
 // $taskCount = "<script>taskCount</script>";
-    ?>
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $pname = $_POST['pname'];
+    $pdis = $_POST['pdis'];
+    $projectCategory = $_POST['projectCategory'];
+    $sdate = $_POST['sdate'];
+    $edate = $_POST['edate'];
+    $numOfTasks = $_POST['taskCount'];
+    // echo "numoftasks : ".$numOfTasks;
+
+    $sql = "INSERT INTO project (pname, pdis, noOfTasks, sdate, edate, pcategory, createdBy) VALUES ('$pname', '$pdis', '$numOfTasks', '$sdate', '$edate', '$projectCategory', '$username')";
+    $result = mysqli_query($connection, $sql);
+    echo "result :" . $result;
+    if ($result) {
+        $projectID = mysqli_insert_id($connection);
+        for ($i = 1; $i <= $numOfTasks; $i++) {
+            $taskID = 'p' . $projectID . 'task' . $i;
+            $taskName = $_POST['task' . $i];
+            $taskDescription = $_POST['t' . $i . 'dis'];
+            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID')";
+            $result = mysqli_query($connection, $sql);
+        }
+        $em = "Project creation successfull.";
+        echo "<script>window.location.href='./project-creation.php?projectcreationstatus=success&msg=$em';</script>";
+    } else {
+        $em = "Project creation failed.";
+        echo "<script>window.location.href='./project-creation.php?projectcreationstatus=error&msg=$em';</script>";
+        // echo "<script>alert('Failed to create project. error: ')</script>";
+    }
+}
+?>

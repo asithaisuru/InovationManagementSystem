@@ -71,7 +71,22 @@ include '../dbconnection.php';
                         </thead>
                         <tbody>
                             <?php
-                            // $sql = "SELECT * FROM projects WHERE createby='$username'";
+                            $sql = "SELECT * FROM project WHERE createdBy = '$username';";
+                            $result = mysqli_query($connection, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['pid'] . "</td>";
+                                    echo "<td>" . $row['pname'] . "</td>";
+                                    echo "<td>" . $row['pdis'] . "</td>";
+                                    echo "<td>" . $row['sdate'] . "</td>";
+                                    echo "<td>" . $row['edate'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
+                            }
+                            // $sql = "SELECT * FROM project WHERE createBy='$username'";
                             // $result = mysqli_query($connection, $sql);
                             // if (mysqli_num_rows($result) > 0) {
                             //     while ($row = mysqli_fetch_assoc($result)) {
@@ -79,14 +94,14 @@ include '../dbconnection.php';
                             //         echo "<td>" . $row['pid'] . "</td>";
                             //         echo "<td>" . $row['pname'] . "</td>";
                             //         echo "<td>" . $row['pdis'] . "</td>";
-                            //         echo "<td>" . $row['startdate'] . "</td>";
-                            //         echo "<td>" . $row['enddate'] . "</td>";
+                            //         echo "<td>" . $row['sdate'] . "</td>";
+                            //         echo "<td>" . $row['edate'] . "</td>";
                             //         echo "</tr>";
                             //     }
                             // } else 
-                            {
-                                echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
-                            }
+                            // {
+                            //     echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
+                            // }
                             ?>
                         </tbody>
                     </table>
