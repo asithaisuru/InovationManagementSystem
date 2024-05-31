@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     </script>';
         exit();
     }
+    
     if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
         $em = "Invalid username format. Please enter a valid username.";
         header("Location: ./user-management.php?adduserstatus=error&msg=$em");

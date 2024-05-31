@@ -43,13 +43,13 @@ include '../dbconnection.php';
             <div class="card-body">
                 <h2 class="text-center">Project Management</h2>
                 <div class="row mt-4">
-                    <div class="col-lg-2 mb-2">
+                    <div class="col-lg-4 mb-2">
                         <a href="./project-creation.php" class="btn btn-success d-block">Create Project</a>
                     </div>
-                    <div class="col-lg-2 mb-2">
-                        <a href="#" class="btn btn-danger d-block">Remove Project</a>
+                    <div class="col-lg-4 mb-2">
+                        <a href="#" class="btn btn-danger d-block">Delete Project</a>
                     </div>
-                    <div class="col-lg-2 mb-2">
+                    <div class="col-lg-4 mb-2">
                         <a href="./edit-project.php" class="btn btn-primary d-block">Edit Project</a>
                     </div>
                 </div>

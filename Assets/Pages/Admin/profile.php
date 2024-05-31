@@ -57,6 +57,23 @@ if ($result && mysqli_num_rows($result) > 0) {
     ?>
 
     <div class="container">
+
+        <?php
+        $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
+        $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
+        if ($status == "success") {
+            echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <strong>Success!</strong> ' . $msg . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        } else if ($status == "error") {
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <strong>ERROR!!</strong> ' . $msg . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+        ?>
+        
         <div class="row">
             <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">
@@ -205,21 +222,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         </script>
 </body>
 
-<?php
-$status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
-$msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
-if ($status == "success") {
-    echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
-    <strong>Success!</strong> ' . $msg . '
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>';
-} else if ($status == "error") {
-    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
-    <strong>ERROR!!</strong> ' . $msg . '
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>';
-}
-?>
+
 
 </html>
 <?php
@@ -277,5 +280,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-include '../footer.php'; 
+include '../footer.php';
 ?>

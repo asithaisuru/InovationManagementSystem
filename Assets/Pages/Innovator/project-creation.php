@@ -1,7 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
+    $role = $_SESSION['role'];
+    if($role != 'Innovator'){
+        echo "<script>window.location.href='../../../index.php';</script>";
+        exit();
+    }
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
