@@ -1,7 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
+    $role = $_SESSION['role'];
+    if ($role != 'Innovator') {
+        echo "<script>window.location.href='../../../index.php';</script>";
+        exit();
+    }
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
@@ -47,7 +52,7 @@ include '../dbconnection.php';
                         <a href="./project-creation.php" class="btn btn-success d-block">Create Project</a>
                     </div>
                     <div class="col-lg-4 mb-2">
-                        <a href="#" class="btn btn-danger d-block">Delete Project</a>
+                        <a href="./delete-project.php" class="btn btn-danger d-block">Delete Project</a>
                     </div>
                     <div class="col-lg-4 mb-2">
                         <a href="./edit-project.php" class="btn btn-primary d-block">Edit Project</a>

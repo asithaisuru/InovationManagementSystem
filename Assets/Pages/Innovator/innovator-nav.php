@@ -72,7 +72,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Delete Project</a></li>
+                            <li><a class="dropdown-item" href="./delete-project.php">Delete Project</a></li>
                         </ul>
                     </li>
                 </ul>
