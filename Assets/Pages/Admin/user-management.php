@@ -46,6 +46,26 @@ if ($_SESSION['role'] == "Admin") {
         <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
             <div class="card-body">
                 <h1 class="text-white text-center">Add Admin User</h1>
+
+                <?php
+                // echo "geterror<br>";
+                $status = isset($_GET['adduserstatus']) ? htmlspecialchars($_GET['adduserstatus']) : "";
+                $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
+                // echo $status.'<br>';
+                // echo $msg.'<br>';
+                if ($status == "success") {
+                    echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>Success!</strong> ' . $msg . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                } else if ($status == "error") {
+                    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <strong>ERROR!!</strong> ' . $msg . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                }
+                ?>
+
                 <form action="add_user.php" method="POST">
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Enter Username"
@@ -60,7 +80,7 @@ if ($_SESSION['role'] == "Admin") {
                         </small>
                     </div>
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname"">
+                        <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname">
                         <label for=" fname" class="text-dark">First Name</label>
                     </div>
                     <div class="form-floating mb-3 mt-3">
@@ -69,7 +89,7 @@ if ($_SESSION['role'] == "Admin") {
                     </div>
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email">
-                        <label for="lname" class="text-dark">Email</label>
+                        <label for="email" class="text-dark">Email</label>
                     </div>
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="role" id="role">
@@ -122,7 +142,7 @@ if ($_SESSION['role'] == "Admin") {
     <div class="container mt-5">
         <div class="card border-white border-3 bg-dark text-white" id="remove-user">
             <div class="card-body">
-                <h1 class="text-center">Remove Admin User</h1>
+                <h1 class="text-center">Remove Admin/ Moderator User</h1>
                 <form action="remove_user.php" method="POST">
                     <div class="mb-3">
                         <label for="remove_username" class="form-label">Username:</label>
@@ -140,17 +160,17 @@ if ($_SESSION['role'] == "Admin") {
             <strong>Success!</strong> User Removed successfully.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
-        }else if($status == "userremovefailed"){
+        } else if ($status == "userremovefailed") {
             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
             <strong>ERROR!!</strong> User Removal failed.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
-        }else if($status == "userremoveusernotfound"){
+        } else if ($status == "userremoveusernotfound") {
             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
             <strong>ERROR!!</strong> User not found.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
-        }else if($status == "userremovemethodnotpost"){
+        } else if ($status == "userremovemethodnotpost") {
             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
             <strong>ERROR!!</strong> Method Error.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -173,12 +193,13 @@ if ($_SESSION['role'] == "Admin") {
                                 <th class="bg-secondary">First Name</th>
                                 <th class="bg-secondary">Last Name</th>
                                 <th class="bg-secondary">Email</th>
+                                <th class="bg-secondary">Role</th>
                             </tr>
                         </thead>
                         <!-- tablebody -->
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM users WHERE role='Admin'";
+                            $sql = "SELECT * FROM users WHERE role='Admin' OR role='Moderator'";
                             $result = mysqli_query($connection, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -187,6 +208,7 @@ if ($_SESSION['role'] == "Admin") {
                                     echo "<td>" . $row['fname'] . "</td>";
                                     echo "<td>" . $row['lname'] . "</td>";
                                     echo "<td>" . $row['email'] . "</td>";
+                                    echo "<td>" . $row['role'] . "</td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -201,42 +223,42 @@ if ($_SESSION['role'] == "Admin") {
 
 
 
-        <!-- Bootstrap Bundle with Popper -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-        <div id="footer">
-            <?php include '../footer.php'; ?>
-        </div>
+    <div id="footer">
+        <?php include '../footer.php'; ?>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-        <script>
-            document.getElementById('togglePassword1').addEventListener('click', function () {
-                const passwordField = document.getElementById('password');
-                const toggleIcon = document.getElementById('toggleIcon1');
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                if (toggleIcon.classList.contains('fa-eye-slash')) {
-                    toggleIcon.classList.add('fa-eye');
-                } else {
-                    toggleIcon.classList.add('fa-eye-slash');
-                }
-            });
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        document.getElementById('togglePassword1').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon1');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
 
-            document.getElementById('togglePassword2').addEventListener('click', function () {
-                const passwordField = document.getElementById('repassword');
-                const toggleIcon = document.getElementById('toggleIcon2');
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                if (toggleIcon.classList.contains('fa-eye-slash')) {
-                    toggleIcon.classList.add('fa-eye');
-                } else {
-                    toggleIcon.classList.add('fa-eye-slash');
-                }
-            });
-        </script>
+        document.getElementById('togglePassword2').addEventListener('click', function () {
+            const passwordField = document.getElementById('repassword');
+            const toggleIcon = document.getElementById('toggleIcon2');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            if (toggleIcon.classList.contains('fa-eye-slash')) {
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 
 </body>
 

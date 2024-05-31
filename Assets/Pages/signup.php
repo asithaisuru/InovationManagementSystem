@@ -203,6 +203,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $role = $_POST["role"];
 
+    $query = "SELECT * FROM users WHERE email='$email'";
+    $result = mysqli_query($connection, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        echo '<script type="text/javascript">
+                    window.onload = function () { alert("Email already exists. Try a different email."); }
+                </script>';
+        exit();
+    }
+
     $query = "SELECT * FROM users WHERE userName='$username'";
     $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) > 0) {

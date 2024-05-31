@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
         echo $role;
-        if ($role == 'Admin') {
+        if ($role == 'Admin' || $role == 'Moderator') {
             $query = "DELETE FROM users WHERE username = '$remove_username'";
             $result = mysqli_query($connection, $query);
             if ($result) {
