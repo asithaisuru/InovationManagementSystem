@@ -138,7 +138,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
             <div class="row">
                 <div class="col-md-6 text-center">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="sdate" name="sdate" required
+                        <input type="date" class="form-control" id="sdate" name="sdate" required disabled
                             value="<?php echo date('Y-m-d') ?>">
                         <label for="sdate">Start Date</label>
                     </div>
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pname = $_POST['pname'];
     $pdis = $_POST['pdis'];
     $projectCategory = $_POST['projectCategory'];
-    $sdate = $_POST['sdate'];
+    $sdate = date('Y-m-d');
     $edate = $_POST['edate'];
     $numOfTasks = $_POST['taskCount'];
     // echo "numoftasks : ".$numOfTasks;
