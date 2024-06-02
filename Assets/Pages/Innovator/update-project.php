@@ -7,13 +7,14 @@ if (!isset($_SESSION['username'])) {
 }
 
 include '../dbconnection.php';
-$sql = "SELECT noOfTasks FROM project WHERE createdBy = '$username'";
+$pid = $_POST['pid2nd'];
+$sql = "SELECT noOfTasks FROM project WHERE createdBy = '$username' AND pid = '$pid'";
 $result = mysqli_query($connection, $sql);
 $row = mysqli_fetch_assoc($result);
 $dbnoOfTasks = $row['noOfTasks'];
+// echo "dbnoOfTasks : " . $dbnoOfTasks;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pid = $_POST['pid2nd'];
     $pname = $_POST['pname'];
     $pdis = $_POST['pdis'];
     $projectCategory = $_POST['projectCategory'];
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = mysqli_query($connection, $sql);
     // echo "result :" . $result;
     if ($result) {
+        //update the existing tasks and new task addition
         if ($dbnoOfTasks < $numOfTasks) {
             for ($i = 1; $i <= $dbnoOfTasks; $i++) {
                 $taskID = 'p' . $pid . 'task' . $i;
@@ -58,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<script>window.location.href='./edit-project.php?projectupdatestatus=success&msg=$em';</script>";
             // echo "Successfull.";
 
-
+        //update the existing tasks and past task deletion
         } else if ($dbnoOfTasks > $numOfTasks) {
             for ($i = 1; $i <= $numOfTasks; $i++) {
                 $taskID = 'p' . $pid . 'task' . $i;
@@ -90,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $em = "Project update successfull.";
             echo "<script>window.location.href='./edit-project.php?projectupdatestatus=success&msg=$em';</script>";
             // echo "Successfull.";
-
+        
+        
         }else if ($dbnoOfTasks == $numOfTasks) {
             for ($i = 1; $i <= $numOfTasks; $i++) {
                 $taskID = 'p' . $pid . 'task' . $i;
