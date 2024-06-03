@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 
 include '../dbconnection.php';
 $pid = $_POST['pid2nd'];
-$sql = "SELECT noOfTasks FROM project WHERE createdBy = '$username' AND pid = '$pid'";
+$sql = "SELECT noOfTasks FROM project WHERE userName = '$username' AND pid = '$pid'";
 $result = mysqli_query($connection, $sql);
 $row = mysqli_fetch_assoc($result);
 $dbnoOfTasks = $row['noOfTasks'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $numOfTasks = $_POST['taskCount'];
     // echo "numoftasks : ".$numOfTasks;
 
-    $sql = "UPDATE project SET pname = '$pname', pdis = '$pdis', noOfTasks = '$numOfTasks', edate = '$edate', pcategory = '$projectCategory', createdBy = '$username' WHERE pid = '$pid'";
+    $sql = "UPDATE project SET pname = '$pname', pdis = '$pdis', noOfTasks = '$numOfTasks', edate = '$edate', pcategory = '$projectCategory', userName = '$username' WHERE pid = '$pid'";
     $result = mysqli_query($connection, $sql);
     // echo "result :" . $result;
     if ($result) {

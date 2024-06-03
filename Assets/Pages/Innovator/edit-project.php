@@ -1,16 +1,13 @@
-<?php
-session_start();
+<?php session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
-} else {
-    // header("Location: ../../../index.php");
+} else { //
+    header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
-
-include '../dbconnection.php';
-
-?>
+$pidfrompdetails = isset($_GET['pid']) ? htmlspecialchars($_GET['pid']) : "";
+include '../dbconnection.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +38,7 @@ include '../dbconnection.php';
         <h2 class="text-center">Edit Project</h2>
 
         <?php
+        // echo $pid;
         $status = isset($_GET['projectupdatestatus']) ? htmlspecialchars($_GET['projectupdatestatus']) : "";
         $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
         if ($status == "success") {
@@ -58,16 +56,22 @@ include '../dbconnection.php';
 
         <div class="card bg-dark border-3 border-white mt-4">
             <div class="card-body">
-                <form action="edit-project.php" method="post">
+                <form action="edit-project.php" method="post" id="getProject">
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="pid" id="pid">
                             <?php
-                            $sql = "SELECT * FROM project WHERE createdBy = '$username';";
+                            $sql = "SELECT * FROM project WHERE userName = '$username';";
                             $result = mysqli_query($connection, $sql);
                             echo "<option disabled selected></option>";
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<option value=" . $row['pid'] . ">" . $row['pid'] . " - " . $row['pname'] . "</option>";
+                                    if ($row['pid'] == $pidfrompdetails) {
+                                        echo '<script>
+                                            document.getElementById("pid").value = '.$pidfrompdetails.';
+                                            document.getElementById("getProject").submit();
+                                        </script>';                                    
+                                    }
                                 }
                                 // $sql = "SELECT * FROM project WHERE createBy='$username'";
                                 // $result = mysqli_query($connection, $sql);
@@ -85,9 +89,10 @@ include '../dbconnection.php';
                         <option value="Lawyer">Lawyer</option>
                         <option value="Marketing Manager">Marketing Manager</option> -->
                         </select>
-                        <label for="pID">Select Project</label>
+                        <label for="pid">Select Project</label>
                     </div>
                     <button type="submit" class="btn btn-success">Get Project</button>
+                    
                 </form>
             </div>
         </div>
@@ -118,7 +123,8 @@ include '../dbconnection.php';
                         </div>
                     </div>
                     <button class="btn btn-primary" onclick="addTask()">Add Task</button>
-                    <button class="btn btn-danger" onclick="deleteTask()" id="delete-task" type="button">Delete Task</button>
+                    <button class="btn btn-danger" onclick="deleteTask()" id="delete-task" type="button">Delete
+                        Task</button>
 
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="projectCategory" id="projectCategory">
@@ -247,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     } else {
         $em = "Failed to find project data.";
-        echo "<script>window.location.href='./edit-project.php?editprojectstatus=error&msg=$em';</script>";
+        echo "<script>window.location.href='./edit-project.php?projectupdatestatus=error&msg=$em';</script>";
     }
 }
 

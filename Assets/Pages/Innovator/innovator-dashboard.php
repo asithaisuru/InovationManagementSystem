@@ -73,10 +73,11 @@ include '../dbconnection.php';
                                 <th class="bg-secondary">Project Description</th>
                                 <th class="bg-secondary">Start Date</th>
                                 <th class="bg-secondary">End Date</th>
+                                <th class="bg-secondary">View Project</th>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM project WHERE createdBy = '$username';";
+                            $sql = "SELECT * FROM project WHERE userName = '$username';";
                             $result = mysqli_query($connection, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -86,6 +87,7 @@ include '../dbconnection.php';
                                     echo "<td>" . $row['pdis'] . "</td>";
                                     echo "<td>" . $row['sdate'] . "</td>";
                                     echo "<td>" . $row['edate'] . "</td>";
+                                    echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=".$row['pid']."'>View</a></td>";
                                     echo "</tr>";
                                 }
                             } else {

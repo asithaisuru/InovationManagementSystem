@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $numOfTasks = $_POST['taskCount'];
     // echo "numoftasks : ".$numOfTasks;
 
-    $sql = "INSERT INTO project (pname, pdis, noOfTasks, sdate, edate, pcategory, createdBy) VALUES ('$pname', '$pdis', '$numOfTasks', '$sdate', '$edate', '$projectCategory', '$username')";
+    $sql = "INSERT INTO project (pname, pdis, noOfTasks, sdate, edate, pcategory, userName) VALUES ('$pname', '$pdis', '$numOfTasks', '$sdate', '$edate', '$projectCategory', '$username')";
     $result = mysqli_query($connection, $sql);
     echo "result :" . $result;
     if ($result) {
