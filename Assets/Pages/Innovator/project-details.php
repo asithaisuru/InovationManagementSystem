@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-lg-9">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body">
-                        <form method="POST" action="project-details.php">
+                       
                             <?php
                             $query = "SELECT * FROM project WHERE pid = '$pid'";
                             $result = mysqli_query($connection, $query);
@@ -136,10 +136,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             $query = "SELECT * FROM tasks WHERE pid = '$pid'";
                             $result = mysqli_query($connection, $query);
-
+                            echo "</form>";
                             if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     if ($createdBy == $username) {
+                                        echo '<form method="POST" action="project-details.php">';
                                         echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
                                         echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
                                         echo '<div class="form-floating mb-3 mt-3">';
@@ -206,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php if ($createdBy == $username)
                                 echo '<button type="submit" class="btn btn-primary">Update Tasks</button>';
                             ?>
-                        </form>
+                        
                     </div>
                 </div>
             </div>
