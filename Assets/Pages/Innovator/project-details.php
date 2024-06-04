@@ -116,7 +116,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php
                             $query = "SELECT * FROM project WHERE pid = '$pid'";
                             $result = mysqli_query($connection, $query);
-                            $row = mysqli_fetch_assoc($result);
+                            $row = mysqli_fetch_assoc($result);                            
+
+                            echo '<h5 class="text-secondary"><strong>Owner</strong></h5>';
+                            $Query = "SELECT fname, lname FROM users WHERE userName = '".$row['userName']."'";
+                            $Result = mysqli_query($connection, $Query);
+                            $Row = mysqli_fetch_assoc($Result);                            
+                            echo '<h4 class="mt-1">' . htmlspecialchars($row['userName']) . ' - '.$Row['fname'].' '. $Row['lname'].'</h4>';
+                            echo '<hr class="border-white border-5 ">';
+
                             echo '<h5 class="text-secondary"><strong>Project Name</strong></h5>';
                             echo '<h2 class="mt-1">' . htmlspecialchars($row['pname']) . '</h2>';
                             echo '<hr class="border-white border-5 ">';
