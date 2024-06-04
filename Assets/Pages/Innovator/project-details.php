@@ -21,6 +21,11 @@ if (isset($_GET['pid'])) {
 
 include '../dbconnection.php';
 
+$query = "SELECT * FROM project WHERE pid = '$pid'";
+$result = mysqli_query($connection, $query);
+$row = mysqli_fetch_assoc($result);
+$createdBy = $row['userName'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['taskID']) && isset($_POST['assignedTo'])) {
         $taskIDs = $_POST['taskID'];
@@ -30,13 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $taskID = $taskIDs[$i];
             $user = $assignedTo[$i];
 
-            $updateQuery = "UPDATE tasks SET assignedTo = '$user' WHERE taskID = '$taskID' AND pid = '$pid'";
+            $updateQuery = "UPDATE tasks SET assignedTo = '$user', status = 'Pending' WHERE taskID = '$taskID' AND pid = '$pid'";
             if (!$connection->query($updateQuery)) {
-                // echo "Error updating record: " . $connection->error;
                 echo "<script>window.location.href='./project-details.php?projectupdatestatus=error';</script>";
-            }else{
+            } else {
                 echo "<script>window.location.href='./project-details.php?projectupdatestatus=success';</script>";
-                // echo "Record updated successfully";
             }
         }
         exit();
@@ -50,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMS- Project Details</title>
+    <title>IMS - Project Details</title>
 </head>
 
 <body class="bg-dark text-white">
@@ -58,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
 
         <?php
-        // echo $pid;
         $status = isset($_GET['projectupdatestatus']) ? htmlspecialchars($_GET['projectupdatestatus']) : "";
         if ($status == "success") {
             echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -75,22 +77,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <h1 class="text-center">Project Details</h1>
         <div class="row mt-4">
-            <div class="col-lg-3">
+            <div class="col-lg-3 mb-3">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body text-center">
                         <h3 class="card-title text-center">Project Management</h3>
                         <div class="list-group mt-3">
                             <h5 class="card-title mt-3 text-center">Project Options</h5>
-                            <a href="./edit-project.php?pid=<?php echo htmlspecialchars($pid); ?>"
-                                class="list-group-item list-group-item-action bg-primary text-white">Edit Project</a>
-                            <a href="./delete-project.php"
-                                class="list-group-item list-group-item-action bg-danger text-white">Delete Project</a>
+                            <?php if ($createdBy == $username): ?>
+                                <a href="./edit-project.php?pid=<?php echo htmlspecialchars($pid); ?>"
+                                    class="list-group-item list-group-item-action bg-primary text-white">Edit Project</a>
+                                <a href="./delete-project.php"
+                                    class="list-group-item list-group-item-action bg-danger text-white">Delete Project</a>
+                            <?php else: ?>
+                                <a href="#" class="list-group-item list-group-item-action disabled"
+                                    aria-disabled="true">Edit Project</a>
+                                <a href="#" class="list-group-item list-group-item-action disabled"
+                                    aria-disabled="true">Delete Project</a>
+                            <?php endif; ?>
                         </div>
                         <div class="list-group mt-3">
                             <h5 class="card-title mt-3 text-center">Contributors Options</h5>
-                            <a href="./add-contributor.php?pid=<?php echo htmlspecialchars($pid); ?>"
-                                class="list-group-item list-group-item-action bg-success text-white">Manage
-                                Contributors</a>
+                            <?php if ($createdBy == $username): ?>
+                                <a href="./add-contributor.php?pid=<?php echo htmlspecialchars($pid); ?>"
+                                    class="list-group-item list-group-item-action bg-success text-white">Manage
+                                    Contributors</a>
+                            <?php else: ?>
+                                <a href="#" class="list-group-item list-group-item-action disabled"
+                                    aria-disabled="true">Manage Contributors</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -107,9 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo '<h2 class="mt-1">' . htmlspecialchars($row['pname']) . '</h2>';
                             echo '<hr class="border-white border-5 ">';
 
-                            echo '<h5 class="text-secondary mt-3"><strong>Project Description</strong></h5>';
-                            echo '<p class="">' . htmlspecialchars($row['pdis']) . '</p>';
-                            echo '<hr class="border-white border-5 ">';
+                            if ($createdBy == $username) {
+                                echo '<h5 class="text-secondary mt-3"><strong>Project Description</strong></h5>';
+                                echo '<p class="">' . htmlspecialchars($row['pdis']) . '</p>';
+                                echo '<hr class="border-white border-5 ">';
+                            } else {
+                                echo '<h5 class="text-secondary mt-3"><strong>Project Description</strong></h5>';
+                                echo '<p class="text-danger">You are not allowed to view the project description</p>';
+                                echo '<hr class="border-white border-5 ">';
+                            }
 
                             echo '<h5 class="text-secondary mt-3"><strong>Project Tasks</strong></h5>';
                             echo '<hr class="border-white border-3 ">';
@@ -119,34 +139,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
-                                    echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
-                                    echo '<div class="form-floating mb-3 mt-3">';
-                                    echo '<select class="form-select mt-3" required name="assignedTo[]" id="assignedTo">';
-                                    echo '<option value="" selected disabled>-- Select Innovator --</option>';
+                                    if ($createdBy == $username) {
+                                        echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
+                                        echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
+                                        echo '<div class="form-floating mb-3 mt-3">';
+                                        echo '<select class="form-select mt-3" required name="assignedTo[]" id="assignedTo">';
+                                        echo '<option value="" selected disabled>-- Select Innovator --</option>';
 
-                                    $sql = "SELECT * FROM contributors WHERE pid = '$pid'";
-                                    $result1 = mysqli_query($connection, $sql);
-                                    if ($result1 && mysqli_num_rows($result1) > 0) {
-                                        while ($row1 = mysqli_fetch_assoc($result1)) {
-                                            $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . '</option>';
+                                        $sql = "SELECT * FROM contributors WHERE pid = '$pid'";
+                                        $result1 = mysqli_query($connection, $sql);
+                                        if ($result1 && mysqli_num_rows($result1) > 0) {
+                                            while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                if ($createdBy != $username && $username == $row1['userName']) {
+                                                    $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
+                                                    echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . '</option>';
+                                                } elseif ($createdBy == $username) {
+                                                    $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
+                                                    echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . '</option>';
+                                                }
+                                            }
+                                        } else {
+                                            echo '<option value="" disabled>No Contributors Found</option>';
                                         }
+                                        echo '</select>';
+                                        echo '<input type="hidden" name="taskID[]" value="' . htmlspecialchars($row['taskID']) . '">';
+                                        echo '<label for="assignedTo">Assign Task To</label>';
+                                        echo '</div>';
+                                        echo '<hr class="border-white border-3 ">';
                                     } else {
-                                        echo '<option value="" disabled>No Contributors Found</option>';
+                                        if ($row['assignedTo'] == $username) {
+                                            echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
+                                            echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
+                                            echo '<div class="form-floating mb-3 mt-3">';
+                                            echo '<select class="form-select mt-3" required name="assignedTo[]" id="assignedTo" disabled>';
+                                            echo '<option value="" selected disabled>-- Select Innovator --</option>';
+                                            $sql = "SELECT * FROM contributors WHERE pid = '$pid'";
+                                            $result1 = mysqli_query($connection, $sql);
+                                            if ($result1 && mysqli_num_rows($result1) > 0) {
+                                                while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                    if ($createdBy != $username && $username == $row1['userName']) {
+                                                        $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
+                                                        echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . '</option>';
+                                                    }
+                                                }
+                                            } else {
+                                                echo '<option value="" disabled>No Contributors Found</option>';
+                                            }
+                                            echo '</select>';
+                                            echo '<input type="hidden" name="taskID[]" value="' . htmlspecialchars($row['taskID']) . '">';
+                                            echo '<label for="assignedTo">Assign Task To</label>';
+                                            echo '</div>';
+                                            echo '<hr class="border-white border-3 ">';
+                                        }
+
                                     }
-                                    echo '</select>';
-                                    echo '<input type="hidden" name="taskID[]" value="' . htmlspecialchars($row['taskID']) . '">';
-                                    echo '<label for="assignedTo">Assign Task To</label>';
-                                    echo '</div>';
-                                    echo '<hr class="border-white border-3 ">';
                                 }
+
+
+
+
                             } else {
                                 echo '<p class="text-danger">No Tasks Found</p>';
                             }
 
                             ?>
-                            <button type="submit" class="btn btn-primary">Update Tasks</button>
+                            <?php if ($createdBy == $username)
+                                echo '<button type="submit" class="btn btn-primary">Update Tasks</button>';
+                            ?>
                         </form>
                     </div>
                 </div>
