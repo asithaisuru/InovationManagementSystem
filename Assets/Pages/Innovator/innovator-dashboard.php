@@ -70,7 +70,7 @@ include '../dbconnection.php';
                             <tr>
                                 <th class="bg-secondary">Project ID</th>
                                 <th class="bg-secondary">Project Name</th>
-                                <th class="bg-secondary">Project Description</th>
+                                <!-- <th class="bg-secondary">Project Description</th> -->
                                 <th class="bg-secondary">Start Date</th>
                                 <th class="bg-secondary">End Date</th>
                                 <th class="bg-secondary">View Project</th>
@@ -84,7 +84,7 @@ include '../dbconnection.php';
                                     echo "<tr>";
                                     echo "<td>" . $row['pid'] . "</td>";
                                     echo "<td>" . $row['pname'] . "</td>";
-                                    echo "<td>" . $row['pdis'] . "</td>";
+                                    // echo "<td>" . $row['pdis'] . "</td>";
                                     echo "<td>" . $row['sdate'] . "</td>";
                                     echo "<td>" . $row['edate'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=" . $row['pid'] . "'>View</a></td>";
