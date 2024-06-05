@@ -20,19 +20,21 @@ include '../dbconnection.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<?php include 'innovator-nav.php'; ?>
 
 <body class="bg-dark text-white">
+    <?php include '../Innovator/innovator-nav.php'; ?>
 
-<h1>hello</h1>
-<h2>hello world </h2>
-    
-   
-    
+    <div class="container">
+        
+    </div>
+
+
 </body>
+
 </html
