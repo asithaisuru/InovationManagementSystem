@@ -67,7 +67,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             Project Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a></li>
+                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a>
+                            </li>
                             <li><a class="dropdown-item" href="../Innovator/edit-project.php">Edit Project</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -79,7 +80,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../chat/chat.php">
-                            <i class="fas fa-comment fa-lg"></i>
+                            <i class="fas fa-comment fa-lg" style="color: #ffffff;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
+                            <i class="fab fa-forumbee fa-lg" style="color: #ffffff;"></i>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
