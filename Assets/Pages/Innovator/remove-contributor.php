@@ -38,7 +38,7 @@ $stmt1->execute();
 $result = $stmt1->get_result();
 
 if ($result->num_rows > 0) {
-    $sql2 = "UPDATE tasks SET assignedTo = '' WHERE pid = ? AND assignedTo = ?";
+    $sql2 = "UPDATE tasks SET assignedTo = '', status = 'Not Assigned' WHERE pid = ? AND assignedTo = ?";
     $stmt2 = $connection->prepare($sql2);
     if ($stmt2 === false) {
         die('Error: ' . $connection->error);

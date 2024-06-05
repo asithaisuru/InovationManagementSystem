@@ -74,6 +74,7 @@ include '../dbconnection.php';
                                 <th class="bg-secondary">Start Date</th>
                                 <th class="bg-secondary">End Date</th>
                                 <th class="bg-secondary">View Project</th>
+                                <th class="bg-secondary">Project Status</th>
                         </thead>
                         <tbody>
                             <?php
@@ -88,6 +89,10 @@ include '../dbconnection.php';
                                     echo "<td>" . $row['sdate'] . "</td>";
                                     echo "<td>" . $row['edate'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=" . $row['pid'] . "'>View</a></td>";
+                                    if ($row['status'] == 'Completed')
+                                        echo "<td class = 'text-center bg-success'>" . $row['status'] . "</td>";
+                                    else if ($row['status'] == 'In Progress')
+                                        echo "<td class = 'text-center bg-warning text-white'>" . $row['status'] . "</td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -113,6 +118,7 @@ include '../dbconnection.php';
                                 <th class="bg-secondary">Start Date</th>
                                 <th class="bg-secondary">End Date</th>
                                 <th class="bg-secondary">View Project</th>
+                                <th class="bg-secondary">Project Status</th>
                         </thead>
                         <tbody>
                             <?php
@@ -133,6 +139,12 @@ include '../dbconnection.php';
                                             echo "<td>" . $row1['pname'] . "</td>";
                                             echo "<td>" . $row1['sdate'] . "</td>";
                                             echo "<td>" . $row1['edate'] . "</td>";
+                                            if ($row1['status'] == 'Completed')
+                                                echo "<td class = 'text-center bg-success'>" . $row1['status'] . "</td>";
+                                            else if ($row1['status'] == 'In Progress')
+                                                echo "<td class = 'text-center bg-warning text-dark'>" . $row1['status'] . "</td>";
+                                            else
+                                                echo "<td class = 'text-center bg-warning text-dark'></td>";
                                         }
                                     }
                                     // echo "<td>" . $row['pdis'] . "</td>";

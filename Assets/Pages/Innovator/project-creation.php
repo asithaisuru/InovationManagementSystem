@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $taskID = 'p' . $projectID . 'task' . $i;
             $taskName = $_POST['task' . $i];
             $taskDescription = $_POST['t' . $i . 'dis'];
-            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID')";
+            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid, status) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID', 'Not Assigned')";
             $result = mysqli_query($connection, $sql);
         }
         $em = "Project creation successfull.";

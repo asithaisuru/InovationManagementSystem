@@ -125,12 +125,12 @@ include '../dbconnection.php';
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cname = $_POST['cname'];
-    echo $cname . "<br>";
+    // echo $cname . "<br>";
     $sql = "SELECT * FROM users WHERE userName = '$cname'";
     $result = mysqli_query($connection, $sql);
     // echo "result :" . $result;
-    echo mysqli_num_rows($result) . "<br>";
-    echo "pid : " . $_SESSION['pid'] . "<br>";
+    // echo mysqli_num_rows($result) . "<br>";
+    // echo "pid : " . $_SESSION['pid'] . "<br>";
     if (mysqli_num_rows($result) > 0) {
         $sql = "INSERT INTO contributors (pid, userName) VALUES ('$pid', '$cname')";
         $result = mysqli_query($connection, $sql);
