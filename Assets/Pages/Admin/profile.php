@@ -103,7 +103,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <h3 class="text-white">Update Personal Information</h3>
                         </div>
                         <div class="card-body">
-
                             <fieldset>
                                 <legend class="text-white">Persenal info:</legend>
                                 <div class="form-floating mb-3 mt-3">

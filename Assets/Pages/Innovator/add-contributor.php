@@ -101,7 +101,7 @@ include '../dbconnection.php';
                                     $result1 = mysqli_query($connection, $sql1);
                                     $row1 = mysqli_fetch_assoc($result1);
                                     echo "<td>" . $row1['fname'] . " " . $row1['lname'] . "</td>";
-                                    echo "<td><a class='btn btn-primary text-center d-block' href='../view-profile.php?userName=" . $conUsername . "'>View</a></td>";
+                                    echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $conUsername . "'>View</a></td>";
                                     echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $conUsername . "&pid=" . $pid . "'>Remove</a></td>";
                                     echo "</tr>";
                                 }
