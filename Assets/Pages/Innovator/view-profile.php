@@ -91,6 +91,66 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mt-4 border-white border-3 bg-dark text-white">
+                    <div class="card-body">
+                        <h2 class="text-center">Projects Contibuted</h2>
+                        <div class="mt-3">
+                            <table class="table table-bordered table-hover table-dark table-lg bg-dark">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-secondary">Project ID</th>
+                                        <th class="bg-secondary">Project Name</th>
+                                        <!-- <th class="bg-secondary">Project Description</th> -->
+                                        <th class="bg-secondary">Project Category</th>
+                                        <!-- <th class="bg-secondary">End Date</th> -->
+                                        <th class="bg-secondary">Project Status</th>
+                                        <!-- <th class="bg-secondary">View Project</th> -->
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $sql = "SELECT * FROM contributors WHERE userName = '$viewUserName';";
+                                    $result = mysqli_query($connection, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['pid'] . "</td>";
+
+                                            $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
+                                            $result1 = mysqli_query($connection, $sql);
+                                            // var_dump($result1);
+                                            if (mysqli_num_rows($result1) > 0) {
+                                                // echo mysqli_num_rows($result1);
+                                                while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                    // var_dump($row1);
+                                                    echo "<td>" . $row1['pname'] . "</td>";
+                                                    echo "<td>" . $row1['pcategory'] . "</td>";
+                                                    // echo "<td>" . $row1['edate'] . "</td>";
+                                                    if ($row1['status'] == 'Completed')
+                                                        echo "<td class = 'text-center bg-success'>" . $row1['status'] . "</td>";
+                                                    else if ($row1['status'] == 'In Progress')
+                                                        echo "<td class = 'text-center bg-warning text-white'>" . $row1['status'] . "</td>";
+                                                    else
+                                                        echo "<td class = 'text-center bg-warning text-dark'></td>";
+                                                }
+                                            }
+                                            // echo "<td>" . $row['pdis'] . "</td>";
+                                    
+                                            // echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=" . $row['pid'] . "'>View</a></td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
