@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $taskID = 'p' . $pid . 'task' . $i;
                 $taskName = $_POST['task' . $i];
                 $taskDescription = $_POST['t' . $i . 'dis'];
-                $sql = "INSERT INTO tasks (taskID, taskName, discription, pid) VALUES ('$taskID', '$taskName', '$taskDescription', '$pid')";
+                $sql = "INSERT INTO tasks (taskID, taskName, discription, pid, status) VALUES ('$taskID', '$taskName', '$taskDescription', '$pid', 'Not Assigned')";
                 $result = mysqli_query($connection, $sql);
                 if (!$result) {
                     $em = "Project update failed.";

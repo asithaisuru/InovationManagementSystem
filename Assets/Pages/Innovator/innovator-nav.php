@@ -67,7 +67,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             Project Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a></li>
+                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a>
+                            </li>
                             <li><a class="dropdown-item" href="../Innovator/edit-project.php">Edit Project</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -79,18 +80,27 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../chat/chat.php">
-                            <i class="fas fa-comment fa-lg"></i>
+                            <i class="fas fa-comment fa-lg" style="color: #ffffff;"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item">
+                        <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
+                            <i class="fab fa-forumbee fa-lg" style="color: #ffffff;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown mt-2">
+                        <a class="" href="../Innovator/view-profile.php?userName=<?php echo $username ?>">
                             <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
                                 style="width:50px;height;50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown mt-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="../Admin/profile.php">Profile</a></li>
+                            <li><a class="dropdown-item" href="../Admin/profile.php">Edit Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="../Admin/resetpassword.php">Reset Password</a></li>
                             <li>

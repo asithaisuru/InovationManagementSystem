@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
         }
-        if(isset($_GET['compleateprojectupdatestatus']) == "error"){
+        if (isset($_GET['compleateprojectupdatestatus']) == "error") {
             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> Failed to Update Project Status.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -206,10 +206,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         $query = "SELECT * FROM tasks WHERE pid = '$pid'";
                         $result = mysqli_query($connection, $query);
-
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
-                                if ($createdBy == $username) {
+                                if ($createdBy == $username) {                                    
+                                    if ($row['status'] != "Completed")
                                     echo '<form method="POST" action="project-details.php">';
                                     echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
                                     echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
@@ -238,7 +238,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '<p class="small">Status: <span class="text-white ' . getStatusClass($row['status']) . ' p-1 ps-2 pe-2">' . htmlspecialchars($row['status']) . '</span></p>';
                                     echo '</div>';
                                     echo '<div class=col-lg-2>';
-                                    echo '<button type="submit" class="btn btn-primary mb-2 ">Update Task</button>';
+                                    if ($row['status'] != "Completed")
+                                        echo '<button type="submit" class="btn btn-primary mb-2 ">Update Task</button>';
                                     echo '</div>';
                                     echo '</div>';
                                     echo '</div>';
