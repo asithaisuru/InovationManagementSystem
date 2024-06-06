@@ -97,12 +97,13 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
 
             <div class="col-lg-6">
-                <form action="profile.php" method="POST">
-                    <div class="card bg-dark border-3 border-white">
-                        <div class="card-header">
-                            <h3 class="text-white">Update Personal Information</h3>
-                        </div>
-                        <div class="card-body">
+
+                <div class="card bg-dark border-3 border-white">
+                    <div class="card-header">
+                        <h3 class="text-white">Update Personal Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="profile.php" method="POST">
                             <fieldset>
                                 <legend class="text-white">Persenal info:</legend>
                                 <div class="form-floating mb-3 mt-3">
@@ -125,6 +126,9 @@ if ($result && mysqli_num_rows($result) > 0) {
                                         name="email" value="<?php echo $email ?>">
                                     <label for="lname">Email</label>
                                 </div>
+                                <div class="mb-3 ms-auto" style="width: 200px;">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <legend class="text-white">Skills:</legend>
@@ -140,14 +144,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="mb-3 ms-auto" style="width: 200px;">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                        </form>
                     </div>
+
+                </div>
             </div>
 
-            </form>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
