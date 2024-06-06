@@ -142,12 +142,15 @@ if (!empty($username) && !empty($password)) {
         if (verifyPassword($password, $hash)) {
             if ($role == 'Innovator') {
                 // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+                makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
             } else if ($role == 'Supplier') {
                 // header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+                makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
             } else if ($role == "Admin" || $role == "Moderator") {
                 // header("Location: Assets/Pages/Admin/admin-dashboard.php");
+                makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
             }
         } else {
@@ -163,6 +166,16 @@ if (!empty($username) && !empty($password)) {
             alert('User not found');
             });
         </script>";
+    }
+}
+
+function makeuseractive(){
+    require_once './Assets/Pages/dbconnection.php';
+    $username = $_SESSION['username'];
+    $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
+    $result = mysqli_query($connection, $sql);
+    if(!$result){
+        echo "unable to Active user";
     }
 }
 ?>

@@ -12,6 +12,7 @@ $dotenv->load();
 
 // Database connection
 $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -24,6 +25,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -117,12 +119,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 
     <script>
         function logout() {
-            // Perform logout action using fetch API
             fetch('../logout.php')
                 .then(response => {
                     if (response.ok) {
-                        // Redirect to the login page after logout
-                        window.location.href = '../../../index.php'; // Replace "login.php" with the actual path to your login page
+                        window.location.href = '../../../index.php';
                     } else {
                         console.error('Logout failed');
                     }
