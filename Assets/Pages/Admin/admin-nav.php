@@ -66,7 +66,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    User Management
+                                    Admin Management
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="./user-management.php#add-user">Add User</a></li>
@@ -79,19 +79,19 @@ if ($result && mysqli_num_rows($result) > 0) {
                             </li>
                         </div>
                     <?php endif; ?>
-                    <!-- Project Management -->
+                    <!-- User Management -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Project Management
+                            User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Add User</a></li>
-                            <li><a class="dropdown-item" href="#">Remove User</a></li>
+                            <li><a class="dropdown-item" href="#"> Reset Password</a></li>
+                            <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Delete Project</a></li>
+                            <li><a class="dropdown-item" href="./viewAllUser.php">View All Users</a></li>
                         </ul>
                     </li>
                 </ul>
