@@ -29,7 +29,7 @@ include '../dbconnection.php';
 
     <?php if ($_SESSION['role'] == "Admin"): ?>
         <div class="container text-center">
-            <h1>Admin Dashboard</h1>
+            <h1>Dashboard</h1>
             <!-- <p>This is the Admin Dashboard. You can create manage Admin profiles, projects</p> -->
         </div>
 
