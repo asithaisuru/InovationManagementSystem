@@ -1,10 +1,17 @@
 <?php
-// Mock data for demonstration purposes. Replace with database fetching logic.
-$post = [
-    'id' => $_GET['id'],
-    'title' => 'Sample Post Title',
-    'content' => 'This is the content of the post.'
-];
+require '../db.php';
+
+$post_id = $_GET['id'] ?? 0;
+$stmt = $conn->prepare("SELECT title, content FROM posts WHERE id = ?");
+$stmt->bind_param("i", $post_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$post = $result->fetch_assoc();
+$stmt->close();
+
+if (!$post) {
+    $post = ['title' => 'Post Not Found', 'content' => 'The post you are looking for does not exist.'];
+}
 ?>
 
 <!DOCTYPE html>

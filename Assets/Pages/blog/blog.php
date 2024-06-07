@@ -1,9 +1,8 @@
 <?php
-// Mock data for demonstration purposes. Replace with database fetching logic.
-$posts = [
-    ['id' => 1, 'title' => 'First Post', 'content' => 'This is the content of the first post.'],
-    ['id' => 2, 'title' => 'Second Post', 'content' => 'This is the content of the second post.']
-];
+require '../db.php';
+
+$result = $conn->query("SELECT id, title, content FROM posts ORDER BY created_at DESC");
+$posts = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>

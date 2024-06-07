@@ -1,11 +1,17 @@
 <?php
-// Mock data for demonstration purposes. Replace with database fetching logic.
-$topic_id = $_GET['id'] ?? 1;  // Assuming topic ID is passed via GET parameter
-$topics = [
-    1 => ['title' => 'First Topic', 'content' => 'This is the content of the first topic.'],
-    2 => ['title' => 'Second Topic', 'content' => 'This is the content of the second topic.']
-];
-$topic = $topics[$topic_id] ?? ['title' => 'Topic Not Found', 'content' => 'The topic you are looking for does not exist.'];
+require '../db.php';
+
+$topic_id = $_GET['id'] ?? 0;
+$stmt = $conn->prepare("SELECT title, content FROM topics WHERE id = ?");
+$stmt->bind_param("i", $topic_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$topic = $result->fetch_assoc();
+$stmt->close();
+
+if (!$topic) {
+    $topic = ['title' => 'Topic Not Found', 'content' => 'The topic you are looking for does not exist.'];
+}
 ?>
 
 <!DOCTYPE html>
