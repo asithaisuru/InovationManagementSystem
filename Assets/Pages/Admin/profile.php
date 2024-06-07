@@ -130,6 +130,9 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </fieldset>
+                        </form>
+                        <?php if($_SESSION['role'] != "Admin") : ?>
+                        <form action="#" method="POST">
                             <fieldset>
                                 <legend class="text-white">Skills:</legend>
                                 <div id="selected-skills" class="list-group-item list-group-item-action"></div>
@@ -142,9 +145,13 @@ if ($result && mysqli_num_rows($result) > 0) {
                                         </div>
                                         <div id="suggestions" class="list-group mt-1"></div>
                                     </div>
+                                    <div class="mb-3 ms-auto" style="width: 200px;">
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
                                 </div>
                             </fieldset>
                         </form>
+                        <?php endif; ?>
                     </div>
 
                 </div>

@@ -1,6 +1,7 @@
 <?php
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
+    $role = $_SESSION['role'];
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
@@ -43,7 +44,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <title>Admin-nav</title>
 </head>
 
-<body class="text-center">
+<body class="text-center text-white">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
         <div class="container">
             <a class="navbar-brand" href="admin-dashboard.php"><img src="../../img/LogoWhite.png"
@@ -86,7 +87,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#"> Reset Password</a></li>
+                            <li><a class="dropdown-item" href="user-password-reset.php"> Reset Password</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
                             <li>
                                 <hr class="dropdown-divider">
