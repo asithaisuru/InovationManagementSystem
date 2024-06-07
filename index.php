@@ -129,8 +129,11 @@ $password = isset($_POST['password']) ? $_POST['password'] : "";
 
 
 if (!empty($username) && !empty($password)) {
-    $query = "SELECT * FROM users WHERE userName = '$username'";
-    $result = mysqli_query($connection, $query);
+    $query = "SELECT pass,role FROM users WHERE userName = ?";
+    $statement = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($statement, "s", $username);
+    mysqli_stmt_execute($statement);
+    $result = mysqli_stmt_get_result($statement);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -163,7 +166,7 @@ if (!empty($username) && !empty($password)) {
     }else{
         echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
-            alert('User not found');
+            alert('Invalid Username or Password');
             });
         </script>";
     }
