@@ -2,12 +2,21 @@
 require '../db.php';
 
 $post_id = $_GET['id'] ?? 0;
-$stmt = $conn->prepare("SELECT title, content FROM posts WHERE id = ?");
-$stmt->bind_param("i", $post_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$post = $result->fetch_assoc();
-$stmt->close();
+
+if ($conn) {
+    $stmt = $conn->prepare("SELECT title, content FROM posts WHERE id = ?");
+    if ($stmt) {
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $post = $result->fetch_assoc();
+        $stmt->close();
+    } else {
+        $post = ['title' => 'Database Error', 'content' => 'Failed to prepare the statement.'];
+    }
+} else {
+    $post = ['title' => 'Database Error', 'content' => 'Failed to connect to the database.'];
+}
 
 if (!$post) {
     $post = ['title' => 'Post Not Found', 'content' => 'The post you are looking for does not exist.'];
