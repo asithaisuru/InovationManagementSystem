@@ -1,10 +1,4 @@
 <?php
-<<<<<<< HEAD
-require '../db.php';
-
-$result = $conn->query("SELECT id, title, content FROM topics ORDER BY created_at DESC");
-$topics = $result->fetch_all(MYSQLI_ASSOC);
-=======
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
@@ -21,7 +15,6 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 
 include '../dbconnection.php';
 
->>>>>>> 34e24a154fcbef028970417a59a139428ddc79f0
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +24,6 @@ include '../dbconnection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
 </head>
-<<<<<<< HEAD
 <body>
     <div class="container mt-5">
         <h1>Forum</h1>
@@ -52,16 +44,5 @@ include '../dbconnection.php';
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-=======
-
-<body class="bg-dark text-white">
-    <?php include '../Innovator/innovator-nav.php'; ?>
-
-    <div class="container">
-        
-    </div>
-
-
->>>>>>> 34e24a154fcbef028970417a59a139428ddc79f0
 </body>
 </html>
