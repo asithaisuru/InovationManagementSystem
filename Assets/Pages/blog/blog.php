@@ -2,7 +2,11 @@
 require '../db.php';
 
 $result = $conn->query("SELECT id, title, content FROM posts ORDER BY created_at DESC");
-$posts = $result->fetch_all(MYSQLI_ASSOC);
+if ($result) {
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $posts = [];
+}
 ?>
 
 <!DOCTYPE html>
