@@ -93,7 +93,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item dropdown mt-2">
                         <a class="" href="../Innovator/view-profile.php?userName=<?php echo $username ?>">
                             <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
-                                style="width:50px;height;50px;">
+                                style="width:50px;height:50px;">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-3">
