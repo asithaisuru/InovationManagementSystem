@@ -35,36 +35,12 @@ include '../dbconnection.php';
         <h1 class="text-center">Welcome to the Innovator Forum</h1>
         <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights into
             the innovation process.</p>
-
-        <!-- Form to submit a new post -->
-        <div class="card bg-light text-white bg-dark mb-4 border-3 border-white">
-            <div class="card-body">
-                <h2 class="text-center mb-3">Share Your Story or Find Collaborators</h2>
+            <div>
+                <h2>Share Your Story or Find Collaborators</h2>
                 <form action="" method="POST">
                     <div class="form-group">
-                        <label for="post_title">Title</label>
-                        <input type="text" name="post_title" id="post_title" class="form-control mb-2" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="post_content">Content</label>
-                        <textarea name="post_content" id="post_content" class="form-control mb-2" rows="5"
-                            required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="post_category">Category</label> </br>
-                        <select name="post_category" id="post_category" class="form-control" required>
-                            <option value="SuccessStories">Success Stories</option>
-                            <option value="CollaborationOpportunities">Collaboration Opportunities</option>
-                            <option value="InsightsandTips">Insights and Tips</option>
-                            <option value="InsightsandTips">Skills and Qualifications</option>
-                            <option value="InsightsandTips">Personal Branding </option>
-                            <option value="InsightsandTips">Insights and Tips</option>
-                        </select>
-                    </div> <br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                        <button type="submit" class="btn btn-primary">Share Your Story</button>
             </div>
-        </div>
 
         <!-- Display Posts -->
         <div class="section mt-5">
