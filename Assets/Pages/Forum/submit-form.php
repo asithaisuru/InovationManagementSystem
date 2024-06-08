@@ -41,15 +41,7 @@ include '../dbconnection.php';
         <div class="card bg-light text-white bg-dark mb-4 border-3 border-white">
             <div class="card-body">
                 <h2 class="text-center mb-3">Share Your Story or Find Collaborators</h2>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="Name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control mb-2" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="number">whatsapp number</label>
-                        <input type="number" name="number" id="number" class="form-control mb-2" required>
-                    </div>
+                <form action="submit-form.php" method="POST">
                     <div class="form-group">
                         <label for="post_title">Title</label>
                         <input type="text" name="post_title" id="post_title" class="form-control mb-2" required>
@@ -67,7 +59,6 @@ include '../dbconnection.php';
                             <option value="InsightsandTips">Insights and Tips</option>
                             <option value="InsightsandTips">Skills and Qualifications</option>
                             <option value="InsightsandTips">Personal Branding </option>
-                            <option value="InsightsandTips">Insights and Tips</option>
                         </select>
                     </div> <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -76,7 +67,8 @@ include '../dbconnection.php';
 
      </div>
      <div>
-            <div>  <button type="submit" class="btn btn-primary" href="/Forum/submit-form.php">see story</button> </div>
+            <div>  
+                <a href="./forum.php" class="btn btn-success">Back to Forum</a></div>
         </div>
 
 
@@ -90,4 +82,19 @@ include '../dbconnection.php';
 
 
 
-</html
+</html>
+
+<?php
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $post_title = $_POST['post_title'];
+    $post_content = $_POST['post_content'];
+    $post_category = $_POST['post_category'];
+    $sql = "INSERT INTO posts (title, content, category, userName) VALUES ('$post_title', '$post_content', '$post_category', '$username');";
+    $result = mysqli_query($connection, $sql);
+    if ($result) {
+        echo "<script>alert('Post submitted successfully');</script>";
+    } else {
+        echo "<script>alert('Error submitting post');</script>";
+    }
+}
+?>

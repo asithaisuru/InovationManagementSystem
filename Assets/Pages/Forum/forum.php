@@ -36,10 +36,7 @@ include '../dbconnection.php';
         <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights into
             the innovation process.</p>
             <div>
-                <h2>Share Your Story or Find Collaborators</h2>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Share Your Story</button>
+                <a href="./submit-form.php" class="btn btn-success">Create your story</a>
             </div>
 
         <!-- Display Posts -->
@@ -48,15 +45,19 @@ include '../dbconnection.php';
             <p>Read about the latest success stories from our community. Be inspired by the journeys and achievements of
                 fellow innovators.</p>
             <?php
-            $sql = "SELECT * FROM posts WHERE category='SuccessStories' ORDER BY created_at DESC;";
+            $sql = "SELECT * FROM posts WHERE category='SuccessStories'";
             $result = mysqli_query($connection, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
+                    // echo "<div class='post'>";
+                    echo "<div class='card bg-dark text-white border-1 border-white p-3'>";
                     echo "<h3>" . $row['title'] . "</h3>";
                     echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
+                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>".$row['userName']."</a></small>";
+                    echo "<small>Posted on: " . (isset($row['created_at']) ? date('F j, Y', strtotime($row['created_at'])) : date('F j, Y')) . "</small>";
+                    echo "<small>Posted at: <span id='post-time'>" . date('h:i A', time()) . "</span></small>";
                     echo "</div>";
+                    // echo "</div>";
                 }
             } else {
                 echo "No posts found";
@@ -70,19 +71,23 @@ include '../dbconnection.php';
             <p>Looking for collaborators on your next big project? Connect with other innovators who share your vision.
             </p>
             <?php
-            $sql = "SELECT * FROM posts WHERE category='CollaborationOpportunities' ORDER BY created_at DESC;";
+            $sql = "SELECT * FROM posts WHERE category='CollaborationOpportunities';";
             $result = mysqli_query($connection, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
+                    // echo "<div class='post'>";
+                    echo "<div class='card bg-dark text-white border-1 border-white p-3'>";
                     echo "<h3>" . $row['title'] . "</h3>";
                     echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
+                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>".$row['userName']."</a></small>";
+                    echo "<small>Posted on: " . (isset($row['created_at']) ? date('F j, Y', strtotime($row['created_at'])) : date('F j, Y')) . "</small>";
+                    echo "<small>Posted at: <span id='post-time'>" . date('h:i A', time()) . "</span></small>";
                     echo "</div>";
+                    // echo "</div>";
                 }
             } else {
                 echo "No posts found";
-            }
+            } 
 
             ?>
         </div>
@@ -92,22 +97,26 @@ include '../dbconnection.php';
             <p>Discover valuable insights and tips from experienced innovators. Learn best practices, avoid common
                 pitfalls, and stay ahead in the innovation landscape.</p>
             <?php
-            $sql = "SELECT * FROM posts WHERE category='InsightsandTips' ORDER BY created_at DESC;";
+            $sql = "SELECT * FROM posts WHERE category='InsightsandTips';";
             $result = mysqli_query($connection, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
-                    echo "<h3>" . $row['title'] . "</h3>";
-                    echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
-                    echo "</div>";
+                     // echo "<div class='post'>";
+                     echo "<div class='card bg-dark text-white border-1 border-white p-3'>";
+                     echo "<h3>" . $row['title'] . "</h3>";
+                     echo "<p>" . $row['content'] . "</p>";
+                     echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>".$row['userName']."</a></small>";
+                     echo "<small>Posted on: " . (isset($row['created_at']) ? date('F j, Y', strtotime($row['created_at'])) : date('F j, Y')) . "</small>";
+                     echo "<small>Posted at: <span id='post-time'>" . date('h:i A', time()) . "</span></small>";
+                     echo "</div>";
+                     // echo "</div>";
                 }
             } else {
                 echo "No posts found";
             }
 
             ?>
-        </div>
+        </div> 
 
 
         <div class="section mt-5">
@@ -115,15 +124,19 @@ include '../dbconnection.php';
             <p>Looking for collaborators on your next big project? Connect with other innovators who share your vision.
             </p>
             <?php
-            $sql = "SELECT * FROM posts WHERE category='SkillsandQualifications' ORDER BY created_at DESC;";
+            $sql = "SELECT * FROM posts WHERE category='SkillsandQualifications'";
             $result = mysqli_query($connection, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
+                    // echo "<div class='post'>";
+                    echo "<div class='card bg-dark text-white border-1 border-white p-3'>";
                     echo "<h3>" . $row['title'] . "</h3>";
                     echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
+                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>".$row['userName']."</a></small>";
+                    echo "<small>Posted on: " . (isset($row['created_at']) ? date('F j, Y', strtotime($row['created_at'])) : date('F j, Y')) . "</small>";
+                    echo "<small>Posted at: <span id='post-time'>" . date('h:i A', time()) . "</span></small>";
                     echo "</div>";
+                    // echo "</div>";
                 }
             } else {
                 echo "No posts found";
@@ -137,37 +150,19 @@ include '../dbconnection.php';
             <p>Looking for collaborators on your next big project? Connect with other innovators who share your vision.
             </p>
             <?php
-            $sql = "SELECT * FROM posts WHERE category='PersonalBranding' ORDER BY created_at DESC;";
+            $sql = "SELECT * FROM posts WHERE category='PersonalBranding'";
             $result = mysqli_query($connection, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
+                    // echo "<div class='post'>";
+                    echo "<div class='card bg-dark text-white border-3 border-white p-3'>";
                     echo "<h3>" . $row['title'] . "</h3>";
                     echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
+                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>".$row['userName']."</a></small>";
+                    echo "<small>Posted on: " . (isset($row['created_at']) ? date('F j, Y', strtotime($row['created_at'])) : date('F j, Y')) . "</small>";
+                    echo "<small>Posted at: <span id='post-time'>" . date('h:i A', time()) . "</span></small>";
                     echo "</div>";
-                }
-            } else {
-                echo "No posts found";
-            }
-
-            ?>
-        </div>
-
-        <div class="section mt-5">
-            <h2>Insights and Tips</h2>
-            <p>Looking for collaborators on your next big project? Connect with other innovators who share your vision.
-            </p>
-            <?php
-            $sql = "SELECT * FROM posts WHERE category='InsightsandTips' ORDER BY created_at DESC;";
-            $result = mysqli_query($connection, $sql);
-            if ($result && mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='post'>";
-                    echo "<h3>" . $row['title'] . "</h3>";
-                    echo "<p>" . $row['content'] . "</p>";
-                    echo "<small>Posted by: " . $row['username'] . "</small>";
-                    echo "</div>";
+                    // echo "</div>";
                 }
             } else {
                 echo "No posts found";
