@@ -31,7 +31,6 @@ include '../dbconnection.php';
 
     <div class="container">
         <?php
-        // echo $pid;
         $status = isset($_GET['projectdeletestatus']) ? htmlspecialchars($_GET['projectdeletestatus']) : "";
         if ($status == "success") {
             echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
