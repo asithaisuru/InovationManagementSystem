@@ -86,7 +86,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
+                        <a class="nav-link me-2 mt-3" href="../Forum/submit-form.php">
                             <i class="fab fa-forumbee fa-lg" style="color: #ffffff;"></i>
                         </a>
                     </li>
