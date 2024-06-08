@@ -57,10 +57,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <ul class="navbar-nav me-auto">
                     <!-- User Management -->
                     <li class="nav-item">
-                        <a class="nav-link" href="./admin-dashboard.php">Home</a>
+                        <a class="nav-link" href="../Admin/admin-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./admin-dashboard.php#footer">About</a>
+                        <a class="nav-link" href="../Admin/admin-dashboard.php#footer">About</a>
                     </li>
                     <?php if ($_SESSION['role'] !== "Moderator"): ?>
                         <div id="user_management">
@@ -70,12 +70,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     Admin Management
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="./user-management.php#add-user">Add User</a></li>
-                                    <li><a class="dropdown-item" href="./user-management.php#remove-user">Remove User</a></li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#add-user">Add User</a></li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#remove-user">Remove User</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="./user-management.php#admin-list">View all users</a></li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all users</a></li>
                                 </ul>
                             </li>
                         </div>
@@ -87,12 +87,27 @@ if ($result && mysqli_num_rows($result) > 0) {
                             User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="user-password-reset.php"> Reset Password</a></li>
+                            <li><a class="dropdown-item" href="../Admin/user-password-reset.php"> Reset Password</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./viewAllUser.php">View All Users</a></li>
+                            <li><a class="dropdown-item" href="../Admin/viewAllUser.php">View All Users</a></li>
+                        </ul>
+                    </li>
+                    <!-- project management -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Project Management
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <!-- <li><a class="dropdown-item" href="#"> Change Project detalis</a></li> -->
+                            <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
+                            <!-- <li>
+                                <hr class="dropdown-divider">
+                            </li> -->
+                            <li><a class="dropdown-item" href="../Admin/view-all-projects.php">View All Projects</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -105,9 +120,9 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
+                            <li><a class="dropdown-item" href="../Admin/profile.php">Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="./resetpassword.php">Reset Password</a></li>
+                            <li><a class="dropdown-item" href="../Admin/resetpassword.php">Reset Password</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

@@ -4,6 +4,10 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Innovator') {
+        if ($role == 'Admin') {
+            echo "<script>window.location.href='../error.php?msj=Access Denied';</script>";
+            exit();
+        }
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }

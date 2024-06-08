@@ -3,10 +3,6 @@ session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator') {
-        echo "<script>window.location.href='../../../index.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
@@ -60,7 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="bg-dark text-white">
-    <?php include './innovator-nav.php'; ?>
+    <?php
+    if ($role == 'Innovator')
+        include './innovator-nav.php';
+    elseif ($role == 'Admin')
+        include '../Admin/admin-nav.php';
+    ?>
     <div class="container">
         <?php
         $status = isset($_GET['projectupdatestatus']) ? htmlspecialchars($_GET['projectupdatestatus']) : "";
@@ -85,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <h1 class="text-center">Project Details</h1>
         <div class="row mt-4">
-            <?php if ($createdBy == $username): ?>
+            <?php if ($createdBy == $username || $role=="Admin"): ?>
                 <div class="col-lg-3 mb-3">
                     <div class="card border-white border-3 bg-dark text-white">
                         <div class="card-body text-center">
@@ -178,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             <?php endif; ?>
-            <div class="<?php echo ($createdBy == $username) ? 'col-lg-9' : 'col-lg-12'; ?>">
+            <div class="<?php echo ($createdBy == $username || $role=="Admin") ? 'col-lg-9' : 'col-lg-12'; ?>">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <?php
@@ -189,13 +190,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $Query = "SELECT fname, lname FROM users WHERE userName = '" . $row['userName'] . "'";
                         $Result = mysqli_query($connection, $Query);
                         $Row = mysqli_fetch_assoc($Result);
-                        echo '<h4 class="mt-1">' . htmlspecialchars($row['userName']) . ' - ' . $Row['fname'] . ' ' . $Row['lname'] . '</h4>';
+                        echo '<h4 class="mt-1"> <a href="./view-profile.php?userName='.$row['userName'].'">' . htmlspecialchars($row['userName']) . '</a> - ' . $Row['fname'] . ' ' . $Row['lname'] . '</h4>';
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary"><strong>Project Name</strong></h5>';
                         echo '<h2 class="mt-1">' . htmlspecialchars($row['pname']) . '</h2>';
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary mt-3"><strong>Project Description</strong></h5>';
-                        if ($createdBy == $username) {
+                        if ($createdBy == $username || $role=="Admin") {
                             echo '<p class="">' . htmlspecialchars($row['pdis']) . '</p>';
                         } else {
                             echo '<p class="text-danger">You are not allowed to view the project description</p>';
@@ -208,9 +209,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $result = mysqli_query($connection, $query);
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
-                                if ($createdBy == $username) {                                    
+                                if ($createdBy == $username || $role=="Admin") {
                                     if ($row['status'] != "Completed")
-                                    echo '<form method="POST" action="project-details.php">';
+                                        echo '<form method="POST" action="project-details.php">';
                                     echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
                                     echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
                                     echo '<div class="form-floating mb-3 mt-3">';

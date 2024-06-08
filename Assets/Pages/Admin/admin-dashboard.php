@@ -43,8 +43,19 @@ include '../dbconnection.php';
             document.getElementById('clock').textContent = timeString;
         }
 
+        function updateDate() {
+            var now = new Date();
+            var day = now.getDate().toString().padStart(2, '0');
+            var month = (now.getMonth() + 1).toString().padStart(2, '0');
+            var year = now.getFullYear().toString();
+            var dateString = day + '-' + month + '-' + year;
+            document.getElementById('date').textContent = dateString;
+        }
+
         setInterval(updateClock, 1000);
+        setInterval(updateDate, 1000);
         updateClock(); // Initial call to set the time immediately
+        updateDate(); // Initial call to set the date immediately
     </script>
 
     <?php if ($_SESSION['role'] == "Admin"): ?>
