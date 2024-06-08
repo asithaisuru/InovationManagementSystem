@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
@@ -6,7 +7,7 @@ if (isset($_SESSION['username'])) {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
-} else { //
+} else {
     header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
@@ -18,9 +19,20 @@ $result = mysqli_query($connection, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    $fname = $row['fname'];
-    $lname = $row['lname'];
-    $email = $row['email'];
+    if ($row['role'] == 'Admin' || $row['role'] == 'Moderator') {
+        $msj = "User not found";
+        echo "<script>window.location.href='../error.php?msj=$msj';</script>";
+        exit();
+    } else {
+        $fname = $row['fname'];
+        $lname = $row['lname'];
+        $email = $row['email'];
+    }
+
+} else {
+    $msj = "User not found";
+    echo "<script>window.location.href='../error.php?msj=$msj';</script>";
+    exit();
 }
 
 $query = "SELECT * FROM profilePic WHERE userName = '$viewUserName'";
@@ -29,10 +41,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $viewerprofilePic = "../../img/profilePics/" . $row['image_url'];
     $_SESSION['image_url'] = $row['image_url'];
-    // echo $_SESSION['image_url'];
 } else {
     $viewerprofilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
-
 }
 ?>
 <!DOCTYPE html>
@@ -42,11 +52,39 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMS - View Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        .star-rating .fa-star {
+            cursor: pointer;
+            font-size: 2em;
+            color: #ddd;
+        }
+
+        .star-rating .fa-star.checked {
+            color: #f5c518;
+        }
+    </style>
 </head>
 
 <body class="bg-dark text-white">
     <?php include './innovator-nav.php'; ?>
     <div class="container">
+        <?php
+        $status = isset($_GET['ratingstatus']) ? htmlspecialchars($_GET['ratingstatus']) : "";
+        if ($status == "success") {
+            echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <strong>Success!</strong> Rating Added Successfully.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        } else if ($status == "error") {
+            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <strong>ERROR!!</strong> Failed to Add Rating.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+        ?>
+
         <h2 class="text-center">View Profile</h2>
         <div class="row">
             <div class="col-lg-6">
@@ -95,18 +133,86 @@ if ($result && mysqli_num_rows($result) > 0) {
             <div class="col-lg-12">
                 <div class="card mt-4 border-white border-3 bg-dark text-white">
                     <div class="card-body">
-                        <h2 class="text-center">Projects Contibuted</h2>
+                        <div class="text-center">
+                            <div class="ratings">
+                                <?php
+                                $ratingCount = 0;
+                                $ratingvalueCount = 0;
+                                $maxRating = 5;
+
+                                $query = "SELECT * FROM user_ratings WHERE userName = '$viewUserName'";
+                                $result = mysqli_query($connection, $query);
+                                if ($result && mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $ratingvalueCount += $row['rating'];
+                                        $ratingCount++;
+                                    }
+                                }
+                                if ($ratingCount == 0) {
+                                    $rating = 0;
+                                } else {
+                                    $rating = $ratingvalueCount / $ratingCount;
+                                }
+                                $filledStars = floor($rating);
+                                $halfStar = ($rating - $filledStars) >= 0.5;
+                                $emptyStars = $maxRating - $filledStars - ($halfStar ? 1 : 0);
+                                echo '<h2>Rating<span class="ms-3 h5">' . $rating . '/' . $maxRating . '</span><br></h2>';
+                                // Filled stars
+                                for ($i = 0; $i < $filledStars; $i++) {
+                                    echo '<i class="fas fa-star"></i>';
+                                }
+
+                                // Half star
+                                if ($halfStar) {
+                                    echo '<i class="fas fa-star-half-alt"></i>';
+                                }
+
+                                // Empty stars
+                                for ($i = 0; $i < $emptyStars; $i++) {
+                                    echo '<i class="far fa-star"></i>';
+                                }
+                                echo '<p>(' . $ratingCount . ')</p>';
+                                ?>
+                            </div>
+                        </div>
+                        <?php if ($viewUserName != $username): ?>
+                            <h2 class="mt-3">Rate User</h2>
+                            <form action="submit-rating.php" method="POST">
+                                <div class="star-rating">
+                                    <i class="fa fa-star" data-index="0"></i>
+                                    <i class="fa fa-star" data-index="1"></i>
+                                    <i class="fa fa-star" data-index="2"></i>
+                                    <i class="fa fa-star" data-index="3"></i>
+                                    <i class="fa fa-star" data-index="4"></i>
+                                </div>
+                                <input type="hidden" name="rating" id="rating-value" value="0">
+                                <input type="hidden" name="viewUserName" value="<?php echo $viewUserName; ?>">
+
+                                <div class="form-floating mb-3 mt-3">
+                                    <textarea class="form-control" id="review" placeholder="Enter Review" name="review"
+                                        required></textarea>
+                                    <label for="review" class="text-dark">Comment</label>
+                                    <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mt-4 border-white border-3 bg-dark text-white">
+                    <div class="card-body">
+                        <h2 class="text-center">Projects Contributed</h2>
                         <div class="mt-3">
                             <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                                 <thead>
                                     <tr>
                                         <th class="bg-secondary">Project ID</th>
                                         <th class="bg-secondary">Project Name</th>
-                                        <!-- <th class="bg-secondary">Project Description</th> -->
                                         <th class="bg-secondary">Project Category</th>
-                                        <!-- <th class="bg-secondary">End Date</th> -->
                                         <th class="bg-secondary">Project Status</th>
-                                        <!-- <th class="bg-secondary">View Project</th> -->
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -119,25 +225,18 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                                             $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
                                             $result1 = mysqli_query($connection, $sql);
-                                            // var_dump($result1);
                                             if (mysqli_num_rows($result1) > 0) {
-                                                // echo mysqli_num_rows($result1);
                                                 while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                    // var_dump($row1);
                                                     echo "<td>" . $row1['pname'] . "</td>";
                                                     echo "<td>" . $row1['pcategory'] . "</td>";
-                                                    // echo "<td>" . $row1['edate'] . "</td>";
                                                     if ($row1['status'] == 'Completed')
-                                                        echo "<td class = 'text-center bg-success'>" . $row1['status'] . "</td>";
+                                                        echo "<td class='text-center bg-success'>" . $row1['status'] . "</td>";
                                                     else if ($row1['status'] == 'In Progress')
-                                                        echo "<td class = 'text-center bg-warning text-white'>" . $row1['status'] . "</td>";
+                                                        echo "<td class='text-center bg-warning text-white'>" . $row1['status'] . "</td>";
                                                     else
-                                                        echo "<td class = 'text-center bg-warning text-dark'></td>";
+                                                        echo "<td class='text-center bg-warning text-dark'></td>";
                                                 }
                                             }
-                                            // echo "<td>" . $row['pdis'] . "</td>";
-                                    
-                                            // echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=" . $row['pid'] . "'>View</a></td>";
                                             echo "</tr>";
                                         }
                                     } else {
@@ -152,6 +251,52 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
         </div>
     </div>
+    <div id="footer">
+        <?php include '../footer.php' ?>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var ratedIndex = -1;
+
+            $('.fa-star').on('click', function () {
+                ratedIndex = parseInt($(this).data('index'));
+                $('#rating-value').val(ratedIndex + 1);
+                updateStars();
+            });
+
+            $('.fa-star').mouseover(function () {
+                resetStars();
+                var currentIndex = parseInt($(this).data('index'));
+                setStars(currentIndex);
+            });
+
+            $('.fa-star').mouseleave(function () {
+                resetStars();
+                if (ratedIndex != -1) {
+                    setStars(ratedIndex);
+                }
+            });
+
+            function setStars(max) {
+                for (var i = 0; i <= max; i++) {
+                    $('.fa-star[data-index="' + i + '"]').addClass('checked');
+                }
+            }
+
+            function resetStars() {
+                $('.fa-star').removeClass('checked');
+            }
+
+            function updateStars() {
+                resetStars();
+                setStars(ratedIndex);
+            }
+        });
+    </script>
+
 </body>
 
 </html>
