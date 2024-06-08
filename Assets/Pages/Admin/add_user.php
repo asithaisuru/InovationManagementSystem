@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // echo "Error: " . $sql . "<br>" . $connection->error;
             // $error = $connection->error;
             $em = "User registration failed.";
-            header("Location: ./user-management.php?adduserstatus=success&msg=$em");
+            header("Location: ./user-management.php?adduserstatus=error&msg=$em");
             // echo '<script> window.location.href = "../error.php?error=' . $error . '#add-user"; </script>';
 
         }
