@@ -110,7 +110,7 @@ include '../dbconnection.php';
                                     echo "<td>" . $row['assignedby'] . "</td>";
                                     echo "<td>" . $row['assignedon'] . "</td>";
                                     echo "<td>" . $row['updatedon'] . "</td>";
-                                    echo "<td><a href='../Innovator/project-details.php?#" . $row['taskID'] . "' class='btn btn-primary'>View</a></td>";
+                                    echo "<td><a href='../Innovator/project-details.php?pid=" . $row['pid'] . "#" . $row['taskID'] . "' class='btn btn-primary'>View</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
