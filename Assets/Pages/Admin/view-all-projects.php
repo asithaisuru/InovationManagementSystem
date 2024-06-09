@@ -34,16 +34,16 @@ if (isset($_SESSION['username'])) {
                     <form method="GET">
                         <div class="mb-3">
                             <div class="row">
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 mb-2">
                                     <select name="filter" id="filter" class="form-select">
                                         <option value="id">Project ID</option>
                                         <option value="name">Project Name</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-9">
+                                <div class="col-lg-9 mb-2">
                                     <input type="text" name="keyword" id="keyword" class="form-control">
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-lg-1 mb-2">
                                     <button type="submit" class="btn btn-primary text-center d-block">Filter</button>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@ if (isset($_SESSION['username'])) {
 
                     </form>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 table-responsive">
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>
                             <tr>

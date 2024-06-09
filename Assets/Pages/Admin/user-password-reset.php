@@ -47,7 +47,7 @@ include '../dbconnection.php';
                 <form action="user-password-reset.php" method="POST">
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Username" name="username"
-                            required>
+                            required value="<?php echo isset($_GET['userName']) ? htmlspecialchars($_GET['userName']) : '' ?>">
                         <label for="username" class="text-dark">Username</label>
                     </div>
                     <div class="form-floating mt-3 mb-3 position-relative">

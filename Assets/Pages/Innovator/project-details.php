@@ -27,7 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $taskID = $_POST['taskID'];
         $assignedTo = $_POST['assignedTo'];
 
-        $updateQuery = "UPDATE tasks SET assignedTo = '$assignedTo', status = 'Assigned' WHERE taskID = '$taskID' AND pid = '$pid'";
+        $time = date('Y-m-d H:i:s');
+
+        $updateQuery = "UPDATE tasks SET assignedTo = '$assignedTo', status = 'Assigned', assignedby = '$username', assignedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
+
         if (!$connection->query($updateQuery)) {
             echo "<script>window.location.href='./project-details.php?projectupdatestatus=error';</script>";
         } else {
@@ -37,7 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = $_POST['status'];
         $taskID = $_POST['taskID'];
 
-        $updateStatusQuery = "UPDATE tasks SET status = '$status' WHERE taskID = '$taskID' AND pid = '$pid'";
+        $time = date('Y-m-d H:i:s');
+        $updateStatusQuery = "UPDATE tasks SET status = '$status', updatedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
         if (!$connection->query($updateStatusQuery)) {
             echo "<script>window.location.href='./project-details.php?taskstatusupdate=error';</script>";
         } else {
@@ -59,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if ($role == 'Innovator')
         include './innovator-nav.php';
-    elseif ($role == 'Admin')
+    elseif ($role == 'Admin' || $role == 'Moderator')
         include '../Admin/admin-nav.php';
     ?>
     <div class="container">
@@ -86,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <h1 class="text-center">Project Details</h1>
         <div class="row mt-4">
-            <?php if ($createdBy == $username || $role=="Admin"): ?>
+            <?php if ($createdBy == $username || $role == "Admin" || $role=="Moderator"): ?>
                 <div class="col-lg-3 mb-3">
                     <div class="card border-white border-3 bg-dark text-white">
                         <div class="card-body text-center">
@@ -179,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             <?php endif; ?>
-            <div class="<?php echo ($createdBy == $username || $role=="Admin") ? 'col-lg-9' : 'col-lg-12'; ?>">
+            <div class="<?php echo ($createdBy == $username || $role == "Admin" || $role == "Moderator") ? 'col-lg-9' : 'col-lg-12'; ?>">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <?php
@@ -190,13 +194,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $Query = "SELECT fname, lname FROM users WHERE userName = '" . $row['userName'] . "'";
                         $Result = mysqli_query($connection, $Query);
                         $Row = mysqli_fetch_assoc($Result);
-                        echo '<h4 class="mt-1"> <a href="./view-profile.php?userName='.$row['userName'].'">' . htmlspecialchars($row['userName']) . '</a> - ' . $Row['fname'] . ' ' . $Row['lname'] . '</h4>';
+                        echo '<h4 class="mt-1"> <a href="./view-profile.php?userName=' . $row['userName'] . '">' . htmlspecialchars($row['userName']) . '</a> - ' . $Row['fname'] . ' ' . $Row['lname'] . '</h4>';
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary"><strong>Project Name</strong></h5>';
                         echo '<h2 class="mt-1">' . htmlspecialchars($row['pname']) . '</h2>';
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary mt-3"><strong>Project Description</strong></h5>';
-                        if ($createdBy == $username || $role=="Admin") {
+                        if ($createdBy == $username) {
                             echo '<p class="">' . htmlspecialchars($row['pdis']) . '</p>';
                         } else {
                             echo '<p class="text-danger">You are not allowed to view the project description</p>';
@@ -209,13 +213,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $result = mysqli_query($connection, $query);
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
-                                if ($createdBy == $username || $role=="Admin") {
-                                    if ($row['status'] != "Completed")
+                                if ($createdBy == $username || $role == "Admin" || $role == "Moderator") {
+                                    if ($row['status'] != "Completed" || $role == "Admin" || $role == "Moderator")
                                         echo '<form method="POST" action="project-details.php">';
-                                    echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
+                                    echo '<span id="' . htmlspecialchars($row['taskID']) . '" class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
                                     echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
                                     echo '<div class="form-floating mb-3 mt-3">';
-                                    echo '<select class="form-select mt-3" required name="assignedTo" id="assignedTo"' . (htmlspecialchars($row['status']) == 'Completed' ? ' disabled' : '') . '>';
+                                    if ($role != "Admin" || $role != "Moderator")
+                                        echo '<select class="form-select mt-3" required name="assignedTo" id="assignedTo"' . (htmlspecialchars($row['status']) == 'Completed' ? ' disabled' : '') . '>';
+                                    else
+                                        echo '<select class="form-select mt-3" required name="assignedTo" id="assignedTo">';
                                     echo '<option value="" selected disabled>-- Select Innovator --</option>';
 
                                     $sql = "SELECT * FROM contributors WHERE pid = '$pid'";
@@ -239,13 +246,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '<p class="small">Status: <span class="text-white ' . getStatusClass($row['status']) . ' p-1 ps-2 pe-2">' . htmlspecialchars($row['status']) . '</span></p>';
                                     echo '</div>';
                                     echo '<div class=col-lg-2>';
-                                    if ($row['status'] != "Completed")
+                                    if ($row['status'] != "Completed" || $role == "Admin" || $role == "Moderator")
                                         echo '<button type="submit" class="btn btn-primary mb-2 ">Update Task</button>';
                                     echo '</div>';
                                     echo '</div>';
                                     echo '</div>';
                                     echo '</form>';
                                     echo '<hr class="border-white border-3 ">';
+                                    if($role=='Admin' || $role == "Moderator"){
+                                        echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
+                                        echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
+                                        echo '<form method="POST" action="project-details.php">';
+                                        echo '<div class="form-floating mb-3 mt-3">';
+                                        echo '<select class="form-select mt-3" required name="status" id="status">';
+                                        echo '<option value="" selected disabled>-- Select status --</option>';
+                                        echo '<option value="Assigned" ' . ($row['status'] == 'Assigned' ? 'selected' : '') . '>Assigned</option>';
+                                        echo '<option value="Pending" ' . ($row['status'] == 'Pending' ? 'selected' : '') . '>Pending</option>';
+                                        echo '<option value="Completed" ' . ($row['status'] == 'Completed' ? 'selected' : '') . '>Completed</option>';
+                                        echo '</select>';
+                                        echo '<input type="hidden" name="taskID" value="' . htmlspecialchars($row['taskID']) . '">';
+                                        echo '<label for="status">Status</label>';
+                                        echo '</div>';
+                                        echo '<button type="submit" class="btn btn-primary">Update Task</button>';
+                                        echo '</form>';
+                                        echo '<hr class="border-white border-3 ">';
+                                    }
                                 } else {
                                     if ($row['assignedTo'] == $username) {
                                         echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';

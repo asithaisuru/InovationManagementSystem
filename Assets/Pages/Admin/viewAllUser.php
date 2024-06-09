@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Admin') {
+    if ($role != 'Admin' && $role != "Moderator") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -71,6 +71,7 @@ if (isset($_SESSION['username'])) {
                                 <th class="bg-secondary">Email</th>
                                 <th class="bg-secondary">Role</th>
                                 <th class="bg-secondary">View</th>
+                                <th class="bg-secondary">Reset Password</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,10 +99,11 @@ if (isset($_SESSION['username'])) {
                                     echo "<td>" . $row['email'] . "</td>";
                                     echo "<td>" . $row['role'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='../Innovator/view-profile.php?userName=". $row['userName'] . "'>View</a></td>";
+                                    echo "<td><a class='btn btn-danger text-center d-block' href='../Admin/user-password-reset.php?userName=". $row['userName'] . "'>Reset Password</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td class='text-center' colspan='5'>No records found</td></tr>";
+                                echo "<tr><td class='text-center' colspan='7'>No records found</td></tr>";
                             }
                             ?>
                         </tbody>

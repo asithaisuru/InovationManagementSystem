@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin") {
+    if ($role != 'Innovator' && $role != "Admin"  && $role != "Moderator") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -31,7 +31,7 @@ include '../dbconnection.php';
     <?php 
     if ($role == 'Innovator') {
         include './innovator-nav.php';
-    } elseif ($role == 'Admin'){
+    } elseif ($role == 'Admin' || $role == "Moderator"){
         include '../Admin/admin-nav.php';
     }
     ?>
@@ -110,7 +110,7 @@ include '../dbconnection.php';
                                     $sql2 = "SELECT role FROM users WHERE userName = '".$row['addedBy']."';";
                                     $result2 = mysqli_query($connection, $sql2);
                                     $row2 = mysqli_fetch_assoc($result2);
-                                    if ($row2['role'] == 'Innovator' || $role == 'Admin') {
+                                    if ($row2['role'] == 'Innovator' || $role == 'Admin' || $role == "Moderator") {
                                         echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
                                     } else {
                                         echo "<td></td>";
