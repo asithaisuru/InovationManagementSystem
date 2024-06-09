@@ -25,10 +25,14 @@ include '../dbconnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
+
+
 </head>
 
 <body class="bg-dark text-white">
     <?php include '../Innovator/innovator-nav.php'; ?>
+
+    <body>
 
     <div class="container">
 
@@ -84,14 +88,42 @@ include '../dbconnection.php';
         }
         ?>
         
-
+        
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </div>
     </div>
+    <div class="position-fixed bottom-0 end-0 m-3">
+    <!-- Back to Top Button -->
+     <button id="backToTopBtn" class="btn btn-success" type="submit">Back to top</button>
+     <!-- Custom JS -->
+    <script>
+        // Show the button when the user scrolls down 20px from the top
+        window.onscroll = function() {
+            scrollFunction();
+        };
 
+        function scrollFunction() {
+            if (document.body.scrollTop > 450 || document.documentElement.scrollTop > 450) {
+                document.getElementById("backToTopBtn").style.display = "block";
+            } else {
+                document.getElementById("backToTopBtn").style.display = "none";
+            }
+        }
 
+        // Smooth scroll to top when the button is clicked
+        document.getElementById('backToTopBtn').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+    </script>
+    
+    </div>
+    
     <div id="footer">
         <?php include '../footer.php' ?>
     </div>
@@ -99,6 +131,4 @@ include '../dbconnection.php';
 
 </body>
 
-
-
-</html
+</html>
