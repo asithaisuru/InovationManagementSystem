@@ -57,8 +57,8 @@ include '../dbconnection.php';
                             <option value="SuccessStories">Success Stories</option>
                             <option value="CollaborationOpportunities">Collaboration Opportunities</option>
                             <option value="InsightsandTips">Insights and Tips</option>
-                            <option value="InsightsandTips">Skills and Qualifications</option>
-                            <option value="InsightsandTips">Personal Branding </option>
+                            <option value="SkillsandQualifications">Skills and Qualifications</option>
+                            <option value="PersonalBranding">Personal Branding </option>
                         </select>
                     </div> <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
