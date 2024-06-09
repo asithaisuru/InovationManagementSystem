@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin") {
+    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -29,7 +29,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $result = mysqli_query($connection, $sql);
     $row = mysqli_fetch_assoc($result);
     $addedByrole = $row['role'];
-    if ($addedByrole == 'Admin' && $role != 'Admin') {
+    if ($addedByrole == 'Admin' || $addedBy == "Moderator" && $role != 'Admin' || $role != "Moderator") {
         echo "<script>window.location.href='./add-contributor.php?removecontributor=error';</script>";
         exit();
     }

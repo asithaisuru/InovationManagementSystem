@@ -103,10 +103,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <!-- <li><a class="dropdown-item" href="#"> Change Project detalis</a></li> -->
-                            <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
-                            <!-- <li>
+                            <li><a class="dropdown-item" href="./view-all-tasks.php">View all tasks</a></li>
+                            <li>
                                 <hr class="dropdown-divider">
-                            </li> -->
+                            </li>
                             <li><a class="dropdown-item" href="../Admin/view-all-projects.php">View All Projects</a></li>
                         </ul>
                     </li>
