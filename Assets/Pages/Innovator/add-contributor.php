@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator') {
+    if ($role != 'Innovator' && $role != "Admin") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -28,12 +28,18 @@ include '../dbconnection.php';
 </head>
 
 <body class="bg-dark text-white">
-    <?php include 'innovator-nav.php'; ?>
+    <?php 
+    if ($role == 'Innovator') {
+        include './innovator-nav.php';
+    } elseif ($role == 'Admin'){
+        include '../Admin/admin-nav.php';
+    }
+    ?>
 
     <div class="container">
 
         <?php
-        $status = isset($_GET['removecontributor']) ? htmlspecialchars($_GET['removecontributor']) : "";        
+        $status = isset($_GET['removecontributor']) ? htmlspecialchars($_GET['removecontributor']) : "";
         if ($status == "success") {
             echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
                 <strong>Success!</strong> Contributor Removed Successfully.
@@ -95,14 +101,21 @@ include '../dbconnection.php';
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['userName'] . "</td>";
-                                    $conUsername = $row['userName'];
                                     // }                            
-                                    $sql1 = "SELECT fname, lname FROM users WHERE userName = '$conUsername';";
+                                    $sql1 = "SELECT fname, lname FROM users WHERE userName = '".$row['userName']."';";
                                     $result1 = mysqli_query($connection, $sql1);
                                     $row1 = mysqli_fetch_assoc($result1);
                                     echo "<td>" . $row1['fname'] . " " . $row1['lname'] . "</td>";
-                                    echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $conUsername . "'>View</a></td>";
-                                    echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $conUsername . "&pid=" . $pid . "'>Remove</a></td>";
+                                    echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $row['userName'] . "'>View</a></td>";
+                                    $sql2 = "SELECT role FROM users WHERE userName = '".$row['addedBy']."';";
+                                    $result2 = mysqli_query($connection, $sql2);
+                                    $row2 = mysqli_fetch_assoc($result2);
+                                    if ($row2['role'] == 'Innovator' || $role == 'Admin') {
+                                        echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
+                                    } else {
+                                        echo "<td></td>";
+                                    }
+                                    // echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -132,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // echo mysqli_num_rows($result) . "<br>";
     // echo "pid : " . $_SESSION['pid'] . "<br>";
     if (mysqli_num_rows($result) > 0) {
-        $sql = "INSERT INTO contributors (pid, userName) VALUES ('$pid', '$cname')";
+        $sql = "INSERT INTO contributors (pid, userName,addedBy) VALUES ('$pid', '$cname','$username')";
         $result = mysqli_query($connection, $sql);
         if ($result) {
             echo "<script>window.location.href='./add-contributor.php?addcontributor=success';</script>";

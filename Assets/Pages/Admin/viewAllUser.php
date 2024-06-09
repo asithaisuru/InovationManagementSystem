@@ -70,6 +70,7 @@ if (isset($_SESSION['username'])) {
                                 <th class="bg-secondary">Last Name</th>
                                 <th class="bg-secondary">Email</th>
                                 <th class="bg-secondary">Role</th>
+                                <th class="bg-secondary">View</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,6 +97,7 @@ if (isset($_SESSION['username'])) {
                                     echo "<td>" . $row['lname'] . "</td>";
                                     echo "<td>" . $row['email'] . "</td>";
                                     echo "<td>" . $row['role'] . "</td>";
+                                    echo "<td><a class='btn btn-primary text-center d-block' href='../Innovator/view-profile.php?userName=". $row['userName'] . "'>View</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
