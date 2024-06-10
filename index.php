@@ -122,75 +122,101 @@ if (!$connection) {
 </html>
 
 <?php
+
 // Include the password.php file
 include './Assets/Pages/password.php';
 
-// Get the username and password from the form submission
-$username = isset($_POST['username']) ? $_POST['username'] : "";
-$password = isset($_POST['password']) ? $_POST['password'] : "";
+class User
+{
+    private $username;
+    private $password;
+    private $role;
 
-// Check if the username and password are not empty
-if (!empty($username) && !empty($password)) {
-    // Prepare and execute a query to retrieve the password and role for the given username
-    $query = "SELECT pass,role FROM users WHERE userName = ?";
-    $statement = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($statement, "s", $username);
-    mysqli_stmt_execute($statement);
-    $result = mysqli_stmt_get_result($statement);
+    function __construct($username, $password)
+    {
+        $this->username = $username;
+        $this->password = $password;
+    }
 
-    // Check if the query was successful and if there is a matching user
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $role = $row['role'];
-        $hash = $row['pass'];
-
-        // Store the username, role, and password in the session
-        $_SESSION['username'] = $username;
-        $_SESSION['role'] = $role;
-        $_SESSION['pass'] = $password;
-
-        // Verify the password
-        if (verifyPassword($password, $hash)) {
-            // Redirect the user based on their role
-            if ($role == 'Innovator') {
-                // Redirect to the Innovator dashboard
-                makeuseractive();
-                echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
-            } else if ($role == 'Supplier') {
-                // Redirect to the Supplier dashboard
-                makeuseractive();
-                echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
-            } else if ($role == "Admin" || $role == "Moderator") {
-                // Redirect to the Admin dashboard
-                makeuseractive();
-                echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
-            }
-        } else {
-            // Display an error message for invalid username or password
-            echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-            alert('Invalid Username or Password');
-            });
-        </script>";
+    function makeuseractive()
+    {
+        require_once './Assets/Pages/dbconnection.php';
+        $username = $_SESSION['username'];
+        $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
+        $result = mysqli_query($connection, $sql);
+        if (!$result) {
+            echo "unable to Active user";
         }
-    } else {
-        // Display an error message for invalid username or password
-        echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-            alert('Invalid Username or Password');
-            });
-        </script>";
+    }
+
+    function getPasswordfromDB($connection)
+    {
+        $username = $this->username;
+        $query = "SELECT pass,role FROM users WHERE userName = ?";
+        $statement = mysqli_prepare($connection, $query);
+        mysqli_stmt_bind_param($statement, "s", $username);
+        mysqli_stmt_execute($statement);
+        $result = mysqli_stmt_get_result($statement);
+
+        return $result;
+    }
+
+    function setSession()
+    {
+        $_SESSION['username'] = $this->username;
+        $_SESSION['role'] = $this->role;
+        $_SESSION['pass'] = $this->password;
+    }
+
+    function verifyPassword($password, $hash)
+    {
+        return password_verify($password, $hash);
+    }
+
+    function redirecttopages()
+    {
+        if ($this->role == 'Innovator') {
+            // Redirect to the Innovator dashboard
+            $this->makeuseractive();
+            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
+        } else if ($this->role == 'Supplier') {
+            // Redirect to the Supplier dashboard
+            $this->makeuseractive();
+            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
+        } else if ($this->role == "Admin" || $this->role == "Moderator") {
+            // Redirect to the Admin dashboard
+            $this->makeuseractive();
+            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
+        }
+
+    }
+
+    function login($connection)
+    {
+        $result = $this->getPasswordfromDB($connection);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $this->role = $row['role'];
+            $hash = $row['pass'];
+            if ($this->verifyPassword($this->password, $hash)) {
+                $this->setSession();
+                $this->redirecttopages();
+            } else {
+                // Display an error message for invalid username or password
+                echo "<script>alert('Invalid Username or Password')</script>;";
+            }
+        }
     }
 }
 
-// Function to make the user active in the database
-function makeuseractive(){
-    require_once './Assets/Pages/dbconnection.php';
-    $username = $_SESSION['username'];
-    $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
-    $result = mysqli_query($connection, $sql);
-    if(!$result){
-        echo "unable to Active user";
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    if (!empty($_POST['username']) && !empty($_POST['password'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $user = new User($username, $password);
+        $user->login($connection);
+    } else {
+        echo "<script>alert('Invalid Username or Password')</script>;";
     }
 }
 ?>
