@@ -92,6 +92,10 @@ include '../dbconnection.php';
                                 <th class="bg-secondary">Contributor name</th>
                                 <th class="bg-secondary">View Profile</th>
                                 <th class="bg-secondary">Remove</th>
+                                <?php if ($role == 'Admin' || $role == "Moderator") {
+                                    echo "<th class='bg-secondary'>Added By</th>";
+                                } ?>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php
@@ -112,8 +116,15 @@ include '../dbconnection.php';
                                     $row2 = mysqli_fetch_assoc($result2);
                                     if ($row2['role'] == 'Innovator' || $role == 'Admin' || $role == "Moderator") {
                                         echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
+                                        if ($role == 'Admin' || $role == "Moderator") {
+                                            if ($row2['role'] == 'Innovator')                                            
+                                           echo "<td><p class='text-center'>".$row['addedBy']."</p></td>";
+                                        if ($row2['role'] == 'Admin' || $row2['role'] == 'Moderator')                                            
+                                           echo "<td><p class='text-center bg-danger'>".$row['addedBy']."</p></td>";
+                                        }
+                                        echo "";
                                     } else {
-                                        echo "<td></td>";
+                                        echo "<td><p class='text-center'>Unable to remove contributor due to<br>added by an admin</p></td>";
                                     }
                                     // echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
                                     echo "</tr>";
@@ -128,6 +139,10 @@ include '../dbconnection.php';
                 </div>
             </div>
         </div>
+    </div>
+
+    <div>
+        <?php include '../footer.php'; ?>
     </div>
 
 </body>
