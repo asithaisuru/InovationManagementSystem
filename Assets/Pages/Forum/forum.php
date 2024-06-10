@@ -25,7 +25,15 @@ include '../dbconnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
-
+    <style>
+    #backToTopBtn {
+        display: none; /* Initially hide the button */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100; /* Ensure the button is above other elements */
+    }
+</style>
 
 </head>
 
@@ -96,7 +104,7 @@ include '../dbconnection.php';
     </div>
     <div class="position-fixed bottom-0 end-0 m-3">
     <!-- Back to Top Button -->
-     <button id="backToTopBtn" class="btn btn-success" type="submit">Back to top</button>
+     <button id="backToTopBtn" class="btn btn-success rounded-circle p-3" type="submit">Top</button>
      <!-- Custom JS -->
     <script>
         // Show the button when the user scrolls down 20px from the top
