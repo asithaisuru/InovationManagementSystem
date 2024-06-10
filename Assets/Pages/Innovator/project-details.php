@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <h1 class="text-center">Project Details</h1>
         <div class="row mt-4">
-            <?php if ($createdBy == $username || $role == "Admin" || $role=="Moderator"): ?>
+            <?php if ($createdBy == $username || $role == "Admin" || $role == "Moderator"): ?>
                 <div class="col-lg-3 mb-3">
                     <div class="card border-white border-3 bg-dark text-white">
                         <div class="card-body text-center">
@@ -183,7 +183,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             <?php endif; ?>
-            <div class="<?php echo ($createdBy == $username || $role == "Admin" || $role == "Moderator") ? 'col-lg-9' : 'col-lg-12'; ?>">
+            <div
+                class="<?php echo ($createdBy == $username || $role == "Admin" || $role == "Moderator") ? 'col-lg-9' : 'col-lg-12'; ?>">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <?php
@@ -253,9 +254,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '</div>';
                                     echo '</form>';
                                     echo '<hr class="border-white border-3 ">';
-                                    if($role=='Admin' || $role == "Moderator"){
-                                        echo '<span class="text-secondary"><small>' . htmlspecialchars($row['taskID']) . '</small> - <span class="text-white">' . htmlspecialchars($row['taskName']) . '</span></span>';
-                                        echo '<p class="">' . htmlspecialchars($row['discription']) . '</p>';
+                                    if ($role == 'Admin' || $role == "Moderator") {
                                         echo '<form method="POST" action="project-details.php">';
                                         echo '<div class="form-floating mb-3 mt-3">';
                                         echo '<select class="form-select mt-3" required name="status" id="status">';
@@ -267,9 +266,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         echo '<input type="hidden" name="taskID" value="' . htmlspecialchars($row['taskID']) . '">';
                                         echo '<label for="status">Status</label>';
                                         echo '</div>';
-                                        echo '<button type="submit" class="btn btn-primary">Update Task</button>';
+                                        echo '<button type="submit" class="btn btn-primary">Update Status</button>';
                                         echo '</form>';
-                                        echo '<hr class="border-white border-3 ">';
+                                        echo '<hr class="border-white border-5 ">';
+                                        echo '<hr class="border-white border-5 ">';
+                                        echo '<hr class="border-white border-5 ">';
                                     }
                                 } else {
                                     if ($row['assignedTo'] == $username) {
