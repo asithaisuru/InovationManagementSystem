@@ -172,112 +172,10 @@
 <?php
 include './dbconnection.php';
 include './password.php';
-
-class Signup
-{
-    private $username;
-    private $firstname;
-    private $lastname;
-    private $email;
-    private $role;
-    private $password;
-    private $repassword;
-
-    function __construct($username, $firstname, $lastname, $email, $role, $password, $repassword)
-    {
-        $this->username = $username;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->email = $email;
-        $this->role = $role;
-        $this->password = $password;
-        $this->repassword = $repassword;
-    }
-
-    function validatepassword()
-    {
-        if ($this->password != $this->repassword) {
-            echo '<script type="text/javascript">
-                    window.onload = function () { alert("Passwords do not match. Please re-enter passwords."); }
-                </script>';
-            exit();
-        }
-    }
-
-    function validateusername()
-    {
-        if (!preg_match("/^[a-zA-Z0-9]*$/", $this->username)) {
-            echo '<script type="text/javascript">
-                    window.onload = function () { alert("Invalid username format. Please enter a valid username."); }
-                </script>';
-            exit();
-        }
-    }
-
-    function filteremail()
-    {
-        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            echo '<script type="text/javascript">
-                    window.onload = function () { alert("Invalid email format. Please enter a valid email address."); }
-                </script>';
-            exit();
-        }
-    }
-
-    function checkemail($connection)
-    {
-        $query = "SELECT * FROM users WHERE email='$this->email'";
-        $result = mysqli_query($connection, $query);
-        if ($result && mysqli_num_rows($result) > 0) {
-            echo '<script type="text/javascript">
-                        window.onload = function () { alert("Email already exists. Try a different email."); }
-                    </script>';
-            exit();
-        }
-    }
-
-    function checkusername($connection)
-    {
-        $query = "SELECT * FROM users WHERE userName='$this->username'";
-        $result = mysqli_query($connection, $query);
-        if (mysqli_num_rows($result) > 0) {
-            echo '<script type="text/javascript">
-                    window.onload = function () { alert("Username already exists. Try a different username."); }
-                </script>';
-            exit();
-        }
-    }
-
-    function insertuserintoDB($connection)
-    {
-        $hashpw = hashPassword($this->password);
-        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$this->username', '$this->firstname', '$this->lastname', '$this->email', '$this->role', '$hashpw')";
-        if ($connection->query($sql) === TRUE) {
-            echo '<script type="text/javascript">            
-                    window.onload = function () { alert("User registered successfully. Please Login. Redirect to login page in 5 seconds..."); };
-                    setTimeout(function() {
-                        window.location.href = "../../index.php";
-                    }, 5000);
-                </script>';
-        } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
-        }
-    }
-
-    function signup($connection)
-    {
-        $this->validateusername();
-        $this->validatepassword();
-        $this->filteremail();
-        $this->checkemail($connection);
-        $this->checkusername($connection);
-        $this->insertuserintoDB($connection);
-    }
-
-}
+require_once './signup-process.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $file = $_FILES["file"];
+    // $file = $_FILES["file"];
     $username = $_POST["username"];
     $firstname = $_POST["fname"];
     $lastname = $_POST["lname"];
@@ -288,6 +186,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $signup = new Signup($username, $firstname, $lastname, $email, $role, $password, $repassword);
     $signup->signup($connection);
+    if ($signup->getSuccessStatusOfUserRegister()){
+        echo '<script>
+            setTimeout(function(){
+                alert("User Register Successfull. Redirecting to index...");
+                window.location.href = "../../index.php";
+            }, 1000);
+        </script>';
+    }else{
+        echo '<script>alert("User Register Failed.");</script>';
+    }
     $connection->close();
 }
 ?>
