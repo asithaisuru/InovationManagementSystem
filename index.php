@@ -1,15 +1,15 @@
 <?php
+// Start the session
 session_start();
+
+// Include the autoloader for Composer packages
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Load the environment variables from the .env file
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// $dbHost = $_ENV['DB_HOST'];
-// $dbUser = $_ENV['DB_USER'];
-// $dbPassword = $_ENV['DB_PASSWORD'];
-// $dbName = $_ENV['DB_NAME'];
-
+// Establish a connection to the database using the environment variables
 $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
@@ -33,8 +33,7 @@ if (!$connection) {
 
 <body class="bg-dark text-white">
     <?php
-    // $password = "12345678";
-    // $hash1 = '$2y$10$RKF5jzLDIgZ6SFUpovJgnuXgp.n3DlPN3JRy1E.4hs.ZhkqS5pwTm';
+    // Display the IMS logo and title
     ?>
     <div class="container mt-5">
         <div class="card p-4 bg-dark border-white border-3">
@@ -85,6 +84,7 @@ if (!$connection) {
                     <div class="col text-center">
                         <p>&copy;
                             <?php
+                            // Display the copyright information
                             $stYear = 2024;
                             $nowyear = date("Y");
                             if ($stYear == $nowyear) {
@@ -122,48 +122,59 @@ if (!$connection) {
 </html>
 
 <?php
+// Include the password.php file
 include './Assets/Pages/password.php';
 
+// Get the username and password from the form submission
 $username = isset($_POST['username']) ? $_POST['username'] : "";
 $password = isset($_POST['password']) ? $_POST['password'] : "";
 
-
+// Check if the username and password are not empty
 if (!empty($username) && !empty($password)) {
+    // Prepare and execute a query to retrieve the password and role for the given username
     $query = "SELECT pass,role FROM users WHERE userName = ?";
     $statement = mysqli_prepare($connection, $query);
     mysqli_stmt_bind_param($statement, "s", $username);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);
 
+    // Check if the query was successful and if there is a matching user
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
         $hash = $row['pass'];
+
+        // Store the username, role, and password in the session
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role;
         $_SESSION['pass'] = $password;
+
+        // Verify the password
         if (verifyPassword($password, $hash)) {
+            // Redirect the user based on their role
             if ($role == 'Innovator') {
-                // header("Location: Assets/Pages/Innovator/innovator-dashboard.php");
+                // Redirect to the Innovator dashboard
                 makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
             } else if ($role == 'Supplier') {
-                // header("Location: Assets/Pages/Supplier/supplier-dashboard.php");
+                // Redirect to the Supplier dashboard
                 makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
             } else if ($role == "Admin" || $role == "Moderator") {
-                // header("Location: Assets/Pages/Admin/admin-dashboard.php");
+                // Redirect to the Admin dashboard
                 makeuseractive();
                 echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
             }
         } else {
+            // Display an error message for invalid username or password
             echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
             alert('Invalid Username or Password');
             });
         </script>";
         }
-    }else{
+    } else {
+        // Display an error message for invalid username or password
         echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
             alert('Invalid Username or Password');
@@ -172,6 +183,7 @@ if (!empty($username) && !empty($password)) {
     }
 }
 
+// Function to make the user active in the database
 function makeuseractive(){
     require_once './Assets/Pages/dbconnection.php';
     $username = $_SESSION['username'];

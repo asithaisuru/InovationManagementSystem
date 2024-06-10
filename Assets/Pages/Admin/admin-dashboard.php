@@ -4,15 +4,14 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Admin' && $role != 'Moderator') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../index.php';</script>"; // Redirect to index.php if the user is not an Admin or Moderator
         exit();
     }
 } else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../index.php';</script>"; // Redirect to index.php if the user is not logged in
     exit();
 }
-include '../dbconnection.php';
+include '../dbconnection.php'; // Include the database connection file
 ?>
 
 <!DOCTYPE html>
@@ -26,13 +25,13 @@ include '../dbconnection.php';
 
 <body class="bg-dark text-white">
 
-    <?php include 'admin-nav.php'; ?>
+    <?php include 'admin-nav.php'; ?> <!-- Include the admin navigation menu -->
 
     <div class="container text-center mb-5">
-        <div class="clock display-1" id="clock"><?php echo date('H:i:s'); ?></div>
-        <div class="date display-6" id="date"><?php echo date('d-m-Y'); ?></div>
+        <div class="clock display-1" id="clock"><?php echo date('H:i:s'); ?></div> <!-- Display the current time -->
+        <div class="date display-6" id="date"><?php echo date('d-m-Y'); ?></div> <!-- Display the current date -->
     </div>
-
+<!-- Date and time update function in the dashboard page -->
     <script>
         function updateClock() {
             var now = new Date();
@@ -73,8 +72,9 @@ include '../dbconnection.php';
 
     <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-4 mb-2">
+            <div class="col-lg-4 mb-2"></div>
                 <div class="card bg-success border-3 border-white text-white text-center">
+                    <div class="card-body"></div>
                     <div class="card-body">
                         <h3 class="card-title ">Total Projects</h3>
                         <h1 class="card-text">

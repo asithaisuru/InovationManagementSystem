@@ -1,31 +1,34 @@
 <?php
+// Check if the user is logged in
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
 } else {
-    // header("Location: ../../../index.php");
+    // If not logged in, redirect to the index page
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
 
+// Load the dotenv library
 require_once __DIR__ . '/../../../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
 
-// Database connection
+// Establish database connection
 $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Retrieve the user's profile picture from the database
 $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $profilePic = "../../img/profilePics/" . $row['image_url'];
 } else {
+    // If no profile picture found, use a default image
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
-
 }
 ?>
 

@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } else {
-    // header("Location: ../../../index.php");
+    // If session username is not set, redirect to index.php
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
@@ -20,8 +20,10 @@ if (isset($_SESSION['username'])) {
 <body class="bg-dark text-white">
     <?php
     if ($_SESSION['role'] == "Admin") {
+        // Include admin navigation if user role is Admin
         include './admin-nav.php';
     } else if ($_SESSION['role'] == "Innovator") {
+        // Include innovator navigation if user role is Innovator
         include '../Innovator/innovator-nav.php';
     }
     ?>
@@ -82,6 +84,7 @@ if (isset($_SESSION['username'])) {
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
         <script>
+            // Toggle password visibility for new password field
             document.getElementById('togglePassword1').addEventListener('click', function () {
                 const passwordField = document.getElementById('newpassword');
                 const toggleIcon = document.getElementById('toggleIcon1');
@@ -94,6 +97,7 @@ if (isset($_SESSION['username'])) {
                 }
             });
 
+            // Toggle password visibility for confirm password field
             document.getElementById('togglePassword2').addEventListener('click', function () {
                 const passwordField = document.getElementById('confirmpassword');
                 const toggleIcon = document.getElementById('toggleIcon2');
@@ -105,6 +109,8 @@ if (isset($_SESSION['username'])) {
                     toggleIcon.classList.add('fa-eye-slash');
                 }
             });
+
+            // Toggle password visibility for old password field
             document.getElementById('togglePassword3').addEventListener('click', function () {
                 const passwordField = document.getElementById('oldpassword');
                 const toggleIcon = document.getElementById('toggleIcon3');
@@ -129,48 +135,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $oldpassword = $_POST['oldpassword'];
     $newpassword = $_POST['newpassword'];
     $confirmpassword = $_POST['confirmpassword'];
-    // echo $oldpassword.'<br>';
-    // echo $newpassword.'<br>';
-    // echo $confirmpassword.'<br>';
 
     if ($newpassword == $confirmpassword) {
-        // echo "password match";
+        // Check if the new password and confirm password match
         $sql = "SELECT * FROM users WHERE userName = '$username'";
         $result = mysqli_query($connection, $sql);
-        // echo mysqli_num_rows($result);
+
         if ($result && mysqli_num_rows($result) > 0) {
             if ($row = mysqli_fetch_assoc($result)) {
                 $hash = $row['pass'];
                 if (verifyPassword($oldpassword, $hash)) {
+                    // Verify old password
                     $hashnewpassword = hashPassword($newpassword);
                     $sql = "UPDATE users SET pass = '$hashnewpassword' WHERE userName = '$username'";
                     $result = mysqli_query($connection, $sql);
-                    // echo $result;
+
                     if ($result) {
+                        // Password reset successful
                         echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
                         <strong>Success!</strong> Password Reset Successful.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     } else {
+                        // Password reset failed
                         echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                         <strong>ERROR!!</strong> Password Reset Failed.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     }
                 } else {
+                    // Old password is incorrect
                     echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> Old Password is Incorrect.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
                 }
             } else {
+                // User not found
                 echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> User not found.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
             }
         } else {
-            // echo 'password do not match';
+            // New password and confirm password do not match
             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
                 <strong>ERROR!!</strong> New Password and Confirm Password do not match.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
