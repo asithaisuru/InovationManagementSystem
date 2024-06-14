@@ -80,6 +80,7 @@ include '../dbconnection.php';
             $category = mysqli_real_escape_string($connection, $_GET['post_category']);
             $sql .= " WHERE category='$category'";
         }
+        $sql .= " ORDER BY date DESC LIMIT 8";
         $result = mysqli_query($connection, $sql);
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
