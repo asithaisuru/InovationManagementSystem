@@ -63,7 +63,7 @@ include '../dbconnection.php';
 
         <div class="card mt-4 border-white border-3 bg-dark text-white">
             <div class="card-body">
-                <h2 class="text-center">Your Projects</h2>
+                <h2 class="text-center">My Projects</h2>
                 <div class="table-responsive-lg mt-4">
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>

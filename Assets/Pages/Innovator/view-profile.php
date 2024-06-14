@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin"  && $role != "Moderator") {
+    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -199,6 +199,50 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
                             </form>
                         <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mt-4 border-white border-3 bg-dark text-white">
+                    <div class="card-body">
+                        <h2 class="text-center">My Projects</h2>
+                        <div class="mt-3">
+                            <table class="table table-bordered table-hover table-dark table-lg bg-dark">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-secondary">Project ID</th>
+                                        <th class="bg-secondary">Project Name</th>
+                                        <th class="bg-secondary">Project Category</th>
+                                        <th class="bg-secondary">Project Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $sql = "SELECT * FROM project WHERE userName = '$viewUserName';";
+                                    $result = mysqli_query($connection, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row['pid'] . "</td>";
+                                            echo "<td>" . $row['pname'] . "</td>";
+                                            echo "<td>" . $row['pcategory'] . "</td>";
+                                            if ($row['status'] == 'Completed')
+                                                echo "<td class='text-center bg-success'>" . $row['status'] . "</td>";
+                                            else if ($row['status'] == 'In Progress')
+                                                echo "<td class='text-center bg-warning text-white'>" . $row['status'] . "</td>";
+                                            else
+                                                echo "<td class='text-center bg-warning text-dark'></td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
