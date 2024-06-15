@@ -1,12 +1,14 @@
 function genarateResponse() {
-  alert(
-    "Please wait while we generate the tasks for you. If you have disabled pop-ups, please enable them for this site."
-  );
   const description = document.getElementById("pdis").value;
   if (description === "") {
     alert("Please enter the project description");
     return;
   }
+  
+  alert(
+    "Please wait while we generate the tasks for you. If you have disabled pop-ups, please enable them for this site."
+  );
+
   fetch("server.php", {
     method: "POST",
     headers: {
