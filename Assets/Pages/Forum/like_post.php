@@ -1,44 +1,37 @@
 <?php
-if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
-    $username = $_SESSION['username'];
-    $role = $_SESSION['role'];
-    if ($role != 'Innovator') {
-        echo "<script>window.location.href='../../../index.php';</script>";
-        exit();
-    }
-} else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
-    exit();
-}
-
-include '../dbconnection.php';
-
-?>
-
-<?php
 session_start();
 include '../dbconnection.php';
 
-if (isset($_POST['post_id']) && isset($_SESSION['username'])) {
-    $post_id = intval($_POST['post_id']);
-    $username = $_SESSION['username'];
+if (isset($_POST['postid']) && isset($_SESSION['username'])) {
+    $postid = mysqli_real_escape_string($connection, $_POST['postid']);
+    $username = mysqli_real_escape_string($connection, $_SESSION['username']);
 
     // Check if the user has already liked the post
-    $check_like = "SELECT * FROM post_likes WHERE post_id = $post_id AND userName = '$username'";
-    $result = mysqli_query($connection, $check_like);
+    $checkLikeQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
+    $checkLikeResult = mysqli_query($connection, $checkLikeQuery);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        echo "You have already liked this post.";
-    } else {
-        // Insert like into the database
-        $insert_like = "INSERT INTO post_likes (post_id, userName) VALUES ($post_id, '$username')";
-        if (mysqli_query($connection, $insert_like)) {
-            echo "Post liked successfully.";
+    if ($checkLikeResult === false) {
+        die('Error in SQL query: ' . mysqli_error($connection));
+    }
+
+    if (mysqli_num_rows($checkLikeResult) == 0) {
+        // If not liked yet, insert the like
+        $likeQuery = "INSERT INTO post_likes (post_id, user_id) VALUES ('$postid', '$username')";
+        if (mysqli_query($connection, $likeQuery)) {
+            echo 'liked';
         } else {
-            echo "Error liking the post.";
+            echo 'Error in insert query: ' . mysqli_error($connection);
+        }
+    } else {
+        // If already liked, remove the like
+        $unlikeQuery = "DELETE FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
+        if (mysqli_query($connection, $unlikeQuery)) {
+            echo 'unliked';
+        } else {
+            echo 'Error in delete query: ' . mysqli_error($connection);
         }
     }
 } else {
-    echo "Invalid request.";
+    echo 'Post ID or username not set';
 }
+?>
