@@ -17,6 +17,12 @@ if (isset($_GET['pid'])) {
 
 include '../dbconnection.php';
 
+function getCurrentTime() {
+    date_default_timezone_set('Asia/Colombo');
+    $current_time = date("Y-m-d H:i:s");
+    return $current_time;
+}
+
 $query = "SELECT * FROM project WHERE pid = '$pid'";
 $result = mysqli_query($connection, $query);
 $row = mysqli_fetch_assoc($result);
@@ -26,11 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['taskID']) && isset($_POST['assignedTo'])) {
         $taskID = $_POST['taskID'];
         $assignedTo = $_POST['assignedTo'];
-
-        $time = date('Y-m-d H:i:s');
-
+        $time = getCurrentTime();
         $updateQuery = "UPDATE tasks SET assignedTo = '$assignedTo', status = 'Assigned', assignedby = '$username', assignedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
-
         if (!$connection->query($updateQuery)) {
             echo "<script>window.location.href='./project-details.php?projectupdatestatus=error';</script>";
         } else {
@@ -39,8 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (isset($_POST['status']) && isset($_POST['taskID'])) {
         $status = $_POST['status'];
         $taskID = $_POST['taskID'];
-
-        $time = date('Y-m-d H:i:s');
+        $time = getCurrentTime();
         $updateStatusQuery = "UPDATE tasks SET status = '$status', updatedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
         if (!$connection->query($updateStatusQuery)) {
             echo "<script>window.location.href='./project-details.php?taskstatusupdate=error';</script>";
@@ -133,7 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         $totalTasks++;
                                     }
                                 }
-
                                 if ($completedTasks == $totalTasks) {
                                     echo '<div class="alert alert-success mt-3" role="alert">
                                         <strong>Project Completed!</strong>
@@ -209,7 +210,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary mt-3"><strong>Project Tasks</strong></h5>';
                         echo '<hr class="border-white border-3 ">';
-
                         $query = "SELECT * FROM tasks WHERE pid = '$pid'";
                         $result = mysqli_query($connection, $query);
                         if ($result && mysqli_num_rows($result) > 0) {
@@ -236,7 +236,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     } else {
                                         echo '<option value="" disabled>No Contributors Found</option>';
                                     }
-
                                     echo '</select>';
                                     echo '<input type="hidden" name="taskID" value="' . htmlspecialchars($row['taskID']) . '">';
                                     echo '<label for="assignedTo">Assign Task To</label>';
@@ -319,6 +318,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <?php include '../footer.php'; ?>
 </body>
-
 </html>
 <?php $connection->close(); ?>
