@@ -230,8 +230,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $result1 = mysqli_query($connection, $sql);
                                     if ($result1 && mysqli_num_rows($result1) > 0) {
                                         while ($row1 = mysqli_fetch_assoc($result1)) {
+                                            $sql1 = "SELECT role FROM users WHERE userName = '" . $row1['userName'] . "'";
+                                            $result2 = mysqli_query($connection, $sql1);
+                                            $row2 = mysqli_fetch_assoc($result2);
                                             $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . '</option>';
+                                            echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . ' - '.$row2["role"].'</option>';
                                         }
                                     } else {
                                         echo '<option value="" disabled>No Contributors Found</option>';
