@@ -24,6 +24,8 @@ include '../dbconnection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <title>Forum</title>
     <style>
     #backToTopBtn {
@@ -106,7 +108,8 @@ include '../dbconnection.php';
                 echo "<div>";
                 echo "<div class='d-flex align-items-center'>";
                 echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                echo "<span class='mr-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
