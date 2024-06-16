@@ -19,7 +19,6 @@ if (isset($_POST['postid']) && isset($_SESSION['username'])) {
         // If not liked yet, insert the like
         $likeQuery = "INSERT INTO post_likes (post_id, user_id) VALUES ('$postid', '$username')";
         if (mysqli_query($connection, $likeQuery)) {
-            $_SESSION['liked_posts'][] = $postid; // Store the liked post in session
             echo 'liked';
         } else {
             echo 'Error in likeQuery: ' . mysqli_error($connection);
@@ -28,10 +27,6 @@ if (isset($_POST['postid']) && isset($_SESSION['username'])) {
         // If already liked, remove the like
         $unlikeQuery = "DELETE FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
         if (mysqli_query($connection, $unlikeQuery)) {
-            // Remove the post from the liked_posts session variable
-            if (($key = array_search($postid, $_SESSION['liked_posts'])) !== false) {
-                unset($_SESSION['liked_posts'][$key]);
-            }
             echo 'unliked';
         } else {
             echo 'Error in unlikeQuery: ' . mysqli_error($connection);

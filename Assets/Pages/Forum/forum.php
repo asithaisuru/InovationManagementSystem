@@ -76,7 +76,7 @@ include '../dbconnection.php';
         <!-- Display Posts -->
         <?php
         $sql = "SELECT * FROM posts";
-        if(isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
+        if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
             $category = mysqli_real_escape_string($connection, $_GET['post_category']);
             $sql .= " WHERE category='$category'";
         }
@@ -84,6 +84,18 @@ include '../dbconnection.php';
         $result = mysqli_query($connection, $sql);
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
+                // Check if the current user has liked this post
+                $postid = $row['postid'];
+                $likedQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
+                $likedResult = mysqli_query($connection, $likedQuery);
+                $isLiked = (mysqli_num_rows($likedResult) > 0);
+
+                // Get the number of likes for this post
+                $likeCountQuery = "SELECT COUNT(*) AS like_count FROM post_likes WHERE post_id='$postid'";
+                $likeCountResult = mysqli_query($connection, $likeCountQuery);
+                $likeCountRow = mysqli_fetch_assoc($likeCountResult);
+                $likeCount = $likeCountRow['like_count'];
+
                 echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
                 echo "<h3>" . $row['title'] . "</h3>";
                 echo "<p>" . $row['content'] . "</p>";
@@ -91,8 +103,12 @@ include '../dbconnection.php';
                 echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
                 echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
                 echo "<small>Category: " . $row['category'] . "</small>";
-                $isLiked = false; // Initialize the variable
-                echo "<button class='btn btn-sm mt-2 " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                echo "<div>";
+                echo "<div class='d-flex align-items-center'>";
+                echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                echo "<span class='mr-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "</div>";
+                echo "</div>";
                 echo "</div>";
             }
         } else {
@@ -154,10 +170,12 @@ include '../dbconnection.php';
                                 btn.classList.remove('btn-primary');
                                 btn.classList.add('btn-success');
                                 btn.textContent = 'Liked';
+                                updateLikeCount(postid, 1);
                             } else if (data === 'unliked') {
                                 btn.classList.remove('btn-success');
                                 btn.classList.add('btn-primary');
                                 btn.textContent = 'Like';
+                                updateLikeCount(postid, -1);
                             } else if (data === 'already liked') {
                                 alert('You already liked this post.');
                             } else {
@@ -184,6 +202,16 @@ include '../dbconnection.php';
                     const likedPosts = Array.from(document.querySelectorAll('.like-btn.btn-success')).map(button => button.getAttribute('data-post-id'));
                     localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
                 });
+
+                // Function to update the like count in real-time
+                function updateLikeCount(postid, count) {
+                    const likeCountElement = document.querySelector(`.like-count[data-post-id="${postid}"]`);
+                    if (likeCountElement) {
+                        const currentCount = parseInt(likeCountElement.textContent);
+                        const newCount = currentCount + count;
+                        likeCountElement.textContent = newCount;
+                    }
+                }
             });
         
     </script>
