@@ -134,38 +134,57 @@ include '../dbconnection.php';
             //-------------------------------------------------
 
             document.addEventListener('DOMContentLoaded', function() {
-    const likeButtons = document.querySelectorAll('.like-btn');
+                const likeButtons = document.querySelectorAll('.like-btn');
 
-    likeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const postid = this.getAttribute('data-post-id');
-            const btn = this;
+                likeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const postid = this.getAttribute('data-post-id');
+                        const btn = this;
 
-            fetch('like_post.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'postid=' + postid
-            })
-            .then(response => response.text())
-            .then(data => {
-                if (data.trim() === 'liked') {
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-success');
-                    btn.textContent = 'Liked';
-                } else if (data.trim() === 'unliked') {
-                    btn.classList.remove('btn-success');
-                    btn.classList.add('btn-primary');
-                    btn.textContent = 'Like';
-                } else {
-                    alert(data); // Display the error message from PHP
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    });
-});
+                        fetch('like_post.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'postid=' + postid
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            if (data === 'liked') {
+                                btn.classList.remove('btn-primary');
+                                btn.classList.add('btn-success');
+                                btn.textContent = 'Liked';
+                            } else if (data === 'unliked') {
+                                btn.classList.remove('btn-success');
+                                btn.classList.add('btn-primary');
+                                btn.textContent = 'Like';
+                            } else if (data === 'already liked') {
+                                alert('You already liked this post.');
+                            } else {
+                                alert('An error occurred.');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });
+                });
+
+                // Check if the current user has liked the post and set the button state accordingly
+                const likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || [];
+                likedPosts.forEach(postid => {
+                    const button = document.querySelector(`.like-btn[data-post-id="${postid}"]`);
+                    if (button) {
+                        button.classList.remove('btn-primary');
+                        button.classList.add('btn-success');
+                        button.textContent = 'Liked';
+                    }
+                });
+
+                // Save the liked post ids to local storage after the page refreshes
+                window.addEventListener('beforeunload', function() {
+                    const likedPosts = Array.from(document.querySelectorAll('.like-btn.btn-success')).map(button => button.getAttribute('data-post-id'));
+                    localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+                });
+            });
 
         
     </script>

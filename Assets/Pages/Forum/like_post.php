@@ -10,28 +10,34 @@ if (isset($_POST['postid']) && isset($_SESSION['username'])) {
     $checkLikeQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
     $checkLikeResult = mysqli_query($connection, $checkLikeQuery);
 
-    if ($checkLikeResult === false) {
-        die('Error in SQL query: ' . mysqli_error($connection));
+    if (!$checkLikeResult) {
+        echo 'Error in checkLikeQuery: ' . mysqli_error($connection);
+        exit();
     }
 
     if (mysqli_num_rows($checkLikeResult) == 0) {
         // If not liked yet, insert the like
         $likeQuery = "INSERT INTO post_likes (post_id, user_id) VALUES ('$postid', '$username')";
         if (mysqli_query($connection, $likeQuery)) {
+            $_SESSION['liked_posts'][] = $postid; // Store the liked post in session
             echo 'liked';
         } else {
-            echo 'Error in insert query: ' . mysqli_error($connection);
+            echo 'Error in likeQuery: ' . mysqli_error($connection);
         }
     } else {
         // If already liked, remove the like
         $unlikeQuery = "DELETE FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
         if (mysqli_query($connection, $unlikeQuery)) {
+            // Remove the post from the liked_posts session variable
+            if (($key = array_search($postid, $_SESSION['liked_posts'])) !== false) {
+                unset($_SESSION['liked_posts'][$key]);
+            }
             echo 'unliked';
         } else {
-            echo 'Error in delete query: ' . mysqli_error($connection);
+            echo 'Error in unlikeQuery: ' . mysqli_error($connection);
         }
     }
 } else {
-    echo 'Post ID or username not set';
+    echo 'An error occurred.';
 }
 ?>
