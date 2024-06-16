@@ -91,6 +91,8 @@ include '../dbconnection.php';
                 echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
                 echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
                 echo "<small>Category: " . $row['category'] . "</small>";
+                $isLiked = false; // Initialize the variable
+                echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
                 echo "</div>";
             }
         } else {
@@ -129,8 +131,45 @@ include '../dbconnection.php';
                 behavior: 'smooth'
             });
         });
+            //-------------------------------------------------
+
+            document.addEventListener('DOMContentLoaded', function() {
+    const likeButtons = document.querySelectorAll('.like-btn');
+
+    likeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const postid = this.getAttribute('data-post-id');
+            const btn = this;
+
+            fetch('like_post.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'postid=' + postid
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.trim() === 'liked') {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-success');
+                    btn.textContent = 'Liked';
+                } else if (data.trim() === 'unliked') {
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-primary');
+                    btn.textContent = 'Like';
+                } else {
+                    alert(data); // Display the error message from PHP
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+
         
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     
     </div>
     
