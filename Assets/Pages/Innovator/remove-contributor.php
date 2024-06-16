@@ -29,12 +29,11 @@ if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $addedByrole = $row['role'];
     // echo $addedByrole;
+    // echo $role;
     // exit();
-    if ($addedByrole == 'Admin' || $addedBy == "Moderator") {
-        if ($role != 'Admin' || $role != "Moderator") {
-            echo "<script>window.location.href='./add-contributor.php?removecontributor=error1';</script>";
-            exit();
-        }
+    if (($addedByrole == 'Admin' || $addedByrole == "Moderator") && ($role != 'Admin' && $role != "Moderator")) {
+        echo "<script>window.location.href='./add-contributor.php?removecontributor=error';</script>";
+        exit();
     } else {
         $sql = "DELETE FROM contributors WHERE pid = ? AND userName = ?"; // Modified column name to 'username'
         $stmt = $connection->prepare($sql);
