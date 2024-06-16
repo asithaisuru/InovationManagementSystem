@@ -92,7 +92,7 @@ include '../dbconnection.php';
                 echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
                 echo "<small>Category: " . $row['category'] . "</small>";
                 $isLiked = false; // Initialize the variable
-                echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                echo "<button class='btn btn-sm mt-2 " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
                 echo "</div>";
             }
         } else {
