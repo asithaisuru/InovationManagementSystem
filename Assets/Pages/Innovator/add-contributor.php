@@ -90,6 +90,7 @@ include '../dbconnection.php';
 
                                 <th class="bg-secondary">Contributor Username</th>
                                 <th class="bg-secondary">Contributor name</th>
+                                <th class="bg-secondary">Role</th>
                                 <th class="bg-secondary">View Profile</th>
                                 <th class="bg-secondary">Remove</th>
                                 <?php if ($role == 'Admin' || $role == "Moderator") {
@@ -106,10 +107,11 @@ include '../dbconnection.php';
                                     echo "<tr>";
                                     echo "<td>" . $row['userName'] . "</td>";
                                     // }                            
-                                    $sql1 = "SELECT fname, lname FROM users WHERE userName = '".$row['userName']."';";
+                                    $sql1 = "SELECT fname, lname, role FROM users WHERE userName = '".$row['userName']."';";
                                     $result1 = mysqli_query($connection, $sql1);
                                     $row1 = mysqli_fetch_assoc($result1);
                                     echo "<td>" . $row1['fname'] . " " . $row1['lname'] . "</td>";
+                                    echo "<td>" . $row1['role'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $row['userName'] . "'>View</a></td>";
                                     $sql2 = "SELECT role FROM users WHERE userName = '".$row['addedBy']."';";
                                     $result2 = mysqli_query($connection, $sql2);
