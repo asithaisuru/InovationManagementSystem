@@ -73,12 +73,29 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     Admin Management
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#add-user">Add User</a></li>
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#remove-user">Remove User</a></li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#add-user">Add User</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#remove-user">Remove
+                                            User</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all users</a></li>
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all
+                                            users</a></li>
+                                </ul>
+                            </li>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['role'] == "Moderator"): ?>
+                        <div id="user_management">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Management
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all
+                                            Admin users</a></li>
                                 </ul>
                             </li>
                         </div>
@@ -90,7 +107,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             User Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Admin/user-password-reset.php"> Reset Password</a></li>
+                            <li><a class="dropdown-item" href="../Admin/user-password-reset.php"> Reset Password</a>
+                            </li>
                             <!-- <li><a class="dropdown-item" href="#">Remove User</a></li> -->
                             <li>
                                 <hr class="dropdown-divider">
@@ -110,7 +128,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../Admin/view-all-projects.php">View All Projects</a></li>
+                            <li><a class="dropdown-item" href="../Admin/view-all-projects.php">View All Projects</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
