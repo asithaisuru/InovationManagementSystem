@@ -4,7 +4,7 @@ function genarateResponse() {
     alert("Please enter the project description");
     return;
   }
-  
+
   alert(
     "Please wait while we generate the tasks for you. If you have disabled pop-ups, please enable them for this site."
   );
@@ -27,17 +27,24 @@ function genarateResponse() {
         "</head>" +
         "<body class='bg-dark text-white'>" +
         "<div class='container'>" +
-        "<h1 class='text-center mb-5 mt-5'>AI Generated Tasks</h1>" +
-        "<pre>" +
+        "<div class='mt-2 p-3 bg-primary text-white rounded'>" +
+        "<img class='card-img-top mx-auto d-block' src='../../img/LogoWhite.png' alt='Logo' style='width:150px;height:150px;'>" +
+        '<div class="my-3">' +
+        '<h1 class="text-center">Innovation Management System</h1>' +
+        '<p class="text-center display-6"><small>Step into the new world</small></p>' +
+        "</div>" +
+        "</div>" +
+        "<h1 class='text-center mb-4 mt-5'>AI Generated Tasks</h1>" +
+        "<div>" +
         data.tasks +
-        "</pre>" +
+        "</div>" +
         "</div>" +
         "</body>";
 
       const responseWindow = window.open(
         "",
         "_blank",
-        `width=${window.innerWidth},height=400`
+        `width=${window.innerWidth}`
       );
       responseWindow.document.write(content);
     })

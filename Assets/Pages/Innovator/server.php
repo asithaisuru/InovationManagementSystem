@@ -5,8 +5,12 @@ require_once('../../../vendor/autoload.php');
 
 use GeminiAPI\Client;
 use GeminiAPI\Resources\Parts\TextPart;
+use Dotenv\Dotenv;
 
-$apiKey = 'AIzaSyC3Dv4RhLrw9JZKpRZtQRIb71jLZyuDy34';
+// Load the environment variables from the .env file
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+$apiKey = $_ENV['API_KEY'];
 
 // Project description sent from the client-side
 $data = json_decode(file_get_contents('php://input'), true);
@@ -20,7 +24,7 @@ if (empty($data['description'])) {
 $client = new Client($apiKey);
 
 // Craft the prompt for Gemini (replace or adjust as needed)
-$prompt = "Given a project description of: " . $data['description'] . ", Break this in to manageble tasks and give me only the task and a small description of the task.";
+$prompt = "Given a project description of: " . $data['description'] . ", Break this into manageable tasks for a person. give me only the task and a brief description paragraph of the task. SEND THE DATA AS IN A DIV TAG. TOPICS IN A H3 TAG AND DISCRIPTION IN A P TAG.";
 
 // Send the prompt to Gemini and get the response
 $response = $client->geminiPro()->generateContent(
