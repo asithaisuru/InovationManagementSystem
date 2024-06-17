@@ -11,6 +11,7 @@ if (isset($_SESSION['username'])) {
 include '../dbconnection.php';
 // Insert user skills into database
 $sql = "INSERT INTO user_skills (userName,skill) VALUES ('$username','$skill')";
+//showing response messages
 if ($connection->query($sql) === TRUE) {
     $em = "Skill update successfully.";
     header("Location: ./user-management.php?skillsupdatestatus=success&msg=$em");
