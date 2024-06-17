@@ -29,7 +29,7 @@ if (isset($_SESSION['username'])) {
             <div class="card-body">
                 <h1 class="text-center">View All Users</h1>
                 <div class="row mb-3">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <form method="GET" action="">
                                 <label for="role" class="text-white">Filter by Role:</label>
@@ -40,13 +40,19 @@ if (isset($_SESSION['username'])) {
                                 </select>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="UserName" class="text-white">Filter by Username:</label>
+                            <input type="text" name="UserName" id="UserName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="name" class="text-white">Filter by Name:</label>
                             <input type="text" name="name" id="name" class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="email" class="text-white">Filter by email:</label>
                             <input type="text" name="email" id="email" class="form-control">
@@ -84,6 +90,10 @@ if (isset($_SESSION['username'])) {
                             if (isset($_GET['email']) && !empty($_GET['email'])) {
                                 $email = $_GET['email'];
                                 $sql .= " AND (email LIKE '%$email%')";
+                            }
+                            if (isset($_GET['UserName']) && !empty($_GET['UserName'])) {
+                                $UserName = $_GET['UserName'];
+                                $sql .= " AND (userName LIKE '%$UserName%')";
                             }
                             if (isset($_GET['name']) && !empty($_GET['name'])) {
                                 $name = $_GET['name'];
