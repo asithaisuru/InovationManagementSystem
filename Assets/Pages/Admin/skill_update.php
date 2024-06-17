@@ -13,10 +13,10 @@ include '../dbconnection.php';
 $sql = "INSERT INTO user_skills (userName,skill) VALUES ('$username','$skill')";
 if ($connection->query($sql) === TRUE) {
     $em = "Skill update successfully.";
-    header("Location: ./user-management.php?skillupdatestatus=success&msg=$em");
+    header("Location: ./user-management.php?skillsupdatestatus=success&msg=$em");
 } else {
     $em = "Skill update failed.";
-    header("Location: ./user-management.php?skillupdatestatus=error&msg=$em");
+    header("Location: ./user-management.php?skillsupdatestatus=error&msg=$em");
 }
 {
 
