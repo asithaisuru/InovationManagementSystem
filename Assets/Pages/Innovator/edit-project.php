@@ -1,13 +1,17 @@
-<?php session_start();
-if (isset($_SESSION['username'])) {
+<?php
+session_start();
+if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Innovator') {
+        if ($role == 'Admin') {
+            echo "<script>window.location.href='../error.php?msj=Access Denied';</script>";
+            exit();
+        }
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
-} else { //
-    header("Location: ../../../index.php");
+} else {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
@@ -43,7 +47,6 @@ include '../dbconnection.php'; ?>
         <h2 class="text-center">Edit Project</h2>
 
         <?php
-        // echo $pid;
         $status = isset($_GET['projectupdatestatus']) ? htmlspecialchars($_GET['projectupdatestatus']) : "";
         $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
         if ($status == "success") {
@@ -58,7 +61,6 @@ include '../dbconnection.php'; ?>
             </div>';
         }
         ?>
-
         <div class="card bg-dark border-3 border-white mt-4">
             <div class="card-body">
                 <form action="edit-project.php" method="post" id="getProject">
@@ -73,31 +75,19 @@ include '../dbconnection.php'; ?>
                                     echo "<option value=" . $row['pid'] . ">" . $row['pid'] . " - " . $row['pname'] . "</option>";
                                     if ($row['pid'] == $pidfrompdetails) {
                                         echo '<script>
-                                            document.getElementById("pid").value = '.$pidfrompdetails.';
+                                            document.getElementById("pid").value = ' . $pidfrompdetails . ';
                                             document.getElementById("getProject").submit();
-                                        </script>';                                    
+                                        </script>';
                                     }
                                 }
-                                // $sql = "SELECT * FROM project WHERE createBy='$username'";
-                                // $result = mysqli_query($connection, $sql);
-                                // echo "<option disabled></option>";
-                                // if (mysqli_num_rows($result) > 0) {
-                                //     while ($row = mysqli_fetch_assoc($result)) {
-                                //         echo "<option>" . $row['pid'] . " - " . $row['pname'] . "</option>";
-                                //     }
                             } else {
                                 echo "<option disabled>--Projects not found--</option>";
                             }
                             ?>
-                            <!-- <option value="Innovator">Innovator</option>
-                        <option value="Supplier">Supplier</option>
-                        <option value="Lawyer">Lawyer</option>
-                        <option value="Marketing Manager">Marketing Manager</option> -->
                         </select>
                         <label for="pid">Select Project</label>
                     </div>
                     <button type="submit" class="btn btn-success">Get Project</button>
-                    
                 </form>
             </div>
         </div>
@@ -109,12 +99,10 @@ include '../dbconnection.php'; ?>
                             required>
                         <label for="pname" class="text-dark">Project Name</label>
                     </div>
-
                     <div class="form-floating mb-3 mt-3">
                         <textarea class="form-control" id="pdis" name="pdis" rows="10" required></textarea>
                         <label for="pdis" class="text-dark">Project Description</label>
                     </div>
-
                     <div id="task-container" class="border-3 border-white">
                         <div id="taskDiv1" class="form-floating mb-3 mt-3">
                             <input type="text" class="form-control" id="task1" placeholder="Enter Task 1" name="task1"
@@ -130,7 +118,6 @@ include '../dbconnection.php'; ?>
                     <button class="btn btn-primary" onclick="addTask()">Add Task</button>
                     <button class="btn btn-danger" onclick="deleteTask()" id="delete-task" type="button">Delete
                         Task</button>
-
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="projectCategory" id="projectCategory">
                             <option disabled selected></option>
@@ -147,7 +134,6 @@ include '../dbconnection.php'; ?>
                         </select>
                         <label for="projectCategory">Project Category</label>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6 text-center">
                             <div class="form-floating mb-3">
@@ -163,7 +149,6 @@ include '../dbconnection.php'; ?>
                             </div>
                         </div>
                     </div>
-
                     <input type="hidden" name="pid2nd" id="pid2nd" value="">
                     <input type="hidden" name="taskCount" id="taskCount" value="1">
                     <button type="submit" class="btn btn-success mt-3">Update Project</button>
@@ -250,10 +235,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $row = mysqli_fetch_assoc($result);
             echo '<script>document.getElementById("task' . ($i + 1) . '").value = "' . $row['taskName'] . '";</script>';
             echo '<script>document.getElementById("t' . ($i + 1) . 'dis").value = "' . $row['discription'] . '";</script>';
-
-            // echo '<br>';
-            // echo '<script>document.getElementById("task' . $i . '").value = "' . $row['p'.$pid.'task' . $i]['taskName'] . '";</script>';
-            // echo '<script>document.getElementById("t' . $i . 'dis").value = "' . $row['task' . $i . 'dis'] . '";</script>';
         }
 
     } else {
@@ -261,9 +242,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo "<script>window.location.href='./edit-project.php?projectupdatestatus=error&msg=$em';</script>";
     }
 }
-
-
-
-
 include '../footer.php';
 ?>

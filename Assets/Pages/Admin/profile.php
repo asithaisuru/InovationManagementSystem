@@ -131,26 +131,26 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 </div>
                             </fieldset>
                         </form>
-                        <?php if($_SESSION['role'] != "Admin") : ?>
-                        <form action="#" method="POST">
-                            <fieldset>
-                                <legend class="text-white">Skills:</legend>
-                                <div id="selected-skills" class="list-group-item list-group-item-action"></div>
-                                <div class="mb-3">
-                                    <div id="selected-skills" class="mb-3">
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control" id="skill-input" name="skill-input"
-                                                placeholder="Enter Skill">
-                                            <label for="skill-input">Skilled languages</label>
+                        <?php if ($_SESSION['role'] != "Admin"): ?>
+                            <form action="#" method="POST">
+                                <fieldset>
+                                    <legend class="text-white">Skills:</legend>
+                                    <div id="selected-skills" class="list-group-item list-group-item-action"></div>
+                                    <div class="mb-3">
+                                        <div id="selected-skills" class="mb-3">
+                                            <div class="form-floating mb-3 mt-3">
+                                                <input type="text" class="form-control" id="skill-input" name="skill-input"
+                                                    placeholder="Enter Skill">
+                                                <label for="skill-input">Skilled languages</label>
+                                            </div>
+                                            <div id="suggestions" class="list-group mt-1"></div>
                                         </div>
-                                        <div id="suggestions" class="list-group mt-1"></div>
+                                        <div class="mb-3 ms-auto" style="width: 200px;">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
                                     </div>
-                                    <div class="mb-3 ms-auto" style="width: 200px;">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
+                                </fieldset>
+                            </form>
                         <?php endif; ?>
                     </div>
 
@@ -248,18 +248,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>';
     } else {
-        $query = "UPDATE users SET userName = '$newuserName', fname = '$newfname', lname = '$newlname', email = 'new$email' WHERE userName = '$userName'";
+        $query = "UPDATE users SET userName = '$newuserName', fname = '$newfname', lname = '$newlname', email = '$newemail' WHERE userName = '$username'";
         mysqli_query($connection, $query);
         // echo "Query: $query";
         if (mysqli_query($connection, $query)) {
             // echo "connection successful25567";
-            $query1 = "SELECT * FROM user_skills WHERE userName = '$userName';";
+            $query1 = "SELECT * FROM user_skills WHERE userName = '$username';";
             $result = mysqli_query($connection, $query1);
             // echo "Query1: $query1";
             // echo mysqli_num_rows($result);
 
             if ($result && mysqli_num_rows($result) > 0) {
-                $query2 = "DELETE FROM user_skills WHERE userName = '$userName'";
+                $query2 = "DELETE FROM user_skills WHERE userName = '$username'";
                 // echo "Query2: $query2";
                 mysqli_query($connection, $query2);
             } else {
@@ -274,17 +274,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "Error inserting skill: $skill - " . mysqli_error($connection) . "<br>";
                     }
                 }
-                echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-                    <strong>Success!</strong> Profile updated successfully.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>';
+                $ms = "Profile updated successfully.";
+                echo '<script>
+                    window.location.href = "profile.php?status=success&msg=' . $ms . '";
+                </script>';
+                // echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                //     <strong>Success!</strong> Profile updated successfully.
+                //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                // </div>';
             }
         } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($connection);
-            echo '<div class="alert alert-danger mt-2" alert-dismissible fade show mt-2" role="alert">
-                <strong>ERROR!!</strong> ' . $query . '<br>' . mysqli_error($connection) . '
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
+            $ms = "Error updating profile." . mysqli_error($connection);
+            echo '<script>
+                    window.location.href = "profile.php?status=error&msg=' . $ms . '";
+                </script>';
+            // echo "Error: " . $query . "<br>" . mysqli_error($connection);
+            // echo '<div class="alert alert-danger mt-2" alert-dismissible fade show mt-2" role="alert">
+            //     <strong>ERROR!!</strong> ' . $query . '<br>' . mysqli_error($connection) . '
+            //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            //   </div>';
         }
     }
 }
