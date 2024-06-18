@@ -76,7 +76,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                          Product Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Supplier/project-creation.php">Add product</a>
+                            <li><a class="dropdown-item" href="../Supplier/addproduct.php">Add product</a>
                             </li>
                             <li><a class="dropdown-item" href="../Supplier/edit-project.php">Edit productt</a></li>
                             <li>
