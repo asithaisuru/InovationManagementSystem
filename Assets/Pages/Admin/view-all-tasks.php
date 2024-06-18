@@ -67,7 +67,7 @@ include '../dbconnection.php';
                                 <th>Project ID</th>
                                 <th>Task ID</th>
                                 <th>Task Name</th>
-                                <th>Task Description</th>
+                                <!-- <th>Task Description</th> -->
                                 <th>Task Status</th>
                                 <!-- <th>Task Deadline</th> -->
                                 <th>Task Assigned To</th>
@@ -92,7 +92,7 @@ include '../dbconnection.php';
                                     echo "<td>" . $row['pid'] . "</td>";
                                     echo "<td>" . $row['taskID'] . "</td>";
                                     echo "<td>" . $row['taskName'] . "</td>";
-                                    echo "<td>" . $row['discription'] . "</td>";
+                                    // echo "<td>" . $row['discription'] . "</td>";
                                     if ($row['status'] == "Completed") {
                                         echo "<td class='bg-success'>" . $row['status'] . "</td>";
                                     } else if ($row['status'] == "In Progress") {

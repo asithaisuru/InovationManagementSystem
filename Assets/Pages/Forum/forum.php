@@ -106,7 +106,7 @@ include '../dbconnection.php';
                 echo "<div>";
                 echo "<div class='d-flex align-items-center'>";
                 echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                echo "<span class='mr-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='ms-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";

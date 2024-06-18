@@ -78,11 +78,11 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="../Supplier/addproduct.php">Add product</a>
                             </li>
-                            <li><a class="dropdown-item" href="../Supplier/edit-project.php">Edit productt</a></li>
+                            <li><a class="dropdown-item" href="../Supplier/edit-prod.php">Edit productt</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./delete-project.php">Delete product</a></li>
+                            <li><a class="dropdown-item" href="./delete-prod.php">Delete product</a></li>
                         </ul>
                     </li>
                 </ul>
