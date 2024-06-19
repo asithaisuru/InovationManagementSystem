@@ -53,6 +53,8 @@ if ($result && mysqli_num_rows($result) > 0) {
         include './admin-nav.php';
     } else if ($_SESSION['role'] == "Innovator") {
         include '../Innovator/innovator-nav.php';
+    } else if ($_SESSION['role'] == "Supplier") {
+        include '../Supplier/supplier-nav.php';
     }
     ?>
 

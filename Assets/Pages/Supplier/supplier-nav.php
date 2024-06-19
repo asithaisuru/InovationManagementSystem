@@ -2,7 +2,7 @@
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role !='Supplier'){
+    if ($role != 'Supplier') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -73,7 +73,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                         Product Management
+                            Product Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="../Supplier/addproduct.php">Add product</a>
@@ -88,8 +88,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </ul>
                 <div class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link me-2 mt-3" href="../chat/chat.php">
-                            <i class="fas fa-comment fa-lg" style="color: #ffffff;"></i>
+                        <a class="nav-link me-2 mt-3" href="../Supplier/store.php">
+                            <i class="fas fa-store" style="color: #ffffff;"></i>
                         </a>
                     </li>
                     <li class="nav-item">
