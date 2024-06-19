@@ -7,23 +7,19 @@ if (isset($_SESSION['username'])) {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
-
-
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
-include '../dbconnection.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMS - Store</title>
+    <title>IMS - Product</title>
 </head>
 
 <body class="bg-dark text-white">
@@ -35,29 +31,9 @@ include '../dbconnection.php';
     ?>
 
     <div class="container">
-        <h1 class="text-center mb-5">Welcome to the IMS Store</h1>
-
-        <form method="GET">
-            <div class="row">
-                <div class="col-lg-11">
-                    <div class="mb-3">
-                        <input type="text" name="nameFilter" id="nameFilter" class="form-control"
-                            placeholder="Enter product name">
-                    </div>
-                </div>
-                <div class="col-lg-1 mb-2">
-                    <button type="submit" class="btn btn-primary text-center d-block"><i
-                            class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </form>
-
+        <h2 class="text-center mb-5">Product View</h2>
         <?php
-        $sql = "SELECT * FROM items";
-        if (isset($_GET['nameFilter'])) {
-            $nameFilter = $_GET['nameFilter'];
-            $sql .= " WHERE prodName LIKE '%$nameFilter%'";
-        }
+        $sql = "SELECT * FROM items WHERE prodId = '$_GET[prodId]'";
         $result = mysqli_query($connection, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
@@ -71,10 +47,7 @@ include '../dbconnection.php';
                 //<!-- get the following data from db -->
                 echo '<h2>' . $row["prodName"] . '</h2>';
                 echo '<p>' . $row["prodDis"] . '</p>';
-                echo '<p>' . $row["prodPrice"] . '</p>';
-                echo '<div class="text-end me-5">';
-                echo '<a class="btn btn-success" href="./view-prod.php?prodId=' . $row["prodId"] . '">View Product</a>';
-                echo '</div>';
+                echo '<p> Rs. ' . $row["prodPrice"] . '</p>';                
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
@@ -82,10 +55,7 @@ include '../dbconnection.php';
             }
         }
         ?>
-
     </div>
 </body>
-
-<?php include '../footer.php'; ?>
 
 </html>
