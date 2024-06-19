@@ -1,5 +1,7 @@
+// Start the session
 <?php
 session_start();
+// Check if the user is logged the required role
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
@@ -12,7 +14,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
-
+// Include db
 include '../dbconnection.php';
 
 ?>
@@ -24,6 +26,8 @@ include '../dbconnection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <title>Forum</title>
     <style>
     #backToTopBtn {
@@ -38,24 +42,28 @@ include '../dbconnection.php';
 </head>
 
 <body class="bg-dark text-white">
+        <!-- Include the nav bar -->
     <?php include '../Innovator/innovator-nav.php'; ?>
 
     <body>
 
     <div class="container">
-
+        <!-- Forum -->
         <h1 class="text-center">Welcome to the Innovator Forum</h1>
         <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights into
             the innovation process.</p>
             <div>
+                <!-- Link story btn -->
                 <a href="./submit-form.php" class="btn btn-success">Create your story</a>
             </div> <br>
             <div class="card-body border-3 border-white bg-dark mb-3">
                 <h4>Category</h4>
                 <form method="GET">
+                    <!-- Dropdown categories -->
                 <select name="post_category" id="post_category" class="form-control" required onchange="filterPosts(this.value)">
                     <option value="all">All</option>
                     <?php
+                     // Define and display post categories
                     $categories = array(
                         'SuccessStories' => 'Success Stories',
                         'CollaborationOpportunities' => 'Collaboration Opportunities',
@@ -75,6 +83,7 @@ include '../dbconnection.php';
 
         <!-- Display Posts -->
         <?php
+        // SQL query to fetch posts
         $sql = "SELECT * FROM posts";
         if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
             $category = mysqli_real_escape_string($connection, $_GET['post_category']);
@@ -82,6 +91,7 @@ include '../dbconnection.php';
         }
         $sql .= " ORDER BY date DESC LIMIT 8";
         $result = mysqli_query($connection, $sql);
+        // Check if any posts are found
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 // Check if the current user has liked this post
@@ -96,6 +106,7 @@ include '../dbconnection.php';
                 $likeCountRow = mysqli_fetch_assoc($likeCountResult);
                 $likeCount = $likeCountRow['like_count'];
 
+                // Display post details
                 echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
                 echo "<h3>" . $row['title'] . "</h3>";
                 echo "<p>" . $row['content'] . "</p>";
@@ -104,9 +115,10 @@ include '../dbconnection.php';
                 echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
                 echo "<small>Category: " . $row['category'] . "</small>";
                 echo "<div>";
+                // Like button with dynamic text and color
                 echo "<div class='d-flex align-items-center'>";
                 echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                echo "<span class='ms-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='mr-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
@@ -116,18 +128,19 @@ include '../dbconnection.php';
         }
         ?>
         
-        
+        <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </div>
     </div>
     <div class="position-fixed bottom-0 end-0 m-3">
+
     <!-- Back to Top Button -->
      <button id="backToTopBtn" class="btn btn-success rounded-circle p-3" type="submit">Top</button>
      <!-- Custom JS -->
     <script>
-        // Show the button when the user scrolls down 20px from the top
+        // Show the button scrolls down 450 pixels
         window.onscroll = function() {
             scrollFunction();
         };
@@ -147,7 +160,7 @@ include '../dbconnection.php';
                 behavior: 'smooth'
             });
         });
-            //-------------------------------------------------
+            //------------------LIKE Btn------------------
 
             document.addEventListener('DOMContentLoaded', function() {
                 const likeButtons = document.querySelectorAll('.like-btn');
@@ -156,7 +169,7 @@ include '../dbconnection.php';
                     button.addEventListener('click', function() {
                         const postid = this.getAttribute('data-post-id');
                         const btn = this;
-
+                        // Send POST request to like post
                         fetch('like_post.php', {
                             method: 'POST',
                             headers: {
@@ -167,15 +180,18 @@ include '../dbconnection.php';
                         .then(response => response.text())
                         .then(data => {
                             if (data === 'liked') {
+                                // Update button style & text (liked)
                                 btn.classList.remove('btn-primary');
                                 btn.classList.add('btn-success');
                                 btn.textContent = 'Liked';
                                 updateLikeCount(postid, 1);
                             } else if (data === 'unliked') {
+                                // Update button style & text (unliked)
                                 btn.classList.remove('btn-success');
                                 btn.classList.add('btn-primary');
                                 btn.textContent = 'Like';
                                 updateLikeCount(postid, -1);
+                                // Handle errors
                             } else if (data === 'already liked') {
                                 alert('You already liked this post.');
                             } else {
@@ -215,11 +231,13 @@ include '../dbconnection.php';
             });
         
     </script>
+    <!-- Include jQuery additional functionality -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     
     </div>
     
     <div id="footer">
+         <!-- footer -->
         <?php include '../footer.php' ?>
     </div>
 

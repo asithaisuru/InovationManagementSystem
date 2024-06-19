@@ -1,18 +1,22 @@
 <?php
 session_start();
+// Check if the user is logged the required role
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
+    // Redirect not an Innovator
     if ($role != 'Innovator') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
 } else {
+    // Redirect to the login page if the user is not logged in
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
 
+// Include db
 include '../dbconnection.php';
 
 ?>
@@ -28,11 +32,12 @@ include '../dbconnection.php';
 </head>
 
 <body class="bg-dark text-white">
+    <!-- Include Innovator nav-->
     <?php include '../Innovator/innovator-nav.php'; ?>
 
     <div class="container">
 
-
+        <!--Sub Forum  -->
         <h1 class="text-center">Welcome to the Innovator Forum</h1>
         <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights into
             the innovation process.</p>
@@ -67,12 +72,13 @@ include '../dbconnection.php';
 
      </div>
      <div>
-            <div>  
+            <div> 
+                 <!-- Back to Forum button -->
                 <a href="./forum.php" class="btn btn-success">Back to Forum</a></div>
         </div>
 
 
-
+    <!-- footer -->
     <div id="footer">
         <?php include '../footer.php' ?>
     </div>
@@ -85,12 +91,17 @@ include '../dbconnection.php';
 </html>
 
 <?php
+// Handle form submission
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $post_title = $_POST['post_title'];
     $post_content = $_POST['post_content'];
     $post_category = $_POST['post_category'];
+
+    // Insert the new post into the database
     $sql = "INSERT INTO posts (title, content, category, userName) VALUES ('$post_title', '$post_content', '$post_category', '$username');";
     $result = mysqli_query($connection, $sql);
+    
+    // Show an alert submission was successful
     if ($result) {
         echo "<script>alert('Post submitted successfully');</script>";
     } else {
