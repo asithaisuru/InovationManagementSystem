@@ -71,7 +71,7 @@ include '../dbconnection.php';
                 //<!-- get the following data from db -->
                 echo '<h2>' . $row["prodName"] . '</h2>';
                 echo '<p>' . $row["prodDis"] . '</p>';
-                echo '<p>' . $row["prodPrice"] . '</p>';
+                echo '<p> Rs. ' . $row["prodPrice"] . '</p>';
                 echo '<div class="text-end me-5">';
                 echo '<a class="btn btn-success" href="./view-prod.php?prodId=' . $row["prodId"] . '">View Product</a>';
                 echo '</div>';
