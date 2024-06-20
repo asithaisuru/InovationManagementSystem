@@ -9,15 +9,16 @@ if (isset($_SESSION['username'])) {
 }
 
 include '../dbconnection.php';
+$skill = $_POST['skill-input'];
 // Insert user skills into database
 $sql = "INSERT INTO user_skills (userName,skill) VALUES ('$username','$skill')";
 //showing response messages
 if ($connection->query($sql) === TRUE) {
     $em = "Skill update successfully.";
-    header("Location: ./user-management.php?skillsupdatestatus=success&msg=$em");
+    header("Location: ./profile.php?status=success&msg=$em");
 } else {
     $em = "Skill update failed.";
-    header("Location: ./user-management.php?skillsupdatestatus=error&msg=$em");
+    header("Location: ./profile.php?status=error&msg=$em");
 }
 {
 
