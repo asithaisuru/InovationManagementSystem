@@ -134,10 +134,20 @@ if ($result && mysqli_num_rows($result) > 0) {
                             </fieldset>
                         </form>
                         <?php if ($_SESSION['role'] != "Admin"): ?>
-                            <form action="#" method="POST">
+                            <form action="skill_update.php" method="POST">
                                 <fieldset>
                                     <legend class="text-white">Skills:</legend>
-                                    <div id="selected-skills" class="list-group-item list-group-item-action"></div>
+                                    <div id="selected-skills" class="list-group-item list-group-item-action">
+                                        <?php
+                                        $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
+                                        $result1 = mysqli_query($connection, $sql);
+                                        if (mysqli_num_rows($result1) > 0) {
+                                            while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                echo "<span class='text-white badge '>".$row1['skill']." </span>";
+                                            }
+                                        }
+                                        ?>
+                                    </div>
                                     <div class="mb-3">
                                         <div id="selected-skills" class="mb-3">
                                             <div class="form-floating mb-3 mt-3">
@@ -161,75 +171,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const skills = ["HTML", "CSS", "JavaScript", "PHP", "Python", "Java", "C++", "C#", "Ruby", "Go"];
-                const skillInput = document.getElementById('skill-input');
-                const suggestionsContainer = document.getElementById('suggestions');
-                const selectedSkillsContainer = document.getElementById('selected-skills');
-                const selectedSkills = [];
-
-                skillInput.addEventListener('input', function () {
-                    const query = skillInput.value.toLowerCase();
-                    suggestionsContainer.innerHTML = '';
-
-                    if (query) {
-                        const filteredSkills = skills.filter(skill => skill.toLowerCase().includes(query));
-                        filteredSkills.forEach(skill => {
-                            const suggestionItem = document.createElement('a');
-                            suggestionItem.className = 'list-group-item list-group-item-action';
-                            suggestionItem.innerText = skill;
-                            suggestionItem.addEventListener('click', function () {
-                                if (!selectedSkills.includes(skill)) {
-                                    selectedSkills.push(skill);
-                                    updateSelectedSkills();
-                                }
-                                skillInput.value = '';
-                                suggestionsContainer.innerHTML = '';
-                            });
-                            suggestionsContainer.appendChild(suggestionItem);
-                        });
-                    }
-                });
-
-                skillInput.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter' && skillInput.value.trim() !== '') {
-                        event.preventDefault();
-                        const skill = skillInput.value.trim();
-                        if (!selectedSkills.includes(skill)) {
-                            selectedSkills.push(skill);
-                            updateSelectedSkills();
-                        }
-                        skillInput.value = '';
-                        suggestionsContainer.innerHTML = '';
-                    }
-                });
-
-                function updateSelectedSkills() {
-                    selectedSkillsContainer.innerHTML = '';
-                    selectedSkills.forEach(skill => {
-                        const badge = document.createElement('span');
-                        badge.className = 'badge bg-primary me-2 mb-2';
-                        badge.innerText = skill;
-
-                        const removeButton = document.createElement('button');
-                        removeButton.className = 'btn-close ms-2';
-                        removeButton.setAttribute('aria-label', 'Close');
-                        removeButton.addEventListener('click', function () {
-                            const index = selectedSkills.indexOf(skill);
-                            if (index > -1) {
-                                selectedSkills.splice(index, 1);
-                                updateSelectedSkills();
-                            }
-                        });
-
-                        badge.appendChild(removeButton);
-                        selectedSkillsContainer.appendChild(badge);
-                    });
-                }
-            });
-        </script>
+        
 </body>
 
 
