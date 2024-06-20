@@ -94,7 +94,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </li>
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
-                            <i class="fab fa-forumbee fa-lg" style="color: #ffffff;"></i>
+                            <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-2">
