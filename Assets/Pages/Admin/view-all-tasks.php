@@ -126,5 +126,5 @@ include '../dbconnection.php';
 
 
 </body>
-
+<?php include '../footer.php'; ?>
 </html>
