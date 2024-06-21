@@ -68,7 +68,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <a class="nav-link" href="../Supplier/Supplier-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
+                        <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
