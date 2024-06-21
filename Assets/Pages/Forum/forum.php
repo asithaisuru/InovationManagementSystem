@@ -1,4 +1,4 @@
-// Start the session
+
 <?php
 session_start();
 // Check if the user is logged the required role
@@ -118,7 +118,8 @@ include '../dbconnection.php';
                 // Like button with dynamic text and color
                 echo "<div class='d-flex align-items-center'>";
                 echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                echo "<span class='mr-2 like-count' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
+                echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
@@ -127,6 +128,8 @@ include '../dbconnection.php';
             echo "No posts found";
         }
         ?>
+        <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+        
         
         <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -160,6 +163,18 @@ include '../dbconnection.php';
                 behavior: 'smooth'
             });
         });
+        
+        let offset = 8; // Number of posts initially loaded
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        fetch(`load_more_posts.php?offset=${offset}`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('post-container').innerHTML += data;
+                offset += 8;
+            })
+            .catch(error => console.error('Error:', error));
+     });
+ 
             //------------------LIKE Btn------------------
 
             document.addEventListener('DOMContentLoaded', function() {
@@ -229,7 +244,7 @@ include '../dbconnection.php';
                     }
                 }
             });
-        
+
     </script>
     <!-- Include jQuery additional functionality -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
