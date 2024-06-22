@@ -22,5 +22,6 @@
 <body class="bg-dark text-white">
     <?php include 'supplier-nav.php'; ?>
     <h1>Welcome to Supplier Dashboard</h1>
+    <h1>Hello</h1>
 </body>
 </html>
