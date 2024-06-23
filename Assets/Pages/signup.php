@@ -73,6 +73,7 @@
                             <option disabled selected></option>
                             <option value="Innovator">Innovator</option>
                             <option value="Supplier">Supplier</option>
+                            <option value="Buyer">Buyer</option>
                         </select>
                         <label for="role">Select Role</label>
                     </div>

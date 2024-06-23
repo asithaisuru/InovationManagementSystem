@@ -38,7 +38,7 @@ include '../dbconnection.php';
 
     <?php if ($_SESSION['role'] != "Moderator"): ?>
         <div class="container mt-5">
-            <h2 class="text-center">User Management</h2>
+            <h2 class="text-center">Admin Management</h2>
             <div class="card mt-4 border-white border-3 bg-dark text-white" id="add-user">
                 <div class="card-body">
                     <h1 class="text-white text-center">Add Admin User</h1>
@@ -189,7 +189,7 @@ include '../dbconnection.php';
                                 <div class="col-lg-2 mb-2">
                                     <select name="filter" id="filter" class="form-select">
                                         <option value="userName">Username</option>
-                                        <!-- <option value="name">Name</option> -->
+                                        <option value="name">Name</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-9 mb-2">
@@ -228,6 +228,9 @@ include '../dbconnection.php';
                                 if($_GET['filter'] == 'userName'){
                                     $sql .= " AND userName LIKE '%$keyword%'";
                                 }
+                                if($_GET['filter'] == 'name'){
+                                    $sql .= " AND (fname LIKE '%$keyword%' OR lname LIKE '%$keyword%')";
+                                }
                             }
                             $result = mysqli_query($connection, $sql);
                             if (mysqli_num_rows($result) > 0) {
@@ -241,7 +244,7 @@ include '../dbconnection.php';
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='4'>No records found</td></tr>";
+                                echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
                             }
                             ?>
                     </table>
