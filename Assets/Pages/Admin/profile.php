@@ -88,6 +88,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             enctype="multipart/form-data">
                             <div class="form-group mt-3">
                                 <input type="file" class="form-control" name="profile-pic" id="profile-pic">
+                                <pre class="text-white"><span class="text-danger">* </span>Best if photo in 1:1 ratio</pre>
                             </div>
                             <div class="mt-4 mb-4 ms-auto" style="width: 200px;">
                                 <button type="submit" class="btn btn-primary" value="Upload" name="submit">Update
@@ -205,7 +206,6 @@ if ($result && mysqli_num_rows($result) > 0) {
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // $newuserName = mysqli_real_escape_string($connection, $_POST['username']);
     $newfname = mysqli_real_escape_string($connection, $_POST['fname']);
     $newlname = mysqli_real_escape_string($connection, $_POST['lname']);
     $newemail = mysqli_real_escape_string($connection, $_POST['email']);
@@ -220,50 +220,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $query = "UPDATE users SET fname = '$newfname', lname = '$newlname', email = '$newemail' WHERE userName = '$username'";
         mysqli_query($connection, $query);
-        // echo "Query: $query";
-        // if (mysqli_query($connection, $query)) {
-        //     // echo "connection successful25567";
-        //     $query1 = "SELECT * FROM user_skills WHERE userName = '$username';";
-        //     $result = mysqli_query($connection, $query1);
-        //     // echo "Query1: $query1";
-        //     // echo mysqli_num_rows($result);
-
-        //     if ($result && mysqli_num_rows($result) > 0) {
-        //         $query2 = "DELETE FROM user_skills WHERE userName = '$username'";
-        //         // echo "Query2: $query2";
-        //         mysqli_query($connection, $query2);
-        //     } else {
-        //         // var_dump($selectedSkills);
-        //         foreach ($selectedSkills as $skill) {
-        //             $skill = mysqli_real_escape_string($connection, $skill);
-        //             // echo "Skill: $skill <br>";
-        //             $query = "INSERT INTO user_skills (userName, skill) VALUES ('$userName', '$selectedSkills')";
-        //             if (mysqli_query($connection, $query)) {
-        //                 echo "Inserted skill: $skill <br>";
-        //             } else {
-        //                 echo "Error inserting skill: $skill - " . mysqli_error($connection) . "<br>";
-        //             }
-        //         }
-        //         $ms = "Profile updated successfully.";
-        //         echo '<script>
-        //             window.location.href = "profile.php?status=success&msg=' . $ms . '";
-        //         </script>';
-        //         // echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-        //         //     <strong>Success!</strong> Profile updated successfully.
-        //         //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        //         // </div>';
-        //     }
         if (!mysqli_query($connection, $query)) {
             $ms = "Error updating profile." . mysqli_error($connection);
             echo '<script>
                     window.location.href = "profile.php?status=error&msg=' . $ms . '";
                 </script>';
-
-            // echo "Error: " . $query . "<br>" . mysqli_error($connection);
-            // echo '<div class="alert alert-danger mt-2" alert-dismissible fade show mt-2" role="alert">
-            //     <strong>ERROR!!</strong> ' . $query . '<br>' . mysqli_error($connection) . '
-            //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            //   </div>';
         }
     }
 }

@@ -27,6 +27,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         $fname = $row['fname'];
         $lname = $row['lname'];
         $email = $row['email'];
+        $viewRole = $row['role'];
     }
 
 } else {
@@ -72,7 +73,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     if ($role == 'Admin' || $role == "Moderator")
         include '../Admin/admin-nav.php';
     elseif ($role == 'Innovator')
-        include './innovator-nav.php'; 
+        include './innovator-nav.php';
     elseif ($role == 'Supplier')
         include '../Supplier/supplier-nav.php';
     ?>
@@ -206,101 +207,136 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card mt-4 border-white border-3 bg-dark text-white">
-                    <div class="card-body">
-                        <h2 class="text-center">My Projects</h2>
-                        <div class="mt-3">
-                            <table class="table table-bordered table-hover table-dark table-lg bg-dark">
-                                <thead>
-                                    <tr>
-                                        <th class="bg-secondary">Project ID</th>
-                                        <th class="bg-secondary">Project Name</th>
-                                        <th class="bg-secondary">Project Category</th>
-                                        <th class="bg-secondary">Project Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $sql = "SELECT * FROM project WHERE userName = '$viewUserName';";
-                                    $result = mysqli_query($connection, $sql);
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<tr>";
-                                            echo "<td>" . $row['pid'] . "</td>";
-                                            echo "<td>" . $row['pname'] . "</td>";
-                                            echo "<td>" . $row['pcategory'] . "</td>";
-                                            if ($row['status'] == 'Completed')
-                                                echo "<td class='text-center bg-success'>" . $row['status'] . "</td>";
-                                            else if ($row['status'] == 'In Progress')
-                                                echo "<td class='text-center bg-warning text-white'>" . $row['status'] . "</td>";
-                                            else
-                                                echo "<td class='text-center bg-warning text-dark'></td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card mt-4 border-white border-3 bg-dark text-white">
-                    <div class="card-body">
-                        <h2 class="text-center">Projects Contributed</h2>
-                        <div class="mt-3">
-                            <table class="table table-bordered table-hover table-dark table-lg bg-dark">
-                                <thead>
-                                    <tr>
-                                        <th class="bg-secondary">Project ID</th>
-                                        <th class="bg-secondary">Project Name</th>
-                                        <th class="bg-secondary">Project Category</th>
-                                        <th class="bg-secondary">Project Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $sql = "SELECT * FROM contributors WHERE userName = '$viewUserName';";
-                                    $result = mysqli_query($connection, $sql);
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<tr>";
-                                            echo "<td>" . $row['pid'] . "</td>";
-
-                                            $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
-                                            $result1 = mysqli_query($connection, $sql);
-                                            if (mysqli_num_rows($result1) > 0) {
-                                                while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                    echo "<td>" . $row1['pname'] . "</td>";
-                                                    echo "<td>" . $row1['pcategory'] . "</td>";
-                                                    if ($row1['status'] == 'Completed')
-                                                        echo "<td class='text-center bg-success'>" . $row1['status'] . "</td>";
-                                                    else if ($row1['status'] == 'In Progress')
-                                                        echo "<td class='text-center bg-warning text-white'>" . $row1['status'] . "</td>";
-                                                    else
-                                                        echo "<td class='text-center bg-warning text-dark'></td>";
-                                                }
+        <?php if ($viewRole == 'Innovator'): ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mt-4 border-white border-3 bg-dark text-white">
+                        <div class="card-body">
+                            <h2 class="text-center">My Projects</h2>
+                            <div class="mt-3">
+                                <table class="table table-bordered table-hover table-dark table-lg bg-dark">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-secondary">Project ID</th>
+                                            <th class="bg-secondary">Project Name</th>
+                                            <th class="bg-secondary">Project Category</th>
+                                            <th class="bg-secondary">Project Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $sql = "SELECT * FROM project WHERE userName = '$viewUserName';";
+                                        $result = mysqli_query($connection, $sql);
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row['pid'] . "</td>";
+                                                echo "<td>" . $row['pname'] . "</td>";
+                                                echo "<td>" . $row['pcategory'] . "</td>";
+                                                if ($row['status'] == 'Completed')
+                                                    echo "<td class='text-center bg-success'>" . $row['status'] . "</td>";
+                                                else if ($row['status'] == 'In Progress')
+                                                    echo "<td class='text-center bg-warning text-white'>" . $row['status'] . "</td>";
+                                                else
+                                                    echo "<td class='text-center bg-warning text-dark'></td>";
+                                                echo "</tr>";
                                             }
-                                            echo "</tr>";
+                                        } else {
+                                            echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
                                         }
-                                    } else {
-                                        echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mt-4 border-white border-3 bg-dark text-white">
+                        <div class="card-body">
+                            <h2 class="text-center">Projects Contributed</h2>
+                            <div class="mt-3">
+                                <table class="table table-bordered table-hover table-dark table-lg bg-dark">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-secondary">Project ID</th>
+                                            <th class="bg-secondary">Project Name</th>
+                                            <th class="bg-secondary">Project Category</th>
+                                            <th class="bg-secondary">Project Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $sql = "SELECT * FROM contributors WHERE userName = '$viewUserName';";
+                                        $result = mysqli_query($connection, $sql);
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row['pid'] . "</td>";
+
+                                                $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
+                                                $result1 = mysqli_query($connection, $sql);
+                                                if (mysqli_num_rows($result1) > 0) {
+                                                    while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                        echo "<td>" . $row1['pname'] . "</td>";
+                                                        echo "<td>" . $row1['pcategory'] . "</td>";
+                                                        if ($row1['status'] == 'Completed')
+                                                            echo "<td class='text-center bg-success'>" . $row1['status'] . "</td>";
+                                                        else if ($row1['status'] == 'In Progress')
+                                                            echo "<td class='text-center bg-warning text-white'>" . $row1['status'] . "</td>";
+                                                        else
+                                                            echo "<td class='text-center bg-warning text-dark'></td>";
+                                                    }
+                                                }
+                                                echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='4' class='text-center'>No records found</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php elseif ($viewRole == 'Supplier'): ?>
+            <div class=" mt-3">
+                <div class="card border-3 border-white">
+                    <div class="card-body bg-dark text-white">
+                        <h1 class="text-center mb-3">My Products</h1>
+                        <div class="row">
+                            <?php
+                            $sql = "SELECT * FROM items WHERE userName = '$viewUserName';";
+                            $result = mysqli_query($connection, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo '<div class="col-md-6 col-lg-4 mb-4">';
+                                    echo '<div class="card border-3 border-white bg-dark text-white h-100">';
+                                    echo '<img src="' . $row["prodImg"] . '" alt="Product Image" class="card-img-top" style="object-fit: cover; height: 200px;">';
+                                    echo '<div class="card-body d-flex flex-column">';
+                                    echo '<h2 class="card-title">' . $row["prodName"] . '</h2>';
+                                    echo '<p class="card-text">' . $row["prodDis"] . '</p>';
+                                    echo '<p class="card-text">Rs. ' . $row["prodPrice"] . '</p>';
+                                    echo '<div class="mt-auto">';
+                                    echo '<a class="btn btn-success" href="../Supplier/view-prod.php?prodId=' . $row["prodId"] . '">View Product</a>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p class="text-center">No products found.</p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
     <div id="footer">
         <?php include '../footer.php' ?>

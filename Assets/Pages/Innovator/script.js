@@ -18,7 +18,7 @@ function genarateResponse() {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Open a new window to display the response
+      // new window to display the response
       const content =
         "<head>" +
         "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>" +
@@ -49,6 +49,7 @@ function genarateResponse() {
       responseWindow.document.write(content);
     })
     .catch((error) => {
+      alert("Error: " + error);
       console.error("Error:", error);
     });
 }
