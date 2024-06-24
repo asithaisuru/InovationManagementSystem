@@ -40,8 +40,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- End of Bootstrap -->
     <title>Profile Editor</title>
 </head>
@@ -198,7 +198,9 @@ if ($result && mysqli_num_rows($result) > 0) {
 <?php endif; ?>
 
 
-
+<div>
+    <?php include '../footer.php'; ?>
+</div>
 </body>
 
 
@@ -228,5 +230,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-include '../footer.php';
 ?>

@@ -12,7 +12,7 @@ include '../dbconnection.php';
 
 if (isset($_POST['id'])) {
     $skill_id = $_POST['id'];
-    $delete_sql = "DELETE FROM `user_skills` WHERE id = '"$skill_id.."' ";
+    $delete_sql = "DELETE FROM `user_skills` WHERE id = '".$skill_id."' ";
     if (mysqli_query($connection, $delete_sql)) {
         echo 'success';
     } else {
