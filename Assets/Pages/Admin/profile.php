@@ -7,19 +7,15 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
-
 include '../dbconnection.php';
-
 $query = "SELECT * FROM users WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
-
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $fname = $row['fname'];
     $lname = $row['lname'];
     $email = $row['email'];
 }
-
 $query = "SELECT * FROM profilePic WHERE userName = '$username'";
 $result = mysqli_query($connection, $query);
 if ($result && mysqli_num_rows($result) > 0) {
@@ -32,10 +28,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,9 +39,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <!-- End of Bootstrap -->
     <title>Profile Editor</title>
 </head>
-
 <body class="bg-dark text-white">
-
     <?php
     if ($_SESSION['role'] == "Admin" || $_SESSION['role'] == "Moderator") {
         include './admin-nav.php';
@@ -57,9 +49,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         include '../Supplier/supplier-nav.php';
     }
     ?>
-
     <div class="container">
-
         <?php
         $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
         $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";
@@ -75,7 +65,6 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>';
         }
         ?>
-
         <div class="row">
             <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">
@@ -99,9 +88,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-6">
-
                 <div class="card bg-dark border-3 border-white">
                     <div class="card-header">
                         <h3 class="text-white">Update Personal Information</h3>
@@ -168,7 +155,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     </div>
                                 </fieldset>
                             </form>
-
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <script>
                                 $(document).ready(function () {
@@ -198,7 +184,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 });
                             </script>
                         <?php endif; ?>
-
                     </div>
                 </div>
             </div>
@@ -208,9 +193,6 @@ if ($result && mysqli_num_rows($result) > 0) {
         <?php include '../footer.php'; ?>
     </div>
 </body>
-
-
-
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -228,7 +210,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $query = "UPDATE users SET fname = '$newfname', lname = '$newlname', email = '$newemail' WHERE userName = '$username'";
         mysqli_query($connection, $query);
-        if (!mysqli_query($connection, $query)) {
+        if (mysqli_query($connection, $query)) {
+            $ms = "Personal Infromation updated successfully.";
+            echo '<script>
+                    window.location.href = "profile.php?status=success&msg=' . $ms . '";
+                </script>';
+        } else {
             $ms = "Error updating profile." . mysqli_error($connection);
             echo '<script>
                     window.location.href = "profile.php?status=error&msg=' . $ms . '";
