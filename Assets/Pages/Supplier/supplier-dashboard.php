@@ -52,11 +52,20 @@ include '../dbconnection.php';
                 <a href="./delete-prod.php" class="btn btn-danger d-block">Delete Product</a>
             </div>
             <div class="col-lg-4 mb-2">
-                <a href="./edit-project.php" class="btn btn-primary d-block">Edit Product</a>
+                <a href="./edit-product.php" class="btn btn-primary d-block">Edit Product</a>
             </div>
         </div>
     </div>
-
+    <div class="container my-5">
+        <div class="profile-container">
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-img">
+            <h1 class="supplier-name">John Doe Supplies</h1>
+            <p class="supplier-description">
+                John Doe Supplies is a leading supplier of high-quality products with over 10 years of experience in the industry. We are committed to providing excellent service and top-notch products to our valued customers.
+            </p>
+        </div>
+    </div>
+    <?php include '../footer.php'; ?>
 </body>
 
 </html>
