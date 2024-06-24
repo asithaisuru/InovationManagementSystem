@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator") {
+    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator" && $role != "Supplier") {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -72,7 +72,10 @@ if ($result && mysqli_num_rows($result) > 0) {
     if ($role == 'Admin' || $role == "Moderator")
         include '../Admin/admin-nav.php';
     elseif ($role == 'Innovator')
-        include './innovator-nav.php'; ?>
+        include './innovator-nav.php'; 
+    elseif ($role == 'Supplier')
+        include '../Supplier/supplier-nav.php';
+    ?>
     <div class="container">
         <?php
         $status = isset($_GET['ratingstatus']) ? htmlspecialchars($_GET['ratingstatus']) : "";

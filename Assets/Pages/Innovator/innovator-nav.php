@@ -61,7 +61,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <a class="nav-link" href="../Innovator/innovator-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Innovator/innovator-dashboard.php#footer">About</a>
+                        <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -82,12 +82,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Supplier/store.php">
-                        <i class="fas fa-store" style="color: #ffffff;"></i>
+                            <i class="fas fa-store" style="color: #ffffff;"></i>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
-                            <i class="fab fa-forumbee fa-lg" style="color: #ffffff;"></i>
+                            <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-2">

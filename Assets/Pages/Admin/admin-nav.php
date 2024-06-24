@@ -63,7 +63,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <a class="nav-link" href="../Admin/admin-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Admin/admin-dashboard.php#footer">About</a>
+                        <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                     <?php if ($_SESSION['role'] !== "Moderator"): ?>
                         <div id="user_management">
