@@ -134,42 +134,68 @@ if ($result && mysqli_num_rows($result) > 0) {
                             </fieldset>
                         </form>
                         <?php if ($_SESSION['role'] != "Admin"): ?>
-                            <form action="skill_update.php" method="POST">
-                                <fieldset>
-                                    <legend class="text-white">Skills:</legend>
-                                    <div id="selected-skills" class="list-group-item list-group-item-action">
-                                        <?php
-                                        $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
-                                        $result1 = mysqli_query($connection, $sql);
-                                        if (mysqli_num_rows($result1) > 0) {
-                                            while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                echo "<span class='text-white badge '>".$row1['skill']." </span>";
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div id="selected-skills" class="mb-3">
-                                            <div class="form-floating mb-3 mt-3">
-                                                <input type="text" class="form-control" id="skill-input" name="skill-input"
-                                                    placeholder="Enter Skill">
-                                                <label for="skill-input">Skilled languages</label>
-                                            </div>
-                                            <div id="suggestions" class="list-group mt-1"></div>
-                                        </div>
-                                        <div class="mb-3 ms-auto" style="width: 200px;">
-                                            <button type="submit" class="btn btn-primary">Update</button>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        <?php endif; ?>
+    <form id="skill-form" action="skill_update.php" method="POST">
+        <fieldset>
+            <legend class="text-white">Skills:</legend>
+            <div id="selected-skills" class="list-group-item list-group-item-action">
+                <?php
+                $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
+                $result1 = mysqli_query($connection, $sql);
+                if (mysqli_num_rows($result1) > 0) {
+                    while ($row1 = mysqli_fetch_assoc($result1)) {
+                        echo "<span class='text-white badge bg-secondary me-2' id='skill-".$row1['id']."'>";
+                        echo $row1['skill'];
+                        echo " <button type='button' class='btn btn-danger btn-sm ms-2 delete-skill' data-id='".$row1['id']."'>X</button>";
+                        echo "</span>";
+                    }
+                }
+                ?>
+            </div>
+            <div class="mb-3">
+                <div id="selected-skills" class="mb-3">
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="skill-input" name="skill-input" placeholder="Enter Skill">
+                        <label for="skill-input">Skilled languages</label>
                     </div>
-
+                    <div id="suggestions" class="list-group mt-1"></div>
+                </div>
+                <div class="mb-3 ms-auto" style="width: 200px;">
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
+        </fieldset>
+    </form>
 
-        </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete-skill').on('click', function() {
+                var skillId = $(this).data('id');
+                var skillElement = $('#skill-' + skillId);
+
+                $.ajax({
+                    url: './delete_skill.php',
+                    type: 'POST',
+                    data: { "id": skillId },
+                    success: function(response) {
+                        if (response.trim() === "success") {
+                     console.log("Skill deletion successful");
+                    //  alert("Skill removed succesfully!");
+                 skillElement.remove();
+        } else {
+            console.log("Unexpected response:", response);
+            alert('Error deleting skill.');
+        }
+                    },
+                    error: function() {
+                        alert('Error deleting skill.');
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>
+
 
         
 </body>
