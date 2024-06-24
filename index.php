@@ -187,6 +187,11 @@ class User
             // Redirect to the Admin dashboard
             $this->makeuseractive();
             echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
+        
+        } else if ($this->role == "Buyer") {
+            // Redirect to the forum
+            $this->makeuseractive();
+            echo "<script>window.location.href='Assets/Pages/Forum/forum.php';</script>";
         }
 
     }
