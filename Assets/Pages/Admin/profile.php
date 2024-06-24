@@ -132,7 +132,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                         $result1 = mysqli_query($connection, $sql);
                                         if (mysqli_num_rows($result1) > 0) {
                                             while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                echo "<span class='text-white badge bg-secondary me-2' id='skill-" . $row1['id'] . "'>";
+                                                echo "<span class='text-white badge bg-secondary me-2 mb-2' id='skill-" . $row1['id'] . "'>";
                                                 echo $row1['skill'];
                                                 echo " <button type='button' class='btn btn-danger btn-sm ms-2 delete-skill' data-id='" . $row1['id'] . "'>X</button>";
                                                 echo "</span>";
