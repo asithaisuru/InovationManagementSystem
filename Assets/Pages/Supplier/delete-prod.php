@@ -48,28 +48,28 @@ if (isset($_SESSION['username'])) {
             <div class="card-body">
                 <form action="delete-project.php" method="POST">
                     <div class="form-floating mb-3 mt-3">
-                        <select class="form-select mt-3" required name="pid" id="pid">
+                        <select class="form-select mt-3" required name="prodid" id="pid">
                             <?php
-                            // $sql = "SELECT * FROM products WHERE prodID = '$prodID';";
-                            // $result = mysqli_query($connection, $sql);
-                            // echo "<option disabled selected></option>";
-                            // if (mysqli_num_rows($result) > 0) {
-                            //     while ($row = mysqli_fetch_assoc($result)) {
-                            //         echo "<option value=" . $row['pid'] . ">" . $row['prodID'] . " - " . $row['prodName'] . "</option>";
-                            //         if ($row['pid'] == htmlspecialchars($_GET['pid'])) {
-                            //             echo '<script>
-                            //                 document.getElementById("pid").value = ' . htmlspecialchars($_GET['pid']) . ';
-                            //             </script>';
-                            //         }
-                            //     }
-                            // } else {
-                            //     echo "<option disabled>--Projects not found--</option>";
-                            // }
+                            $sql = "SELECT * FROM items WHERE userName = '$username';";
+                            $result = mysqli_query($connection, $sql);
+                            echo "<option disabled selected></option>";
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<option value=" . $row['prodId'] . ">" . $row['prodId'] . " - " . $row['prodName'] . "</option>";
+                                    if ($row['pid'] == htmlspecialchars($_GET['pid'])) {
+                                        echo '<script>
+                                            document.getElementById("pid").value = ' . htmlspecialchars($_GET['pid']) . ';
+                                        </script>';
+                                    }
+                                }
+                            } else {
+                                echo "<option disabled>--Projects not found--</option>";
+                            }
                             ?>
                         </select>
                         <label for="pid">Select Product</label>
                     </div>
-                    <button type="submit" class="btn btn-danger">Delete Project</button>
+                    <button type="submit" class="btn btn-danger">Delete Product</button>
                 </form>
 
             </div>
