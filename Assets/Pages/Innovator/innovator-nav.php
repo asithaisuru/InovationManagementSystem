@@ -12,6 +12,7 @@ $dotenv->load();
 
 // Database connection
 $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -24,6 +25,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +61,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <a class="nav-link" href="../Innovator/innovator-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Innovator/innovator-dashboard.php#footer">About</a>
+                        <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -67,7 +69,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             Project Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a></li>
+                            <li><a class="dropdown-item" href="../Innovator/project-creation.php">Create Project</a>
+                            </li>
                             <li><a class="dropdown-item" href="../Innovator/edit-project.php">Edit Project</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -78,19 +81,28 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </ul>
                 <div class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link me-2 mt-3" href="../chat/chat.php">
-                            <i class="fas fa-comment fa-lg"></i>
+                        <a class="nav-link me-2 mt-3" href="../Supplier/store.php">
+                            <i class="fas fa-store" style="color: #ffffff;"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item">
+                        <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
+                            <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown mt-2">
+                        <a class="" href="../Innovator/view-profile.php?userName=<?php echo $username ?>">
+                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
+                                style="width:50px;height:50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown mt-3">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
-                                style="width:50px;height;50px;">
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="../Admin/profile.php">Profile</a></li>
+                            <li><a class="dropdown-item" href="../Admin/profile.php">Edit Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="../Admin/resetpassword.php">Reset Password</a></li>
                             <li>
@@ -107,12 +119,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 
     <script>
         function logout() {
-            // Perform logout action using fetch API
             fetch('../logout.php')
                 .then(response => {
                     if (response.ok) {
-                        // Redirect to the login page after logout
-                        window.location.href = '../../../index.php'; // Replace "login.php" with the actual path to your login page
+                        window.location.href = '../../../index.php';
                     } else {
                         console.error('Logout failed');
                     }

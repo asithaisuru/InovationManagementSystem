@@ -53,6 +53,8 @@ if ($result && mysqli_num_rows($result) > 0) {
         include './admin-nav.php';
     } else if ($_SESSION['role'] == "Innovator") {
         include '../Innovator/innovator-nav.php';
+    } else if ($_SESSION['role'] == "Supplier") {
+        include '../Supplier/supplier-nav.php';
     }
     ?>
 
@@ -73,7 +75,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>';
         }
         ?>
-        
+
         <div class="row">
             <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">
@@ -97,18 +99,18 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
 
             <div class="col-lg-6">
-                <form action="profile.php" method="POST">
-                    <div class="card bg-dark border-3 border-white">
-                        <div class="card-header">
-                            <h3 class="text-white">Update Personal Information</h3>
-                        </div>
-                        <div class="card-body">
 
+                <div class="card bg-dark border-3 border-white">
+                    <div class="card-header">
+                        <h3 class="text-white">Update Personal Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="profile.php" method="POST">
                             <fieldset>
                                 <legend class="text-white">Persenal info:</legend>
                                 <div class="form-floating mb-3 mt-3">
                                     <input type="text" class="form-control" id="username" placeholder="Enter Username"
-                                        name="username" value="<?php echo $username ?>">
+                                        name="username" value="<?php echo $username ?>" disabled>
                                     <label for="username">Username</label>
                                 </div>
                                 <div class="form-floating mb-3 mt-3">
@@ -126,100 +128,50 @@ if ($result && mysqli_num_rows($result) > 0) {
                                         name="email" value="<?php echo $email ?>">
                                     <label for="lname">Email</label>
                                 </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend class="text-white">Skills:</legend>
-                                <div id="selected-skills" class="list-group-item list-group-item-action"></div>
-                                <div class="mb-3">
-                                    <div id="selected-skills" class="mb-3">
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control" id="skill-input" name="skill-input"
-                                                placeholder="Enter Skill">
-                                            <label for="skill-input">Skilled languages</label>
-                                        </div>
-                                        <div id="suggestions" class="list-group mt-1"></div>
-                                    </div>
+                                <div class="mb-3 ms-auto" style="width: 200px;">
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="mb-3 ms-auto" style="width: 200px;">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                        </form>
+                        <?php if ($_SESSION['role'] != "Admin"): ?>
+                            <form action="skill_update.php" method="POST">
+                                <fieldset>
+                                    <legend class="text-white">Skills:</legend>
+                                    <div id="selected-skills" class="list-group-item list-group-item-action">
+                                        <?php
+                                        $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
+                                        $result1 = mysqli_query($connection, $sql);
+                                        if (mysqli_num_rows($result1) > 0) {
+                                            while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                echo "<span class='text-white badge '>" . $row1['skill'] . " </span>";
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div id="selected-skills" class="mb-3">
+                                            <div class="form-floating mb-3 mt-3">
+                                                <input type="text" class="form-control" id="skill-input" name="skill-input"
+                                                    placeholder="Enter Skill">
+                                                <label for="skill-input">Skilled languages</label>
+                                            </div>
+                                            <div id="suggestions" class="list-group mt-1"></div>
+                                        </div>
+                                        <div class="mb-3 ms-auto" style="width: 200px;">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        <?php endif; ?>
                     </div>
+
+                </div>
             </div>
 
-            </form>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const skills = ["HTML", "CSS", "JavaScript", "PHP", "Python", "Java", "C++", "C#", "Ruby", "Go"];
-                const skillInput = document.getElementById('skill-input');
-                const suggestionsContainer = document.getElementById('suggestions');
-                const selectedSkillsContainer = document.getElementById('selected-skills');
-                const selectedSkills = [];
 
-                skillInput.addEventListener('input', function () {
-                    const query = skillInput.value.toLowerCase();
-                    suggestionsContainer.innerHTML = '';
-
-                    if (query) {
-                        const filteredSkills = skills.filter(skill => skill.toLowerCase().includes(query));
-                        filteredSkills.forEach(skill => {
-                            const suggestionItem = document.createElement('a');
-                            suggestionItem.className = 'list-group-item list-group-item-action';
-                            suggestionItem.innerText = skill;
-                            suggestionItem.addEventListener('click', function () {
-                                if (!selectedSkills.includes(skill)) {
-                                    selectedSkills.push(skill);
-                                    updateSelectedSkills();
-                                }
-                                skillInput.value = '';
-                                suggestionsContainer.innerHTML = '';
-                            });
-                            suggestionsContainer.appendChild(suggestionItem);
-                        });
-                    }
-                });
-
-                skillInput.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter' && skillInput.value.trim() !== '') {
-                        event.preventDefault();
-                        const skill = skillInput.value.trim();
-                        if (!selectedSkills.includes(skill)) {
-                            selectedSkills.push(skill);
-                            updateSelectedSkills();
-                        }
-                        skillInput.value = '';
-                        suggestionsContainer.innerHTML = '';
-                    }
-                });
-
-                function updateSelectedSkills() {
-                    selectedSkillsContainer.innerHTML = '';
-                    selectedSkills.forEach(skill => {
-                        const badge = document.createElement('span');
-                        badge.className = 'badge bg-primary me-2 mb-2';
-                        badge.innerText = skill;
-
-                        const removeButton = document.createElement('button');
-                        removeButton.className = 'btn-close ms-2';
-                        removeButton.setAttribute('aria-label', 'Close');
-                        removeButton.addEventListener('click', function () {
-                            const index = selectedSkills.indexOf(skill);
-                            if (index > -1) {
-                                selectedSkills.splice(index, 1);
-                                updateSelectedSkills();
-                            }
-                        });
-
-                        badge.appendChild(removeButton);
-                        selectedSkillsContainer.appendChild(badge);
-                    });
-                }
-            });
-        </script>
 </body>
 
 
@@ -227,56 +179,65 @@ if ($result && mysqli_num_rows($result) > 0) {
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $newuserName = mysqli_real_escape_string($connection, $_POST['username']);
+    // $newuserName = mysqli_real_escape_string($connection, $_POST['username']);
     $newfname = mysqli_real_escape_string($connection, $_POST['fname']);
     $newlname = mysqli_real_escape_string($connection, $_POST['lname']);
     $newemail = mysqli_real_escape_string($connection, $_POST['email']);
 
     $selectedSkills = isset($_POST['skills']) ? $_POST['skills'] : [];
 
-    if ($newuserName == $username && $newfname == $fname && $newlname == $lname && $newemail == $email) {
+    if ($newfname == $fname && $newlname == $lname && $newemail == $email) {
         echo '<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
         <strong>Warning!</strong> Nothing Changed. Please Change the fields to update.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>';
     } else {
-        $query = "UPDATE users SET userName = '$newuserName', fname = '$newfname', lname = '$newlname', email = 'new$email' WHERE userName = '$userName'";
+        $query = "UPDATE users SET fname = '$newfname', lname = '$newlname', email = '$newemail' WHERE userName = '$username'";
         mysqli_query($connection, $query);
         // echo "Query: $query";
-        if (mysqli_query($connection, $query)) {
-            // echo "connection successful25567";
-            $query1 = "SELECT * FROM user_skills WHERE userName = '$userName';";
-            $result = mysqli_query($connection, $query1);
-            // echo "Query1: $query1";
-            // echo mysqli_num_rows($result);
+        // if (mysqli_query($connection, $query)) {
+        //     // echo "connection successful25567";
+        //     $query1 = "SELECT * FROM user_skills WHERE userName = '$username';";
+        //     $result = mysqli_query($connection, $query1);
+        //     // echo "Query1: $query1";
+        //     // echo mysqli_num_rows($result);
 
-            if ($result && mysqli_num_rows($result) > 0) {
-                $query2 = "DELETE FROM user_skills WHERE userName = '$userName'";
-                // echo "Query2: $query2";
-                mysqli_query($connection, $query2);
-            } else {
-                // var_dump($selectedSkills);
-                foreach ($selectedSkills as $skill) {
-                    $skill = mysqli_real_escape_string($connection, $skill);
-                    // echo "Skill: $skill <br>";
-                    $query = "INSERT INTO user_skills (userName, skill) VALUES ('$userName', '$selectedSkills')";
-                    if (mysqli_query($connection, $query)) {
-                        echo "Inserted skill: $skill <br>";
-                    } else {
-                        echo "Error inserting skill: $skill - " . mysqli_error($connection) . "<br>";
-                    }
-                }
-                echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-                    <strong>Success!</strong> Profile updated successfully.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>';
-            }
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($connection);
-            echo '<div class="alert alert-danger mt-2" alert-dismissible fade show mt-2" role="alert">
-                <strong>ERROR!!</strong> ' . $query . '<br>' . mysqli_error($connection) . '
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
+        //     if ($result && mysqli_num_rows($result) > 0) {
+        //         $query2 = "DELETE FROM user_skills WHERE userName = '$username'";
+        //         // echo "Query2: $query2";
+        //         mysqli_query($connection, $query2);
+        //     } else {
+        //         // var_dump($selectedSkills);
+        //         foreach ($selectedSkills as $skill) {
+        //             $skill = mysqli_real_escape_string($connection, $skill);
+        //             // echo "Skill: $skill <br>";
+        //             $query = "INSERT INTO user_skills (userName, skill) VALUES ('$userName', '$selectedSkills')";
+        //             if (mysqli_query($connection, $query)) {
+        //                 echo "Inserted skill: $skill <br>";
+        //             } else {
+        //                 echo "Error inserting skill: $skill - " . mysqli_error($connection) . "<br>";
+        //             }
+        //         }
+        //         $ms = "Profile updated successfully.";
+        //         echo '<script>
+        //             window.location.href = "profile.php?status=success&msg=' . $ms . '";
+        //         </script>';
+        //         // echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        //         //     <strong>Success!</strong> Profile updated successfully.
+        //         //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        //         // </div>';
+        //     }
+        if (!mysqli_query($connection, $query)) {
+            $ms = "Error updating profile." . mysqli_error($connection);
+            echo '<script>
+                    window.location.href = "profile.php?status=error&msg=' . $ms . '";
+                </script>';
+
+            // echo "Error: " . $query . "<br>" . mysqli_error($connection);
+            // echo '<div class="alert alert-danger mt-2" alert-dismissible fade show mt-2" role="alert">
+            //     <strong>ERROR!!</strong> ' . $query . '<br>' . mysqli_error($connection) . '
+            //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            //   </div>';
         }
     }
 }

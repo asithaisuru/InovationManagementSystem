@@ -1,10 +1,20 @@
 <?php
 session_start();
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+}
 
-// Unset all session variables
+makeusernotactive($username);
+
+function makeusernotactive($username)
+{
+    include './dbconnection.php';
+    $sql = "UPDATE users SET active = 0 WHERE userName = '$username'";
+    $result = mysqli_query($connection, $sql);
+}
+
 $_SESSION = array();
 
-// If it's desired to kill the session, also delete the session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -13,8 +23,7 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Destroy the session
 session_destroy();
 
-exit(); // Ensure script execution stops after redirection
-?>
+
+exit();

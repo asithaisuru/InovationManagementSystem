@@ -21,6 +21,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>IMS - Create Project</title>
 </head>
 
@@ -69,10 +70,15 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                 </div>
             </div>
             <input type="hidden" name="taskCount" id="taskCount" value="1">
-            <button class="btn btn-primary" onclick="addTask()">Add Task</button>
+            <a class="btn btn-primary" onclick="addTask()">Add Task</a>
             <button class="btn btn-danger delete-task" onclick="deleteTask()">Delete Task</button>
+            <a type="button" class="btn ms-3" style="background-color: gold; color: black;"
+                onclick="genarateResponse()">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Breakdown Tasks using AI
+            </a>
+            <script src="script.js"></script>
 
-            <script>
+            <script>              
                 let taskCount = 1;
                 disableDeleteButton();
 
@@ -91,15 +97,17 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                     newTask.setAttribute('id', 'taskDiv' + taskCount);
                     newTask.classList.add('form-floating', 'mb-3', 'mt-3');
                     newTask.innerHTML = `
-                        <input type="text" class="form-control" id="task${taskCount}" placeholder="Enter Task ${taskCount}" name="task${taskCount}" required>
-                        <label for="task${taskCount}" class="text-dark">Task ${taskCount}</label>
-                    `;
+                        <input type=" text" class="form-control" id="task${taskCount}"
+                placeholder="Enter Task ${taskCount}" name="task${taskCount}" required>
+                <label for="task${taskCount}" class="text-dark">Task ${taskCount}</label>
+                `;
                     const newTaskDescription = document.createElement('div');
                     newTaskDescription.classList.add('form-floating', 'mb-3', 'mt-3');
                     newTaskDescription.innerHTML = `
-                        <textarea class="form-control" id="t${taskCount}dis" name="t${taskCount}dis" rows="10" required></textarea>
-                        <label for="t${taskCount}dis" class="text-dark">Task ${taskCount} Description</label>
-                    `;
+                <textarea class="form-control" id="t${taskCount}dis" name="t${taskCount}dis" rows="10"
+                    required></textarea>
+                <label for="t${taskCount}dis" class="text-dark">Task ${taskCount} Description</label>
+                `;
                     taskContainer.appendChild(newTask);
                     taskContainer.appendChild(newTaskDescription);
 
@@ -179,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $taskID = 'p' . $projectID . 'task' . $i;
             $taskName = $_POST['task' . $i];
             $taskDescription = $_POST['t' . $i . 'dis'];
-            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID')";
+            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid, status) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID', 'Not Assigned')";
             $result = mysqli_query($connection, $sql);
         }
         $em = "Project creation successfull.";
