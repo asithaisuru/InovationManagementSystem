@@ -81,53 +81,52 @@ include '../dbconnection.php';
             </div>
             
 
-        <!-- Display Posts -->
-        <?php
-        // SQL query to fetch posts
-        $sql = "SELECT * FROM posts";
-        if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
-            $category = mysqli_real_escape_string($connection, $_GET['post_category']);
-            $sql .= " WHERE category='$category'";
-        }
-        $sql .= " ORDER BY date DESC LIMIT 8";
-        $result = mysqli_query($connection, $sql);
-        // Check if any posts are found
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Check if the current user has liked this post
-                $postid = $row['postid'];
-                $likedQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
-                $likedResult = mysqli_query($connection, $likedQuery);
-                $isLiked = (mysqli_num_rows($likedResult) > 0);
-
-                // Get the number of likes for this post
-                $likeCountQuery = "SELECT COUNT(*) AS like_count FROM post_likes WHERE post_id='$postid'";
-                $likeCountResult = mysqli_query($connection, $likeCountQuery);
-                $likeCountRow = mysqli_fetch_assoc($likeCountResult);
-                $likeCount = $likeCountRow['like_count'];
-
-                // Display post details
-                echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
-                echo "<h3>" . $row['title'] . "</h3>";
-                echo "<p>" . $row['content'] . "</p>";
-                echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>" . $row['userName'] . "</a></small>";
-                echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
-                echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
-                echo "<small>Category: " . $row['category'] . "</small>";
-                echo "<div>";
-                // Like button with dynamic text and color
-                echo "<div class='d-flex align-items-center'>";
-                echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($row['postid']) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($row['postid']) . "'>$likeCount</span>";
-                echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
+         <!-- Display Posts -->
+         <div id="post-container">
+            <?php
+            // SQL query to fetch posts
+            $sql = "SELECT * FROM posts";
+            if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
+                $category = mysqli_real_escape_string($connection, $_GET['post_category']);
+                $sql .= " WHERE category='$category'";
             }
-        } else {
-            echo "No posts found";
-        }
-        ?>
+            $sql .= " ORDER BY date DESC LIMIT 8";
+            $result = mysqli_query($connection, $sql);
+            // Check if any posts are found
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // Check if the current user has liked this post
+                    $postid = $row['postid'];
+                    $likedQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
+                    $likedResult = mysqli_query($connection, $likedQuery);
+                    $isLiked = (mysqli_num_rows($likedResult) > 0);
+
+                    // Get the number of likes for this post
+                    $likeCountQuery = "SELECT COUNT(*) AS like_count FROM post_likes WHERE post_id='$postid'";
+                    $likeCountResult = mysqli_query($connection, $likeCountQuery);
+                    $likeCountRow = mysqli_fetch_assoc($likeCountResult);
+                    $likeCount = $likeCountRow['like_count'];
+
+                    // Display post details
+                    echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
+                    echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
+                    echo "<p>" . htmlspecialchars($row['content']) . "</p>";
+                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . htmlspecialchars($row['userName']) . "'>" . htmlspecialchars($row['userName']) . "</a></small>";
+                    echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
+                    echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
+                    echo "<small>Category: " . htmlspecialchars($row['category']) . "</small>";
+                    echo "<div class='d-flex align-items-center'>";
+                    echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                    echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($postid) . "'>$likeCount</span>";
+                    echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+            } else {
+            
+            }
+            ?>
+        </div>
         <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
         
         
@@ -164,7 +163,6 @@ include '../dbconnection.php';
             });
         });
         
-        let offset = 8; // Number of posts initially loaded
         document.getElementById('loadMoreBtn').addEventListener('click', function() {
         fetch(`load_more_posts.php?offset=${offset}`)
             .then(response => response.text())
@@ -173,15 +171,13 @@ include '../dbconnection.php';
                 offset += 8;
             })
             .catch(error => console.error('Error:', error));
-     });
+        });
  
-            //------------------LIKE Btn------------------
-
-            document.addEventListener('DOMContentLoaded', function() {
+              // Function to add event listeners to like buttons
+              function addLikeButtonListeners() {
                 const likeButtons = document.querySelectorAll('.like-btn');
-
                 likeButtons.forEach(button => {
-                    button.addEventListener('click', function() {
+                    button.addEventListener('click', function () {
                         const postid = this.getAttribute('data-post-id');
                         const btn = this;
                         // Send POST request to like post
@@ -192,58 +188,54 @@ include '../dbconnection.php';
                             },
                             body: 'postid=' + postid
                         })
-                        .then(response => response.text())
-                        .then(data => {
-                            if (data === 'liked') {
-                                // Update button style & text (liked)
-                                btn.classList.remove('btn-primary');
-                                btn.classList.add('btn-success');
-                                btn.textContent = 'Liked';
-                                updateLikeCount(postid, 1);
-                            } else if (data === 'unliked') {
-                                // Update button style & text (unliked)
-                                btn.classList.remove('btn-success');
-                                btn.classList.add('btn-primary');
-                                btn.textContent = 'Like';
-                                updateLikeCount(postid, -1);
-                                // Handle errors
-                            } else if (data === 'already liked') {
-                                alert('You already liked this post.');
-                            } else {
-                                alert('An error occurred.');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
+                            .then(response => response.text())
+                            .then(data => {
+                                if (data === 'liked') {
+                                    // Update button style & text (liked)
+                                    btn.classList.remove('btn-primary');
+                                    btn.classList.add('btn-success');
+                                    btn.textContent = 'Liked';
+                                    updateLikeCount(postid, 1);
+                                } else if (data === 'unliked') {
+                                    // Update button style & text (unliked)
+                                    btn.classList.remove('btn-success');
+                                    btn.classList.add('btn-primary');
+                                    btn.textContent = 'Like';
+                                    updateLikeCount(postid, -1);
+                                } else if (data === 'already liked') {
+                                    alert('You already liked this post.');
+                                } else {
+                                    alert('An error occurred.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
                     });
                 });
+            }
 
-                // Check if the current user has liked the post and set the button state accordingly
-                const likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || [];
-                likedPosts.forEach(postid => {
-                    const button = document.querySelector(`.like-btn[data-post-id="${postid}"]`);
-                    if (button) {
-                        button.classList.remove('btn-primary');
-                        button.classList.add('btn-success');
-                        button.textContent = 'Liked';
-                    }
-                });
+            // Initial call to add listeners to the initially loaded posts
+            addLikeButtonListeners();
 
-                // Save the liked post ids to local storage after the page refreshes
-                window.addEventListener('beforeunload', function() {
-                    const likedPosts = Array.from(document.querySelectorAll('.like-btn.btn-success')).map(button => button.getAttribute('data-post-id'));
-                    localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
-                });
+            // Function to update the like count in real-time
+            function updateLikeCount(postid, change) {
+                const likeCountElement = document.querySelector(`.like-count[data-post-id='${postid}']`);
+                const currentCount = parseInt(likeCountElement.textContent);
+                likeCountElement.textContent = currentCount + change;
+            }
 
-                // Function to update the like count in real-time
-                function updateLikeCount(postid, count) {
-                    const likeCountElement = document.querySelector(`.like-count[data-post-id="${postid}"]`);
-                    if (likeCountElement) {
-                        const currentCount = parseInt(likeCountElement.textContent);
-                        const newCount = currentCount + count;
-                        likeCountElement.textContent = newCount;
-                    }
-                }
+            // Load more posts functionality
+            let offset = 8; // Number of posts initially loaded
+            document.getElementById('loadMoreBtn').addEventListener('click', function () {
+                fetch(`load_more_posts.php?offset=${offset}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('post-container').innerHTML += data;
+                        offset += 8;
+                        addLikeButtonListeners(); // Re-add event listeners to new like buttons
+                    })
+                    .catch(error => console.error('Error:', error));
             });
+
 
     </script>
     <!-- Include jQuery additional functionality -->
