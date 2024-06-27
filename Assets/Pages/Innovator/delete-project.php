@@ -4,6 +4,10 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Innovator') {
+        if ($role == 'Admin') {
+            echo "<script>window.location.href='../error.php?msj=Access Denied';</script>";
+            exit();
+        }
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -31,7 +35,6 @@ include '../dbconnection.php';
 
     <div class="container">
         <?php
-        // echo $pid;
         $status = isset($_GET['projectdeletestatus']) ? htmlspecialchars($_GET['projectdeletestatus']) : "";
         if ($status == "success") {
             echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">

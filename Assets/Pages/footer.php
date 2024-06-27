@@ -21,17 +21,19 @@
             <div class="row">
                 <div class="col-md-6 text-center">
                     <h5>About Us</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum
-                        vestibulum.</p>
+                    <p>Get your idea to market faster with Eureka's collaborative platform.<br>
+                        Connect with creators, share your vision, and turn ideas into reality.<br>Sign up now!
+                    </p>
+                    
                 </div>
                
                 <div class="col-md-6 text-center">
                     <h5>Contact Us</h5>
                     <address>
-                        1234 Street Name<br>
-                        City, State, 12345<br>
-                        <a href="mailto:info@example.com" class="text-white">info@example.com</a><br>
-                        <a href="tel:+1234567890" class="text-white">+1 234 567 890</a>
+                        No:21,<br>
+                        Colombo,Srilanka.<br>
+                        <a href="mailto:info@example.com" class="text-white">Eureka@gmail.com</a><br>
+                        <a href="tel:+1234567890" class="text-white">+45 222 3033</a>
                     </address>
                 </div>
             </div>

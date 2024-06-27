@@ -73,8 +73,7 @@
                             <option disabled selected></option>
                             <option value="Innovator">Innovator</option>
                             <option value="Supplier">Supplier</option>
-                            <option value="Lawyer">Lawyer</option>
-                            <option value="Marketing Manager">Marketing Manager</option>
+                            <option value="Buyer">Buyer</option>
                         </select>
                         <label for="role">Select Role</label>
                     </div>
@@ -172,68 +171,30 @@
 <?php
 include './dbconnection.php';
 include './password.php';
+require_once './signup-process.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $file = $_FILES["file"];
+    // $file = $_FILES["file"];
     $username = $_POST["username"];
     $firstname = $_POST["fname"];
     $lastname = $_POST["lname"];
     $password = $_POST["password"];
     $email = $_POST["email"];
     $repassword = $_POST["repassword"];
-
-    if ($password != $repassword) {
-        echo '<script type="text/javascript">
-                window.onload = function () { alert("Passwords do not match. Please re-enter passwords."); }
-            </script>';
-        exit();
-    }
-    if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-        echo '<script type="text/javascript">
-                window.onload = function () { alert("Invalid username format. Please enter a valid username."); }
-            </script>';
-        exit();
-    }
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo '<script type="text/javascript">
-                window.onload = function () { alert("Invalid email format. Please enter a valid email address."); }
-            </script>';
-        exit();
-    }
     $role = $_POST["role"];
 
-    $query = "SELECT * FROM users WHERE email='$email'";
-    $result = mysqli_query($connection, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-        echo '<script type="text/javascript">
-                    window.onload = function () { alert("Email already exists. Try a different email."); }
-                </script>';
-        exit();
+    $signup = new Signup($username, $firstname, $lastname, $email, $role, $password, $repassword);
+    $signup->signup($connection);
+    if ($signup->getSuccessStatusOfUserRegister()){
+        echo '<script>
+            setTimeout(function(){
+                alert("User Register Successfull. Redirecting to index...");
+                window.location.href = "../../index.php";
+            }, 1000);
+        </script>';
+    }else{
+        echo '<script>alert("User Register Failed.");</script>';
     }
-
-    $query = "SELECT * FROM users WHERE userName='$username'";
-    $result = mysqli_query($connection, $query);
-    if (mysqli_num_rows($result) > 0) {
-        echo '<script type="text/javascript">
-                window.onload = function () { alert("Username already exists. Try a different username."); }
-            </script>';
-        exit();
-    } else {
-        $hashpw = hashPassword($password);
-        $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$username', '$firstname', '$lastname', '$email', '$role', '$hashpw')";
-        if ($connection->query($sql) === TRUE) {
-            echo '<script type="text/javascript">            
-                    window.onload = function () { alert("User registered successfully. Please Login. Redirect to login page in 5 seconds..."); };
-                    setTimeout(function() {
-                        window.location.href = "../../index.php";
-                    }, 5000);
-                </script>';
-        } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
-        }
-    }
-
     $connection->close();
 }
 ?>
