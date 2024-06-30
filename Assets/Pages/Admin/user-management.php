@@ -139,16 +139,41 @@ include '../dbconnection.php';
             <div class="card border-white border-3 bg-dark text-white" id="remove-user">
                 <div class="card-body">
                     <h1 class="text-center">Remove Admin/ Moderator User</h1>
-                    <form action="remove_user.php" method="POST">
+                    <form action="remove_user.php" method="POST" id="remove_user_form">
                         <div class="mb-3">
                             <label for="remove_username" class="form-label">Username:</label>
                             <input type="text" class="form-control" id="remove_username" name="remove_username" required>
                         </div>
-                        <button type="submit" class="btn btn-danger">Remove User</button>
+                        <a onclick="confirmUserRemoval()" class="btn btn-danger">Remove User</a>
                     </form>
                 </div>
             </div>
 
+            <!-- user removal confirmation -->
+            <script>
+                function confirmUserRemoval() {
+                    var remove_username = document.getElementById('remove_username').value;
+                    if (remove_username == "") {
+                        alert("Please enter the username to remove.");
+                        return;
+                    }
+                    var confirmation = prompt("You are about to permanently delete the account : \"" + remove_username +
+                        "\". This action is irreversible and will result in the following:\n\nLoss of all the personal " +
+                        "data and preferences.\nInability to recover any information or content associated with the " +
+                        "account.\n\nIf you are sure you want to proceed, please type the username in the text field below." +
+                        " Otherwise, you can cancel this action to keep the account and data intact.\n\nAre you " +
+                        "sure you want to delete the account?");
+                    if (confirmation === remove_username) {
+                        document.getElementById('remove_user_form').submit();
+                    }
+                    else if (confirmation != null) {
+                        alert("Please type the username correctly to delete the account.");
+                        window.location.href = './user-management.php#remove-user';
+                    }
+                }
+            </script>
+
+            <!-- Showing removal status -->
             <?php
             $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
             if ($status == "userremovesuccess") {
@@ -176,39 +201,40 @@ include '../dbconnection.php';
 
         </div>
     <?php endif; ?>
-    <!-- User Table Section -->
+    <!-- Admin Users Table Section -->
     <div class="container mt-5">
         <div class="card border-white border-3 bg-dark text-white" id="admin-list">
             <div class="card-body">
                 <h1 class="text-center">Admin List</h1>
                 <div class="table-responsive-lg">
-                <div class="mt-3">
-                    <form method="GET">
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-lg-2 mb-2">
-                                    <select name="filter" id="filter" class="form-select">
-                                        <option value="userName">Username</option>
-                                        <option value="name">Name</option>
-                                    </select>
+                    <div class="mt-3">
+                        <form method="GET">
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-lg-2 mb-2">
+                                        <select name="filter" id="filter" class="form-select">
+                                            <option value="userName">Username</option>
+                                            <option value="name">Name</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-9 mb-2">
+                                        <input type="text" name="adminkeyword" id="adminkeyword" class="form-control">
+                                    </div>
+                                    <div class="col-lg-1 mb-2">
+                                        <button type="submit"
+                                            class="btn btn-primary text-center d-block">Filter</button>
+                                    </div>
                                 </div>
-                                <div class="col-lg-9 mb-2">
-                                    <input type="text" name="adminkeyword" id="adminkeyword" class="form-control">
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <button type="submit" class="btn btn-primary text-center d-block">Filter</button>
-                                </div>
-                            </div>
-                            <!-- <label for="filter" class="form-label">Filter by:</label> -->
+                                <!-- <label for="filter" class="form-label">Filter by:</label> -->
 
-                        </div>
-                        <!-- <div class="mb-3">
+                            </div>
+                            <!-- <div class="mb-3">
                             <label for="keyword" class="form-label">Keyword:</label>
 
                         </div> -->
 
-                    </form>
-                </div>
+                        </form>
+                    </div>
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>
                             <tr>
@@ -223,12 +249,12 @@ include '../dbconnection.php';
                         <tbody>
                             <?php
                             $sql = "SELECT * FROM users WHERE (role='Admin' OR role='Moderator')";
-                            if(isset($_GET['filter']) && !empty($_GET['filter']) && isset($_GET['adminkeyword']) && !empty($_GET['adminkeyword'])){
+                            if (isset($_GET['filter']) && !empty($_GET['filter']) && isset($_GET['adminkeyword']) && !empty($_GET['adminkeyword'])) {
                                 $keyword = $_GET['adminkeyword'];
-                                if($_GET['filter'] == 'userName'){
+                                if ($_GET['filter'] == 'userName') {
                                     $sql .= " AND userName LIKE '%$keyword%'";
                                 }
-                                if($_GET['filter'] == 'name'){
+                                if ($_GET['filter'] == 'name') {
                                     $sql .= " AND (fname LIKE '%$keyword%' OR lname LIKE '%$keyword%')";
                                 }
                             }

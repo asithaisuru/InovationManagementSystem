@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $role = $row['role'];
-        echo $role;
         // Get the role of the user
 
         // Check if the user has the role of 'Admin' or 'Moderator'
