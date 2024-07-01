@@ -62,12 +62,8 @@ if ($result && $result->num_rows > 0) {
         echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
         echo "</div>";
         echo "</div>";
-        
     }
-     {  // If no posts are found  
-        echo "<div class='alert alert-warning'>No more posts to show.</div>";
-    }
+} else {
+    echo "<div class='alert alert-warning'>No more posts to show</div>";
 }
-   
-
 ?>
