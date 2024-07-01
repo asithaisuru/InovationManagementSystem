@@ -45,6 +45,7 @@ if ($result && $result->num_rows > 0) {
         $likeCountStmt->bind_param("s", $postid);
         $likeCountStmt->execute();
         $likeCountResult = $likeCountStmt->get_result();
+        
         $likeCountRow = $likeCountResult->fetch_assoc();
         $likeCount = $likeCountRow['like_count'];
 
@@ -65,7 +66,7 @@ if ($result && $result->num_rows > 0) {
         
     }
      {  // If no posts are found  
-        echo "<div class='alert alert-warning'>No more posts to show.</div>";
+        
     }
 }
    
