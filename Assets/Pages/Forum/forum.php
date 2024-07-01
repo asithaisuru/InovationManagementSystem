@@ -163,18 +163,8 @@ include '../dbconnection.php';
             });
         });
         
-        document.getElementById('loadMoreBtn').addEventListener('click', function() {
-        fetch(`load_more_posts.php?offset=${offset}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('post-container').innerHTML += data;
-                offset += 8;
-            })
-            .catch(error => console.error('Error:', error));
-        });
- 
-              // Function to add event listeners to like buttons
-              function addLikeButtonListeners() {
+    // Function to add event listeners to like buttons
+            function addLikeButtonListeners() {
                 const likeButtons = document.querySelectorAll('.like-btn');
                 likeButtons.forEach(button => {
                     button.addEventListener('click', function () {
@@ -229,13 +219,13 @@ include '../dbconnection.php';
                 fetch(`load_more_posts.php?offset=${offset}`)
                     .then(response => response.text())
                     .then(data => {
-                        document.getElementById('post-container').innerHTML += data;
+                        const postContainer = document.getElementById('post-container');
+                        postContainer.innerHTML += data;
                         offset += 8;
                         addLikeButtonListeners(); // Re-add event listeners to new like buttons
                     })
                     .catch(error => console.error('Error:', error));
             });
-
 
     </script>
     <!-- Include jQuery additional functionality -->
