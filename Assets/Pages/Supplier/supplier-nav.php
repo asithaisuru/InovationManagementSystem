@@ -110,7 +110,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="../Admin/profile.php">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="../Admin/resetpassword.php">Reset Password</a></li>
                             <li>
                                 <hr class="dropdown-divider">
