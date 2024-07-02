@@ -5,7 +5,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     // Redirect not an Innovator
-    if ($role != 'Innovator') {
+    if ($role != 'Innovator' && $role != 'Supplier') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -70,18 +70,19 @@ include '../dbconnection.php';
                 </form>
             </div>
 
-     </div>
-     <div>
-            <div> 
-                 <!-- Back to Forum button -->
-                <a href="./forum.php" class="btn btn-success">Back to Forum</a></div>
+        </div>
+        <div>
+            <div>
+                <!-- Back to Forum button -->
+                <a href="./forum.php" class="btn btn-success">Back to Forum</a>
+            </div>
         </div>
 
 
-    <!-- footer -->
-    <div id="footer">
-        <?php include '../footer.php' ?>
-    </div>
+        <!-- footer -->
+        <div id="footer">
+            <?php include '../footer.php' ?>
+        </div>
 
 
 </body>

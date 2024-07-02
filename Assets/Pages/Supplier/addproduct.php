@@ -30,30 +30,32 @@ if (isset($_SESSION['username'])) {
         </div>
         <div class="card bg-dark text-white border-white border-3">
             <div class="card-body">
-                <form action="" method="POST">
+                <form action="add_product.php" method="POST" enctype="multipart/form-data">
+
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name" name="prodName" required>
+                        <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name"
+                            name="prodName" required>
                         <label for="prodName" class="text-dark">Product Name</label>
                     </div>
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Discription" name="prodDis" required>
+                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Discription"
+                            name="prodDis" required>
                         <label for="prodDis" class="text-dark">Product Discription</label>
-                    <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product SKU" name="Enter Product SKU" required>
-                        <label for="prodDis" class="text-dark">Product SKU</label>
-                    </div>
-                    <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product DIS" name="Enter Product DIS" required>
-                        <label for="prodDis" class="text-dark">Product Special Discount</label>
-                    </div>
-                    <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodDis" placeholder="supplierContactDetails" name="supplierContactDetails" required>
-                        <label for="prodDis" class="text-dark">Product supplier Contact Details
-                       
-                    </label>
-                       
-                    </div>
-                    <button type="submit" class="btn btn-success">Add Product</button>
+                        <div class="form-floating mb-3 mt-3">
+
+
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="text" class="form-control" id="prodDis"
+                                    placeholder="supplierContactDetails" name="prodPrice" required>
+                                <label for="prodPrice" class="text-dark">Product Price
+                                </label>
+                            </div>
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="file" class="form-control" id="prodImage" name="prodImage" required>
+                                <label for="prodImage" class="text-dark">Upload Product Image</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Add Product</button>
                 </form>
 
             </div>
