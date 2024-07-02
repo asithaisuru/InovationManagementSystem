@@ -89,7 +89,7 @@ include '../dbconnection.php';
 <!-- document.getElementById("getProject").submit(); -->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pid = $_POST['pid'];
+    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_STRING);
     $sql = "DELETE FROM tasks WHERE pid = '$pid';"; // Removing from tasks
     if (mysqli_query($connection, $sql)) {
         $sql = "DELETE FROM contributors WHERE pid = '$pid';"; // Removing from contributors

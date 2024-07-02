@@ -132,9 +132,9 @@ if (isset($_SESSION['username'])) {
 <?php
 include '../password.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $oldpassword = $_POST['oldpassword'];
-    $newpassword = $_POST['newpassword'];
-    $confirmpassword = $_POST['confirmpassword'];
+    $oldpassword = filter_var($_POST['oldpassword'], FILTER_SANITIZE_STRING);
+    $newpassword = filter_var($_POST['newpassword'], FILTER_SANITIZE_STRING);
+    $confirmpassword = filter_var($_POST['confirmpassword'], FILTER_SANITIZE_STRING);
 
     if ($newpassword == $confirmpassword) {
         // Check if the new password and confirm password match

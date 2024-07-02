@@ -15,8 +15,8 @@ $dbnoOfTasks = $row['noOfTasks'];
 // echo "dbnoOfTasks : " . $dbnoOfTasks;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pname = $_POST['pname'];
-    $pdis = $_POST['pdis'];
+    $pname = filter_var($_POST['pname'], FILTER_SANITIZE_STRING);
+    $pdis = filter_var($_POST['pdis'], FILTER_SANITIZE_STRING);
     $projectCategory = $_POST['projectCategory'];
     $edate = $_POST['edate'];
     $numOfTasks = $_POST['taskCount'];

@@ -88,8 +88,8 @@ include '../dbconnection.php';
 <?php
 include '../password.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $passwordresetusername = $_POST['username'];
-    $password = $_POST['password'];
+    $passwordresetusername = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
 
     $sendingPassword = hashPassword($password);
 
