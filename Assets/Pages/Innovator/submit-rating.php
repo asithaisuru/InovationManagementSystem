@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userName = $_POST['viewUserName'];
     $rating = $_POST['rating'];
     $ratingBy = $username;
-    $comment = filter_var($_POST['review'], FILTER_SANITIZE_STRING);
+    $comment = $_POST['review'];
 
     $query = "INSERT INTO user_ratings (userName, rating, ratingBy, comment) VALUES ('$userName', '$rating', '$ratingBy', '$comment')";
     $result = mysqli_query($connection, $query);

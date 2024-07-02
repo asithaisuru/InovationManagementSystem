@@ -170,11 +170,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 include '../dbconnection.php';
 // $taskCount = "<script>taskCount</script>";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pname = filter_var($_POST['pname'], FILTER_SANITIZE_STRING);
-    $pdis = filter_var($_POST['pdis'], FILTER_SANITIZE_STRING);
+    $pname = $_POST['pname'];
+    $pdis = $_POST['pdis'];
     $projectCategory = $_POST['projectCategory'];
     $sdate = date('Y-m-d');
-    $edate = filter_var($_POST['edate'], FILTER_SANITIZE_STRING);
+    $edate = $_POST['edate'];
     $numOfTasks = $_POST['taskCount'];
     // echo "numoftasks : ".$numOfTasks;
 

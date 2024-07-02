@@ -210,7 +210,7 @@ include '../dbconnection.php'; ?>
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $pid = filter_var($_POST["pid"], FILTER_SANITIZE_STRING);
+    $pid = $_POST["pid"];
     echo '<script>document.getElementById("pid2nd").value = "' . $pid . '";</script>';
     $sql = "SELECT * FROM project WHERE pid = '$pid'";
     echo '<script>document.getElementById("pid").value = "' . $pid . '";</script>';

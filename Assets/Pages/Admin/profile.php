@@ -196,9 +196,9 @@ if ($result && mysqli_num_rows($result) > 0) {
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $newfname = mysqli_real_escape_string($connection, filter_var($_POST['fname'], FILTER_SANITIZE_STRING));
-    $newlname = mysqli_real_escape_string($connection, filter_var($_POST['lname'], FILTER_SANITIZE_STRING));
-    $newemail = mysqli_real_escape_string($connection, filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
+    $newfname = mysqli_real_escape_string($connection, $_POST['fname']);
+    $newlname = mysqli_real_escape_string($connection, $_POST['lname']);
+    $newemail = mysqli_real_escape_string($connection, $_POST['email']);
 
     $selectedSkills = isset($_POST['skills']) ? $_POST['skills'] : [];
 

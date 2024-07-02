@@ -9,7 +9,7 @@ if (isset($_SESSION['username'])) {
 }
 
 include '../dbconnection.php';
-$skill = filter_var($_POST['skill-input'], FILTER_SANITIZE_STRING);
+$skill = $_POST['skill-input'];
 // Insert user skills into database
 $sql = "INSERT INTO user_skills (userName,skill) VALUES ('$username','$skill')";
 //showing response messages

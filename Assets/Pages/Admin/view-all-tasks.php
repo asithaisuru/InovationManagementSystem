@@ -81,8 +81,8 @@ include '../dbconnection.php';
                             <?php
                             $sql = "SELECT * FROM tasks";
                             if (isset($_GET['filter']) && isset($_GET['keyword'])) {
-                                $filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
-                                $keyword = filter_var($_GET['keyword'], FILTER_SANITIZE_STRING);
+                                $filter = $_GET['filter'];
+                                $keyword = $_GET['keyword'];
                                 $sql .= " WHERE $filter LIKE '%$keyword%'";
                             }
                             $result = mysqli_query($connection, $sql);

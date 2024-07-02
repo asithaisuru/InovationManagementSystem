@@ -2,7 +2,7 @@
 include '../dbconnection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $remove_username = filter_var($_POST['remove_username'], FILTER_SANITIZE_STRING);
+    $remove_username = $_POST['remove_username'];
     // Get the username to be removed from the form data
 
     // Check if the user exists in the database

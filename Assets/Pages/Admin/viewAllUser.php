@@ -84,19 +84,19 @@ if (isset($_SESSION['username'])) {
                             <?php
                             $sql = "SELECT * FROM users WHERE role!='Admin' AND role!='Moderator'";
                             if (isset($_GET['role']) && !empty($_GET['role'])) {
-                                $role = filter_var($_GET['role'], FILTER_SANITIZE_STRING);
+                                $role = $_GET['role'];
                                 $sql .= " AND role='$role'";
                             }
                             if (isset($_GET['email']) && !empty($_GET['email'])) {
-                                $email = filter_var($_GET['email'], FILTER_SANITIZE_STRING);
+                                $email = $_GET['email'];
                                 $sql .= " AND (email LIKE '%$email%')";
                             }
                             if (isset($_GET['UserName']) && !empty($_GET['UserName'])) {
-                                $UserName = filter_var($_GET['UserName'], FILTER_SANITIZE_STRING);
+                                $UserName = $_GET['UserName'];
                                 $sql .= " AND (userName LIKE '%$UserName%')";
                             }
                             if (isset($_GET['name']) && !empty($_GET['name'])) {
-                                $name = filter_var($_GET['name'], FILTER_SANITIZE_STRING);
+                                $name = $_GET['name'];
                                 $sql .= " AND (fname LIKE '%$name%' OR lname LIKE '%$name%')";
                             }
                             $result = mysqli_query($connection, $sql);

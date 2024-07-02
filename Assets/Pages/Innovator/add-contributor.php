@@ -154,7 +154,7 @@ include '../dbconnection.php';
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $cname = filter_var($_POST['cname'], FILTER_SANITIZE_STRING);
+    $cname = $_POST['cname'];
     // echo $cname . "<br>";
     $sql = "SELECT * FROM users WHERE BINARY userName = '$cname'";
     $result = mysqli_query($connection, $sql);

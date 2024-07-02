@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
                             <?php
                             $sql = "SELECT * FROM project";
                             if (isset($_GET['filter']) && !empty($_GET['filter']) && isset($_GET['keyword']) && !empty($_GET['keyword'])) {
-                                $keyword = filter_var($_GET['keyword'], FILTER_SANITIZE_STRING);
+                                $keyword = $_GET['keyword'];
                                 if ($_GET['filter'] == 'id') {
                                     $filter = 'pid';
                                     $sql .= " WHERE pid='$keyword'";
