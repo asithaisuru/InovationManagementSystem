@@ -216,8 +216,8 @@ class User
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+        $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
         $user = new User($username, $password);
         $user->login($connection);
     } else {
