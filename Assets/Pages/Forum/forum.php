@@ -1,11 +1,10 @@
-
 <?php
 session_start();
 // Check if the user is logged the required role
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator') {
+    if ($role != 'Innovator' && $role != 'Supplier') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -31,27 +30,35 @@ include '../dbconnection.php';
     <title>Forum</title>
     <style>
     #backToTopBtn {
-        display: none; /* Initially hide the button */
+        display: none;
+        /* Initially hide the button */
         position: fixed;
         bottom: 20px;
         right: 20px;
-        z-index: 100; /* Ensure the button is above other elements */
+        z-index: 100;
+        /* Ensure the button is above other elements */
     }
-</style>
+    </style>
 
 </head>
 
 <body class="bg-dark text-white">
-        <!-- Include the nav bar -->
-    <?php include '../Innovator/innovator-nav.php'; ?>
+    <!-- Include the nav bar -->
+    <?php
+    if ($role == 'Innovator')
+        include '../Innovator/innovator-nav.php';
+    elseif ($role == 'Supplier')
+        include '../Supplier/supplier-nav.php';
+    ?>
 
     <body>
 
-    <div class="container">
-        <!-- Forum -->
-        <h1 class="text-center">Welcome to the Innovator Forum</h1>
-        <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights into
-            the innovation process.</p>
+        <div class="container">
+            <!-- Forum -->
+            <h1 class="text-center">Welcome to the Innovator Forum</h1>
+            <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights
+                into
+                the innovation process.</p>
             <div>
                 <!-- Link story btn -->
                 <a href="./submit-form.php" class="btn btn-success">Create your story</a>
@@ -60,124 +67,124 @@ include '../dbconnection.php';
                 <h4>Category</h4>
                 <form method="GET">
                     <!-- Dropdown categories -->
-                <select name="post_category" id="post_category" class="form-control" required onchange="filterPosts(this.value)">
-                    <option value="all">All</option>
-                    <?php
-                     // Define and display post categories
-                    $categories = array(
-                        'SuccessStories' => 'Success Stories',
-                        'CollaborationOpportunities' => 'Collaboration Opportunities',
-                        'InsightsandTips' => 'Insights and Tips',
-                        'SkillsandQualifications' => 'Skills and Qualifications',
-                        'PersonalBranding' => 'Personal Branding'
-                    );
-                    foreach ($categories as $value => $label) {
-                        echo "<option value='$value'>$label</option>";
-                    }
-                    ?>
-                </select> </br>
-                <button class="btn btn-primary" type="submit">Search Posts</button>
+                    <select name="post_category" id="post_category" class="form-control" required
+                        onchange="filterPosts(this.value)">
+                        <option value="all">All</option>
+                        <?php
+                        // Define and display post categories
+                        $categories = array(
+                            'SuccessStories' => 'Success Stories',
+                            'CollaborationOpportunities' => 'Collaboration Opportunities',
+                            'InsightsandTips' => 'Insights and Tips',
+                            'SkillsandQualifications' => 'Skills and Qualifications',
+                            'PersonalBranding' => 'Personal Branding'
+                        );
+                        foreach ($categories as $value => $label) {
+                            echo "<option value='$value'>$label</option>";
+                        }
+                        ?>
+                    </select> </br>
+                    <button class="btn btn-primary" type="submit">Search Posts</button>
                 </form>
             </div>
-            
 
-         <!-- Display Posts -->
-         <div id="post-container">
-            <?php
-            // SQL query to fetch posts
-            $sql = "SELECT * FROM posts";
-            if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
-                $category = mysqli_real_escape_string($connection, $_GET['post_category']);
-                $sql .= " WHERE category='$category'";
-            }
-            $sql .= " ORDER BY date DESC LIMIT 8";
-            $result = mysqli_query($connection, $sql);
-            // Check if any posts are found
-            if ($result && mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    // Check if the current user has liked this post
-                    $postid = $row['postid'];
-                    $likedQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
-                    $likedResult = mysqli_query($connection, $likedQuery);
-                    $isLiked = (mysqli_num_rows($likedResult) > 0);
 
-                    // Get the number of likes for this post
-                    $likeCountQuery = "SELECT COUNT(*) AS like_count FROM post_likes WHERE post_id='$postid'";
-                    $likeCountResult = mysqli_query($connection, $likeCountQuery);
-                    $likeCountRow = mysqli_fetch_assoc($likeCountResult);
-                    $likeCount = $likeCountRow['like_count'];
-
-                    // Display post details
-                    echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
-                    echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
-                    echo "<p>" . htmlspecialchars($row['content']) . "</p>";
-                    echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . htmlspecialchars($row['userName']) . "'>" . htmlspecialchars($row['userName']) . "</a></small>";
-                    echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
-                    echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
-                    echo "<small>Category: " . htmlspecialchars($row['category']) . "</small>";
-                    echo "<div class='d-flex align-items-center'>";
-                    echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                    echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($postid) . "'>$likeCount</span>";
-                    echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
-                    echo "</div>";
-                    echo "</div>";
+            <!-- Display Posts -->
+            <div id="post-container">
+                <?php
+                // SQL query to fetch posts
+                $sql = "SELECT * FROM posts";
+                if (isset($_GET['post_category']) && $_GET['post_category'] != 'all') {
+                    $category = mysqli_real_escape_string($connection, $_GET['post_category']);
+                    $sql .= " WHERE category='$category'";
                 }
-            } else {
-            
-            }
-            ?>
+                $sql .= " ORDER BY date DESC LIMIT 8";
+                $result = mysqli_query($connection, $sql);
+                // Check if any posts are found
+                if ($result && mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        // Check if the current user has liked this post
+                        $postid = $row['postid'];
+                        $likedQuery = "SELECT * FROM post_likes WHERE post_id='$postid' AND user_id='$username'";
+                        $likedResult = mysqli_query($connection, $likedQuery);
+                        $isLiked = (mysqli_num_rows($likedResult) > 0);
+
+                        // Get the number of likes for this post
+                        $likeCountQuery = "SELECT COUNT(*) AS like_count FROM post_likes WHERE post_id='$postid'";
+                        $likeCountResult = mysqli_query($connection, $likeCountQuery);
+                        $likeCountRow = mysqli_fetch_assoc($likeCountResult);
+                        $likeCount = $likeCountRow['like_count'];
+
+                        // Display post details
+                        echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
+                        echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
+                        echo "<p>" . htmlspecialchars($row['content']) . "</p>";
+                        echo "<small>Posted by: <a class='text-white' href='../Innovator/view-profile.php?userName=" . htmlspecialchars($row['userName']) . "'>" . htmlspecialchars($row['userName']) . "</a></small>";
+                        echo "<small>Posted on: " . (isset($row['date']) ? date('F j, Y', strtotime($row['date'])) : date('F j, Y')) . "</small>";
+                        echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
+                        echo "<small>Category: " . htmlspecialchars($row['category']) . "</small>";
+                        echo "<div class='d-flex align-items-center'>";
+                        echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                        echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($postid) . "'>$likeCount</span>";
+                        echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                } else {
+                }
+                ?>
+            </div>
+            <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+
+
+            <!-- Include jQuery and Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         </div>
-        <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
-        
-        
-        <!-- Include jQuery and Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </div>
-    </div>
-    <div class="position-fixed bottom-0 end-0 m-3">
+        </div>
+        <div class="position-fixed bottom-0 end-0 m-3">
 
-    <!-- Back to Top Button -->
-     <button id="backToTopBtn" class="btn btn-success rounded-circle p-3" type="submit">Top</button>
-     <!-- Custom JS -->
-    <script>
-        // Show the button scrolls down 450 pixels
-        window.onscroll = function() {
-            scrollFunction();
-        };
+            <!-- Back to Top Button -->
+            <button id="backToTopBtn" class="btn btn-success rounded-circle p-3" type="submit">Top</button>
+            <!-- Custom JS -->
+            <script>
+            // Show the button scrolls down 450 pixels
+            window.onscroll = function() {
+                scrollFunction();
+            };
 
-        function scrollFunction() {
-            if (document.body.scrollTop > 450 || document.documentElement.scrollTop > 450) {
-                document.getElementById("backToTopBtn").style.display = "block";
-            } else {
-                document.getElementById("backToTopBtn").style.display = "none";
+            function scrollFunction() {
+                if (document.body.scrollTop > 450 || document.documentElement.scrollTop > 450) {
+                    document.getElementById("backToTopBtn").style.display = "block";
+                } else {
+                    document.getElementById("backToTopBtn").style.display = "none";
+                }
             }
-        }
 
-        // Smooth scroll to top when the button is clicked
-        document.getElementById('backToTopBtn').addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            // Smooth scroll to top when the button is clicked
+            document.getElementById('backToTopBtn').addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
-        });
-        
-    // Function to add event listeners to like buttons
+
+            // Function to add event listeners to like buttons
             function addLikeButtonListeners() {
                 const likeButtons = document.querySelectorAll('.like-btn');
                 likeButtons.forEach(button => {
-                    button.addEventListener('click', function () {
+                    button.addEventListener('click', function() {
                         const postid = this.getAttribute('data-post-id');
                         const btn = this;
                         // Send POST request to like post
                         fetch('like_post.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            body: 'postid=' + postid
-                        })
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: 'postid=' + postid
+                            })
                             .then(response => response.text())
                             .then(data => {
                                 if (data === 'liked') {
@@ -215,7 +222,7 @@ include '../dbconnection.php';
 
             // Load more posts functionality
             let offset = 8; // Number of posts initially loaded
-            document.getElementById('loadMoreBtn').addEventListener('click', function () {
+            document.getElementById('loadMoreBtn').addEventListener('click', function() {
                 fetch(`load_more_posts.php?offset=${offset}`)
                     .then(response => response.text())
                     .then(data => {
@@ -226,19 +233,18 @@ include '../dbconnection.php';
                     })
                     .catch(error => console.error('Error:', error));
             });
+            </script>
+            <!-- Include jQuery additional functionality -->
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    </script>
-    <!-- Include jQuery additional functionality -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-    </div>
-    
-    <div id="footer">
-         <!-- footer -->
-        <?php include '../footer.php' ?>
-    </div>
+        </div>
+
+        <div id="footer">
+            <!-- footer -->
+            <?php include '../footer.php' ?>
+        </div>
 
 
-</body>
+    </body>
 
 </html>

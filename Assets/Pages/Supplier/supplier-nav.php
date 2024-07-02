@@ -82,7 +82,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="./delete-prod.php">Delete Product</a></li>
+                            <li><a class="dropdown-item" href="../Supplier/delete-prod.php">Delete Product</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -124,17 +124,17 @@ if ($result && mysqli_num_rows($result) > 0) {
     <hr class="text-white border-3">
 
     <script>
-        function logout() {
-            fetch('../logout.php')
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = '../../../index.php';
-                    } else {
-                        console.error('Logout failed');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
+    function logout() {
+        fetch('../logout.php')
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '../../../index.php';
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
     </script>
 
 </body>

@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator') {
+    if ($role != 'Innovator' && $role != 'Supplier') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -66,4 +66,3 @@ if ($result && $result->num_rows > 0) {
 } else {
     echo "<div class='alert alert-warning'>No more posts to show</div>";
 }
-?>
