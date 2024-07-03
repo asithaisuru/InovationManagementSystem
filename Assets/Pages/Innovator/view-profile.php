@@ -3,12 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator" && $role != "Supplier") {
-        echo "<script>window.location.href='../../../index.php';</script>";
-        exit();
-    }
 } else {
-    header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
@@ -132,7 +127,19 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="card mt-4 border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <h2>Skills</h2>
-                        <div></div>
+                        <div>
+                            <?php
+                            $sql = "SELECT * FROM user_skills WHERE userName = '$viewUserName'";
+                            $result1 = mysqli_query($connection, $sql);
+                            if (mysqli_num_rows($result1) > 0) {
+                                while ($row1 = mysqli_fetch_assoc($result1)) {
+                                    echo "<span class='text-white badge bg-secondary me-2 mb-2 p-3' id='skill-" . $row1['id'] . "'>";
+                                    echo $row1['skill'];
+                                    echo "</span>";
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

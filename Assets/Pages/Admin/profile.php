@@ -128,7 +128,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     <legend class="text-white">Skills:</legend>
                                     <div id="selected-skills" class="list-group-item list-group-item-action">
                                         <?php
-                                        $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
+                                        $sql = "SELECT * FROM user_skills WHERE userName = '$viewUserName'";
                                         $result1 = mysqli_query($connection, $sql);
                                         if (mysqli_num_rows($result1) > 0) {
                                             while ($row1 = mysqli_fetch_assoc($result1)) {
