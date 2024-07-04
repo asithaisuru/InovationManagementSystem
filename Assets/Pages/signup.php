@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email"
+                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
                             required>
                         <label for="email">Email</label>
                     </div>
