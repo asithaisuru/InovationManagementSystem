@@ -55,39 +55,38 @@ include '../dbconnection.php';
 
         <div class="container">
             <!-- Forum -->
-            <h1 class="text-center">Welcome to the Innovator Forum</h1>
-            <p class="text-center">A space for sharing success stories, seeking collaborators, and exchanging insights
-                into
-                the innovation process.</p>
+            <h1 class="text-center animate__animated animate__zoomIn" data-mdb-animation-start="onLoad">Welcome to the Innovator Forum</h1>
+            <p class="text-center animate__animated animate__zoomIn" data-mdb-animation-start="onLoad">A space for sharing success stories, seeking collaborators, and exchanging insights into the innovation process.</p>
             <div>
                 <!-- Link story btn -->
-                <a href="./submit-form.php" class="btn btn-success">Create your story</a>
+                <div class="text-center">
+                    <a href="./submit-form.php" class="btn btn-success btn-lg animate__animated animate__zoomIn">Create your story</a>
+                </div>
             </div> <br>
             <div class="card-body border-3 border-white bg-dark mb-3">
-                <h4>Category</h4>
-                <form method="GET">
-                    <!-- Dropdown categories -->
-                    <select name="post_category" id="post_category" class="form-control" required
-                        onchange="filterPosts(this.value)">
-                        <option value="all">All</option>
-                        <?php
-                        // Define and display post categories
-                        $categories = array(
-                            'SuccessStories' => 'Success Stories',
-                            'CollaborationOpportunities' => 'Collaboration Opportunities',
-                            'InsightsandTips' => 'Insights and Tips',
-                            'SkillsandQualifications' => 'Skills and Qualifications',
-                            'PersonalBranding' => 'Personal Branding'
-                        );
-                        foreach ($categories as $value => $label) {
-                            echo "<option value='$value'>$label</option>";
-                        }
-                        ?>
-                    </select> </br>
-                    <button class="btn btn-primary" type="submit">Search Posts</button>
-                </form>
-            </div>
-
+                <div class="card-body border-3 border-white bg-dark mb-3 animate__animated animate__zoomIn" data-mdb-animation-start="onLoad">
+                    <h4>Category</h4>
+                    <form method="GET">
+                        <!-- Dropdown categories -->
+                        <select name="post_category" id="post_category" class="form-control" required onchange="filterPosts(this.value)">
+                            <option value="all">All</option>
+                            <?php
+                            // Define and display post categories
+                            $categories = array(
+                                'SuccessStories' => 'Success Stories',
+                                'CollaborationOpportunities' => 'Collaboration Opportunities',
+                                'InsightsandTips' => 'Insights and Tips',
+                                'SkillsandQualifications' => 'Skills and Qualifications',
+                                'PersonalBranding' => 'Personal Branding'
+                            );
+                            foreach ($categories as $value => $label) {
+                                echo "<option value='$value'>$label</option>";
+                            }
+                            ?>
+                        </select> </br>
+                        <button class="btn btn-primary animate__animated animate__zoomIn" type="submit">Search Posts</button>
+                    </form>
+                </div></form>
 
             <!-- Display Posts -->
             <div id="post-container">
@@ -124,8 +123,8 @@ include '../dbconnection.php';
                         echo "<small>Posted at: <span id='post-time'>" . (isset($row['date']) ? date('h:i A', strtotime($row['date'])) : date('h:i A', time())) . "</span></small>";
                         echo "<small>Category: " . htmlspecialchars($row['category']) . "</small>";
                         echo "<div class='d-flex align-items-center'>";
-                        echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
-                        echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($postid) . "'>$likeCount</span>";
+                        echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn animate__animated animate__zoomIn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;' onclick='this.classList.add(\"animate__pulse\")' data-mdb-animation-start='onHover'>" . ($isLiked ? "Liked" : "Like") . "</button>";
+                        echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold animate__animated animate__zoomIn' data-post-id='" . htmlspecialchars($postid) . "' data-mdb-animation-start='onLoad'>$likeCount</span>";
                         echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
                         echo "</div>";
                         echo "</div>";
@@ -134,7 +133,9 @@ include '../dbconnection.php';
                 }
                 ?>
             </div>
-            <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+            <div class="text-center">
+                <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+            </div>
 
 
             <!-- Include jQuery and Bootstrap JS -->

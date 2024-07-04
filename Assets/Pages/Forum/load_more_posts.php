@@ -64,5 +64,5 @@ if ($result && $result->num_rows > 0) {
         echo "</div>";
     }
 } else {
-    echo "<div class='alert alert-warning'>No more posts to show</div>";
+    echo "<div class='alert alert-warning text-center'>No more posts to show</div>";
 }
