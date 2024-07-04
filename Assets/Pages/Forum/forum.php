@@ -228,6 +228,9 @@ include '../dbconnection.php';
                     .then(response => response.text())
                     .then(data => {
                         const postContainer = document.getElementById('post-container');
+                        if (data === "<div class='alert alert-warning text-center'>No more posts to show</div>") {
+                            document.getElementById('loadMoreBtn').style.display = 'none';
+                        }
                         postContainer.innerHTML += data;
                         offset += 8;
                         addLikeButtonListeners(); // Re-add event listeners to new like buttons
