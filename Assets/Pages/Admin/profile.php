@@ -65,6 +65,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>';
         }
         ?>
+        <h1 class="text-center mt-3 mb-3">Profile Editor</h1>
         <div class="row">
             <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">

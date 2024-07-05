@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email"
+                        <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
                             required>
                         <label for="email">Email</label>
                     </div>
@@ -185,14 +185,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $signup = new Signup($username, $firstname, $lastname, $email, $role, $password, $repassword);
     $signup->signup($connection);
-    if ($signup->getSuccessStatusOfUserRegister()){
-        echo '<script>
-            setTimeout(function(){
-                alert("User Register Successfull. Redirecting to index...");
-                window.location.href = "../../index.php";
-            }, 1000);
-        </script>';
-    }else{
+    if ($signup->getSuccessStatusOfUserRegister()) {
+        $_SESSION['username'] = $signup->getUsername();
+        $_SESSION['role'] = $signup->getRole();
+        // $_SESSION['pass'] = $this->password;
+        $msg = "User Registered Successfully. Edit your profile to add more details.";
+        echo "<script>window.location.href='./Admin/profile.php?status=success&msg=" . $msg . "';</script>";
+    } else {
         echo '<script>alert("User Register Failed.");</script>';
     }
     $connection->close();
