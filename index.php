@@ -165,7 +165,7 @@ class User
     {
         $_SESSION['username'] = $this->username;
         $_SESSION['role'] = $this->role;
-        $_SESSION['pass'] = $this->password;
+        // $_SESSION['pass'] = $this->password;
     }
 
     function verifyPassword($password, $hash)

@@ -65,6 +65,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>';
         }
         ?>
+        <h1 class="text-center mt-3 mb-3">Profile Editor</h1>
         <div class="row">
             <div class="col-lg-6 mb-2">
                 <div class="card bg-dark border-3 border-white">
@@ -128,7 +129,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     <legend class="text-white">Skills:</legend>
                                     <div id="selected-skills" class="list-group-item list-group-item-action">
                                         <?php
-                                        $sql = "SELECT * FROM user_skills WHERE userName = '$viewUserName'";
+                                        $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
                                         $result1 = mysqli_query($connection, $sql);
                                         if (mysqli_num_rows($result1) > 0) {
                                             while ($row1 = mysqli_fetch_assoc($result1)) {

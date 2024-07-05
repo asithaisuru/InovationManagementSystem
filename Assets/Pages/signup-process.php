@@ -1,6 +1,6 @@
 <?php
-include '../dbconnection.php';
-include '../password.php';
+// include './dbconnection.php';
+// include './password.php';
 class Signup
 {
     private $username;
@@ -12,8 +12,19 @@ class Signup
     private $repassword;
     private $successStatusOfUserRegister;
 
-    public function getSuccessStatusOfUserRegister(){
+    public function getSuccessStatusOfUserRegister()
+    {
         return $this->successStatusOfUserRegister;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 
     function __construct($username, $firstname, $lastname, $email, $role, $password, $repassword)
@@ -85,9 +96,9 @@ class Signup
     {
         $hashpw = hashPassword($this->password);
         $sql = "INSERT INTO users (userName, fname, lname, email, role, pass) VALUES ('$this->username', '$this->firstname', '$this->lastname', '$this->email', '$this->role', '$hashpw')";
-        if ($connection->query($sql) === false) {            
+        if ($connection->query($sql) === false) {
             echo "Error: " . $sql . "<br>" . $connection->error;
-        }else{
+        } else {
             $this->successStatusOfUserRegister = true;
         }
     }
