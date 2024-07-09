@@ -191,7 +191,7 @@ class User
         } else if ($this->role == "Buyer") {
             // Redirect to the forum
             $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Forum/forum.php';</script>";
+            echo "<script>window.location.href='Assets/Pages/buyer/buyer-dashboard.php';</script>";
         }
 
     }
