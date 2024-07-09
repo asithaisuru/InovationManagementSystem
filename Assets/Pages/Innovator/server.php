@@ -20,13 +20,13 @@ if (empty($data['description'])) {
   exit;
 }
 
-// Create Gemini client instance
+// Gemini client instance
 $client = new Client($apiKey);
 
-// Craft the prompt for Gemini (replace or adjust as needed)
+// prompt for Gemini
 $prompt = "Given a project description of: " . $data['description'] . ", Break this into manageable tasks for a person. give me only the task and a brief description paragraph of the task. SEND THE DATA AS IN A DIV TAG. TOPICS IN A H3 TAG AND DISCRIPTION IN A P TAG.";
 
-// Send the prompt to Gemini and get the response
+// Send the prompt and get the response
 $response = $client->geminiPro()->generateContent(
   new TextPart($prompt)
 );

@@ -76,6 +76,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                 onclick="genarateResponse()">
                 <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Breakdown Tasks using AI
             </a>
+            <!-- genardate response script -->
             <script src="script.js"></script>
 
             <script>              

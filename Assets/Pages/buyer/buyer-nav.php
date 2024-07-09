@@ -2,7 +2,7 @@
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Supplier') {
+    if ($role != 'Buyer') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }

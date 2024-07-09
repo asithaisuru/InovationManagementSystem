@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'buyer') {
+    if ($role != 'Buyer') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
