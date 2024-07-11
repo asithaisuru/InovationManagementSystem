@@ -48,7 +48,7 @@ if (!$connection) {
                 <h3 class="text-center">Login</h3>
             </div>
             <div class="card-body">
-                <form action="index.php" method="POST">
+                <form action="sign-in.php" method="POST">
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Enter Username"
                             name="username">

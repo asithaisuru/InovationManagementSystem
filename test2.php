@@ -12,19 +12,23 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="bg-dark text-white py-3">
+    <!-- <header class="bg-dark text-white py-3">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo h3 mb-0">Eureka Innovation Management System</div>
+            <div class="logo h3 mb-0">MyWebsite</div>
             <nav>
                 <ul class="nav">
                     <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#">Sign Up</a></li>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <li class="nav-item"><a class="nav-link text-white" href="#">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link text-white" href="signin.php">Sign In</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="signup.php">Sign Up</a></li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>
-    </header>
-
+    </header> -->
+    <?php include 'Assets\Pages\Innovator\innovator-nav.php';?>
 
     <!-- Hero Section with Carousel Behind Search Bar -->
 <section class="hero bg-light text-center position-relative">
