@@ -59,6 +59,13 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                 <label for="pdis" class="text-dark">Project Description</label>
             </div>
 
+            <a type="button" class="btn" style="background-color: gold; color: black;"
+                onclick="genarateResponse()">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Breakdown Tasks using AI
+            </a>
+            <!-- genardate response script -->
+            <script src="script.js"></script>
+
             <div id="task-container" class="border-3 border-white">
                 <div id="taskDiv1" class="form-floating mb-3 mt-3">
                     <input type="text" class="form-control" id="task1" placeholder="Enter Task 1" name="task1" required>
@@ -72,13 +79,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
             <input type="hidden" name="taskCount" id="taskCount" value="1">
             <a class="btn btn-primary" onclick="addTask()">Add Task</a>
             <button class="btn btn-danger delete-task" onclick="deleteTask()">Delete Task</button>
-            <a type="button" class="btn ms-3" style="background-color: gold; color: black;"
-                onclick="genarateResponse()">
-                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Breakdown Tasks using AI
-            </a>
-            <!-- genardate response script -->
-            <script src="script.js"></script>
-
+            
             <script>              
                 let taskCount = 1;
                 disableDeleteButton();
