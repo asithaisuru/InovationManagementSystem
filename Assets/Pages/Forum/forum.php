@@ -84,7 +84,7 @@ include '../dbconnection.php';
                             }
                             ?>
                         </select> </br>
-                        <button class="btn btn-primary animate__animated animate__zoomIn" type="submit">Search Posts</button>
+                        <button class="btn btn-info animate__animated animate__zoomIn" type="submit">Search Posts</button>
                     </form>
                 </div></form>
 
