@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">git status
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +22,7 @@
                     <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#">Sign Up</a></li>
                 </ul>
-            </nav>
+</nav>
         </div>
     </header>
 
