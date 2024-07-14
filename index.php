@@ -1,3 +1,7 @@
+<?php
+require './Assets/Pages/dbconnection.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">git status
 
@@ -130,137 +134,31 @@
         <div class="container">
             <h2 class="text-center">Recent Posts</h2>
             <div class="row mt-4">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Post Title 1</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id erat erat.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Post Title 2</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id erat erat.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h3 class="card-title">Post Title 3</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id erat erat.</p>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                $sql = "SELECT * FROM posts ORDER BY date DESC LIMIT 3;";
+                $result = $connection->query($sql);
+
+                // Check if there are results and fetch them
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="col-md-4 mb-4">';
+                    echo '<div class="card h-100">';
+                        echo '<div class="card-body">';
+                            echo '<h3 class="card-title">'. $row["title"].'</h3>';
+                            echo '<p class="card-text">'. $row["content"].'</p>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</div>';
+                        
+                        // echo "id: " . $row["id"]. " - Title: " . $row["title"]. " - Date: " . $row["date"]. "<br>";
+                    }
+                } else {
+                    echo "0 results";
+                }
+                ?>
             </div>
         </div>
     </section>
 </body>
 </html>
-
-<?php
-
-// Include the password.php file
-include './Assets/Pages/password.php';
-
-class User
-{
-    private $username;
-    private $password;
-    private $role;
-
-    function __construct($username, $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
-    }
-
-    function makeuseractive()
-    {
-        require_once './Assets/Pages/dbconnection.php';
-        $username = $_SESSION['username'];
-        $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
-        $result = mysqli_query($connection, $sql);
-        if (!$result) {
-            echo "unable to Active user";
-        }
-    }
-
-    function getPasswordfromDB($connection)
-    {
-        $username = $this->username;
-        $query = "SELECT pass,role FROM users WHERE userName = ?";
-        $statement = mysqli_prepare($connection, $query);
-        mysqli_stmt_bind_param($statement, "s", $username);
-        mysqli_stmt_execute($statement);
-        $result = mysqli_stmt_get_result($statement);
-
-        return $result;
-    }
-
-    function setSession()
-    {
-        $_SESSION['username'] = $this->username;
-        $_SESSION['role'] = $this->role;
-        // $_SESSION['pass'] = $this->password;
-    }
-
-    function verifyPassword($password, $hash)
-    {
-        return password_verify($password, $hash);
-    }
-
-    function redirecttopages()
-    {
-        if ($this->role == 'Innovator') {
-            // Redirect to the Innovator dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
-        } else if ($this->role == 'Supplier') {
-            // Redirect to the Supplier dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
-        } else if ($this->role == "Admin" || $this->role == "Moderator") {
-            // Redirect to the Admin dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
-        
-        } else if ($this->role == "Buyer") {
-            // Redirect to the forum
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Forum/forum.php';</script>";
-        }
-
-    }
-
-    function login($connection)
-    {
-        $result = $this->getPasswordfromDB($connection);
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $this->role = $row['role'];
-            $hash = $row['pass'];
-            if ($this->verifyPassword($this->password, $hash)) {
-                $this->setSession();
-                $this->redirecttopages();
-            } else {
-                // Display an error message for invalid username or password
-                echo "<script>alert('Invalid Username or Password')</script>;";
-            }
-        }
-    }
-}
-
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-        $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-        $user = new User($username, $password);
-        $user->login($connection);
-    } else {
-        echo "<script>alert('Invalid Username or Password')</script>;";
-    }
-}
-?>
