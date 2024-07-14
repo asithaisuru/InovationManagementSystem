@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">git status
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +12,23 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="bg-dark text-white py-3">
+    <!-- <header class="bg-dark text-white py-3">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo h3 mb-0">Eureka Innovation Management System</div>
+            <div class="logo h3 mb-0">MyWebsite</div>
             <nav>
                 <ul class="nav">
                     <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#">Sign Up</a></li>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <li class="nav-item"><a class="nav-link text-white" href="#">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link text-white" href="signin.php">Sign In</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="signup.php">Sign Up</a></li>
+                    <?php endif; ?>
                 </ul>
-</nav>
+            </nav>
         </div>
-    </header>
-
+    </header> -->
+    <?php include 'Assets\Pages\Innovator\innovator-nav.php';?>
 
     <!-- Hero Section with Carousel Behind Search Bar -->
 <section class="hero bg-light text-center position-relative">
@@ -159,108 +162,3 @@
     </section>
 </body>
 </html>
-
-<?php
-
-// Include the password.php file
-include './Assets/Pages/password.php';
-
-class User
-{
-    private $username;
-    private $password;
-    private $role;
-
-    function __construct($username, $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
-    }
-
-    function makeuseractive()
-    {
-        require_once './Assets/Pages/dbconnection.php';
-        $username = $_SESSION['username'];
-        $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
-        $result = mysqli_query($connection, $sql);
-        if (!$result) {
-            echo "unable to Active user";
-        }
-    }
-
-    function getPasswordfromDB($connection)
-    {
-        $username = $this->username;
-        $query = "SELECT pass,role FROM users WHERE userName = ?";
-        $statement = mysqli_prepare($connection, $query);
-        mysqli_stmt_bind_param($statement, "s", $username);
-        mysqli_stmt_execute($statement);
-        $result = mysqli_stmt_get_result($statement);
-
-        return $result;
-    }
-
-    function setSession()
-    {
-        $_SESSION['username'] = $this->username;
-        $_SESSION['role'] = $this->role;
-        // $_SESSION['pass'] = $this->password;
-    }
-
-    function verifyPassword($password, $hash)
-    {
-        return password_verify($password, $hash);
-    }
-
-    function redirecttopages()
-    {
-        if ($this->role == 'Innovator') {
-            // Redirect to the Innovator dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
-        } else if ($this->role == 'Supplier') {
-            // Redirect to the Supplier dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
-        } else if ($this->role == "Admin" || $this->role == "Moderator") {
-            // Redirect to the Admin dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
-        
-        } else if ($this->role == "Buyer") {
-            // Redirect to the forum
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Forum/forum.php';</script>";
-        }
-
-    }
-
-    function login($connection)
-    {
-        $result = $this->getPasswordfromDB($connection);
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $this->role = $row['role'];
-            $hash = $row['pass'];
-            if ($this->verifyPassword($this->password, $hash)) {
-                $this->setSession();
-                $this->redirecttopages();
-            } else {
-                // Display an error message for invalid username or password
-                echo "<script>alert('Invalid Username or Password')</script>;";
-            }
-        }
-    }
-}
-
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-        $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-        $user = new User($username, $password);
-        $user->login($connection);
-    } else {
-        echo "<script>alert('Invalid Username or Password')</script>;";
-    }
-}
-?>
