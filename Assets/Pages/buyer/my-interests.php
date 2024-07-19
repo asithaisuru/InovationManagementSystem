@@ -24,25 +24,18 @@ function dbconnection() {
 
 $conn = dbconnection();
 
-// Fetch all posts in most recent order
-$query = "SELECT postid, title, content, date FROM posts ORDER BY date DESC";
+// Fetch posts added to interests
+$query = "
+    SELECT posts.postid, posts.title, posts.content, posts.date 
+    FROM posts 
+    INNER JOIN Buyer_Interests ON posts.postid = Buyer_Interests.post_id 
+    WHERE Buyer_Interests.buyer_username = '$username' 
+    ORDER BY posts.date DESC";
 $result = mysqli_query($conn, $query);
-$recent_posts = [];
+$interests_posts = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $recent_posts[] = $row;
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
-    $post_id = $_POST['post_id'];
-    $buyer_username = $_SESSION['username'];
-
-    $query = "INSERT INTO Buyer_Interests (buyer_username, post_id) VALUES ('$buyer_username', $post_id)";
-    if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Post added to your interests!');</script>";
-    } else {
-        echo "<script>alert('Failed to add post to your interests.');</script>";
+        $interests_posts[] = $row;
     }
 }
 
@@ -54,7 +47,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buyer - Dashboard</title>
+    <title>My Interests</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Start of Tawk.to Script -->
     <script type="text/javascript">
@@ -76,28 +69,21 @@ mysqli_close($conn);
 <body class="bg-dark text-white">
     <?php include 'buyer-nav.php'; ?>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Welcome to Buyer Dashboard, <?php echo htmlspecialchars($username); ?>!</h1>
+        <h1 class="text-center mb-4">My Interests</h1>
         <div class="d-flex flex-column align-items-center">
-        <a href="my-interests.php" class="btn btn-primary mt-3">My Interests</a>
-            <h1 class="card-title">Recent Posts</h1>
-
             <div class="card bg-dark text-white text-center mt-4 w-50">
                 <div class="card-body">
-                    <?php if (!empty($recent_posts)) : ?>
-                        <?php foreach ($recent_posts as $post) : ?>
+                    <?php if (!empty($interests_posts)) : ?>
+                        <?php foreach ($interests_posts as $post) : ?>
                             <div class="mb-3">
                                 <h3><?php echo htmlspecialchars($post['title']); ?></h3>
                                 <p><?php echo htmlspecialchars($post['content']); ?></p>
                                 <small><?php echo htmlspecialchars($post['date']); ?></small>
-                                <form method="post" class="mt-3">
-                                    <input type="hidden" name="post_id" value="<?php echo $post['postid']; ?>">
-                                    <button type="submit" name="add_to_interests" class="btn btn-primary">Add to Interests</button>
-                                </form>
                             </div>
                             <hr>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <p>No recent posts available.</p>
+                        <p>No posts in your interests.</p>
                     <?php endif; ?>
                 </div>
             </div>
