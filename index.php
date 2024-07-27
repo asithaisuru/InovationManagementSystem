@@ -3,23 +3,31 @@ require './Assets/Pages/dbconnection.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">git status
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Web Page</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    
+    
 </head>
+
 <body>
     <!-- Header -->
+    
     <header class="bg-dark text-white py-3">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo h3 mb-0">Eureka Innovation Management System</div>
+            <div class="logo h3 mb-0">
+            <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                Eureka Innovation Management System</div>
             <nav>
                 <ul class="nav">
                     <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
@@ -72,7 +80,9 @@ require './Assets/Pages/dbconnection.php';
     <!-- Hero Section -->
     <section class="hero bg-light text-center py-5">
         <div class="container">
-            <h1 class="display-4">Find the perfect freelance services for your business</h1>
+            <h1 class="display-4">Make all your big projects possible with new features
+                
+            </h1>
             <form class="form-inline justify-content-center mt-4">
                 <input class="form-control mr-2 w-50" type="search" placeholder="Search for services" aria-label="Search">
                 <button class="btn btn-primary" type="submit">Search</button>
@@ -129,6 +139,51 @@ require './Assets/Pages/dbconnection.php';
         </div>
     </section>
 
+         <!---Tabale section -->
+        <section>
+
+       <div class="container">
+       <h2 class="table-headline">Roles and Benefits</h2>
+        <div class="table-container">
+      <table class="custom-table">
+        <tr>
+          <td class="role-column">Innovator</td>
+          <td class="responsibility-column">
+            <p><strong>Functions:</strong></p>
+            <ul>
+              <li>Submit new ideas for innovative products.</li>
+              <li>Develop prototypes based on submitted ideas.</li>
+              <li>Collaborate with sellers and buyers to refine products.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="role-column">Seller</td>
+          <td class="responsibility-column">
+            <p><strong>Functions:</strong></p>
+            <ul>
+              <li>List products for sale on the platform.</li>
+              <li>Manage sales and orders efficiently.</li>
+              <li>Provide prompt customer support for buyers.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="role-column">Buyer</td>
+          <td class="responsibility-column">
+            <p><strong>Functions:</strong></p>
+            <ul>
+              <li>Browse and search for products of interest.</li>
+              <li>Make purchases securely through the platform.</li>
+              <li>Offer feedback and reviews on purchased products.</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  </section>
+ 
     <!-- Recent Posts Section -->
     <section class="posts py-5">
         <div class="container">
@@ -160,5 +215,18 @@ require './Assets/Pages/dbconnection.php';
             </div>
         </div>
     </section>
+    <!-- See More Button Section -->
+    <section class="see-more-section">
+        <div class="container text-center mt-5">
+            
+            <!-- Link to the forum page -->
+            <a href="Assets\Pages\Forum\forum.php" class="btn btn-primary btn-lg">See More</a>
+           
+        </div>
+    </section>
+<?php include 'Assets\Pages\footer.php';?>
+
+
+
 </body>
 </html>
