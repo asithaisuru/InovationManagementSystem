@@ -5,13 +5,8 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-<<<<<<< HEAD
-    if ($role != 'Innovator' && $role != 'Supplier') {
-        echo "<script>window.location.href='../../../sign-in.php';</script>";
-=======
     if ($role != 'Innovator' && $role != 'Supplier' && $role != 'Buyer') {
         echo "<script>window.location.href='../../../index.php';</script>";
->>>>>>> f828401d456a632724a69d4b08c6d287bce1c2d4
         exit();
     }
 } else {
