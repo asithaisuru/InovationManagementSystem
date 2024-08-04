@@ -3,14 +3,14 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Buyer') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 
 
 } else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    // header("Location: ../../../sign-in.php");
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 require_once __DIR__ . '/../../../vendor/autoload.php';
