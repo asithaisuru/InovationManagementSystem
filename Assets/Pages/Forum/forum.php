@@ -137,10 +137,11 @@ include '../dbconnection.php';
                         echo "</div>";
                         
                         
-                        $interests = []; // Define the $interests variable as an empty array
+                        $interests = [];
                         if ($role == 'Buyer') {
-                            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn' data-post-id='" . $row['postid'] . "'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
+                            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn mt-2 ms-0.1 me-1' data-post-id='" . $row['postid'] . "' style='width: 200px; height: 35px; font-size: 15px;'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
                         }
+                        
                       
                         
 
@@ -232,6 +233,8 @@ include '../dbconnection.php';
 
             // Initial call to add listeners to the initially loaded posts
             addLikeButtonListeners();
+            
+           
 
             // Function to update the like count in real-time
             function updateLikeCount(postid, change) {
@@ -253,12 +256,13 @@ include '../dbconnection.php';
                         postContainer.innerHTML += data;
                         offset += 8;
                         addLikeButtonListeners(); // Re-add event listeners to new like buttons
+                        addInterestsButtonListeners(); // Add event listeners to new add to interests buttons
                     })
                     .catch(error => console.error('Error:', error));
             });
             </script>
             
-            <!-- // Handle form submission to add to interests -->
+            <!-- Handle form submission to add to interests -->
             <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const addToInterestsButtons = document.querySelectorAll('.add-to-interests-btn');
@@ -281,8 +285,9 @@ include '../dbconnection.php';
                                 btn.classList.remove('btn-primary');
                                 btn.classList.add('btn-success');
                                 btn.textContent = 'Already in your interests';
-                                // Update the buyer_interests table in the database
                                 updateBuyerInterests(postId, 'added');
+                                // Store the state in local storage
+                                localStorage.setItem('buttonState_' + postId, 'added');
                             } else if (data === 'already') {
                                 alert('This post is already in your interests.');
                             } else {
@@ -294,18 +299,28 @@ include '../dbconnection.php';
             
                     // Retrieve the state of the button from the buyer_interests table on page load
                     const postId = button.getAttribute('data-post-id');
-                    const state = getBuyerInterests(postId);
-                    if (state === 'added') {
+                    const storedState = localStorage.getItem('buttonState_' + postId);
+                    if (storedState === 'added') {
                         button.classList.remove('btn-primary');
                         button.classList.add('btn-success');
                         button.textContent = 'Already in your interests';
+                    } else {
+                        // Retrieve the state from the server if not stored in local storage
+                        getBuyerInterests(postId).then(state => {
+                            if (state === 'added') {
+                                button.classList.remove('btn-primary');
+                                button.classList.add('btn-success');
+                                button.textContent = 'Already in your interests';
+                                // Store the state in local storage
+                                localStorage.setItem('buttonState_' + postId, 'added');
+                            }
+                        });
                     }
                 });
             });
 
             // Function to update the buyer_interests table in the database
             function updateBuyerInterests(postId, state) {
-                // Send POST request to update buyer_interests table
                 fetch('update_buyer_interests.php', {
                     method: 'POST',
                     headers: {
@@ -322,7 +337,6 @@ include '../dbconnection.php';
 
             // Function to get the state of the button from the buyer_interests table in the database
             function getBuyerInterests(postId) {
-                // Send POST request to get buyer_interests table
                 return fetch('get_buyer_interests.php', {
                     method: 'POST',
                     headers: {
@@ -331,12 +345,10 @@ include '../dbconnection.php';
                     body: 'post_id=' + postId
                 })
                 .then(response => response.text())
-                .then(data => {
-                    return data;
-                })
+                .then(data => data)
                 .catch(error => console.error('Error:', error));
             }
-            </script>
+        </script>
             
             <!-- Include jQuery additional functionality -->
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

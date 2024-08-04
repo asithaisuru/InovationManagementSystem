@@ -25,6 +25,9 @@ if (isset($_SESSION['username'])) {
     } else if ($_SESSION['role'] == "Innovator") {
         // Include innovator navigation if user role is Innovator
         include '../Innovator/innovator-nav.php';
+    }else if ($_SESSION['role'] == "Buyer") {
+        // Include innovator navigation if user role is Innovator
+        include '../Buyer/buyer-nav.php';
     }
     ?>
 

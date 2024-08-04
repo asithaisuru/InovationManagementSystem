@@ -13,8 +13,8 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
-require_once __DIR__ . '/../../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+require_once _DIR_ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(_DIR_ . '/../../../');
 $dotenv->load();
 
 // Database connection

@@ -62,50 +62,114 @@ if ($result && $result->num_rows > 0) {
         echo "<span class='mt-1 ms-0.3 me-2 like-icon animate_animated animate_bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
         echo "</div>";
 
-    
-        $interests = []; // Define the $interests variable as an empty array
+        $interests = [];
         if ($role == 'Buyer') {
-            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn' data-post-id='" . $row['postid'] . "'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
+            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn mt-2 ms-0.1 me-1' data-post-id='" . $row['postid'] . "' style='width: 200px; height: 35px; font-size: 15px;'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
         }
-        echo <<<HTML
-        <!-- Handle form submission to add to interests -->
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const addToInterestsButtons = document.querySelectorAll('.add-to-interests-btn');
-
-            addToInterestsButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const postId = this.getAttribute('data-post-id');
-                const btn = this;
-
-                fetch('add_to_interests.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'post_id=' + postId
-                })
-                .then(response => response.text())
-                .then(data => {
-                if (data === 'added') {
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-success');
-                    btn.textContent = 'Already in your interests';
-                } else if (data === 'already') {
-                    alert('This post is already in your interests.');
-                } else {
-                    alert('Failed to add post to interests.');
-                }
-                })
-                .catch(error => console.error('Error:', error));
-            });
-            });
-        });
-        </script>
-    HTML;
 
         echo "</div>";
     }
 } else {
     echo "<div class='alert alert-warning text-center'>No more posts to show</div>";
 }
+?>
+
+<!-- Include jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+// Function to add event listeners to "Add to Interests" buttons
+function addInterestsButtonListeners() {
+    const addToInterestsButtons = document.querySelectorAll('.add-to-interests-btn');
+
+    addToInterestsButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            const btn = this;
+
+            fetch('add_to_interests.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'post_id=' + postId
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'added') {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-success');
+                    btn.textContent = 'Already in your interests';
+                    updateBuyerInterests(postId, 'added');
+                    // Store the state in local storage
+                    localStorage.setItem('buttonState_' + postId, 'added');
+                } else if (data === 'already') {
+                    alert('This post is already in your interests.');
+                } else {
+                    alert('Failed to add post to interests.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Retrieve the state of the button from the buyer_interests table on page load
+        const postId = button.getAttribute('data-post-id');
+        const storedState = localStorage.getItem('buttonState_' + postId);
+        if (storedState === 'added') {
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-success');
+            button.textContent = 'Already in your interests';
+        } else {
+            // Retrieve the state from the server if not stored in local storage
+            getBuyerInterests(postId).then(state => {
+                if (state === 'added') {
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-success');
+                    button.textContent = 'Already in your interests';
+                    // Store the state in local storage
+                    localStorage.setItem('buttonState_' + postId, 'added');
+                }
+            });
+        }
+    });
+}
+
+// Function to update the buyer_interests table in the database
+function updateBuyerInterests(postId, state) {
+    fetch('update_buyer_interests.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'post_id=' + postId + '&state=' + state
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data !== 'success') {
+            console.error('Failed to update buyer_interests table.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Function to retrieve the state of the button from the buyer_interests table
+function getBuyerInterests(postId) {
+    return fetch('get_buyer_interests.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'post_id=' + postId
+    })
+    .then(response => response.json())
+    .then(data => data.state)
+    .catch(error => console.error('Error:', error));
+}
+
+// Call the function to add event listeners when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    addLikeButtonListeners();
+    addInterestsButtonListeners();
+});
+</script>
