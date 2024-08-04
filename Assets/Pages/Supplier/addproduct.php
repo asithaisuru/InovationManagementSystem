@@ -4,12 +4,12 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Supplier') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    // header("Location: ../../../sign-in.php");
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 ?>
@@ -33,20 +33,17 @@ if (isset($_SESSION['username'])) {
                 <form action="add_product.php" method="POST" enctype="multipart/form-data">
 
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name"
-                            name="prodName" required>
+                        <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name" name="prodName" required>
                         <label for="prodName" class="text-dark">Product Name</label>
                     </div>
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Discription"
-                            name="prodDis" required>
+                        <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Discription" name="prodDis" required>
                         <label for="prodDis" class="text-dark">Product Discription</label>
                         <div class="form-floating mb-3 mt-3">
 
 
                             <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="prodDis"
-                                    placeholder="supplierContactDetails" name="prodPrice" required>
+                                <input type="text" class="form-control" id="prodDis" placeholder="supplierContactDetails" name="prodPrice" required>
                                 <label for="prodPrice" class="text-dark">Product Price
                                 </label>
                             </div>

@@ -4,11 +4,11 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Supplier') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 
@@ -85,17 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
     <div class="container mt-5">
         <div>
             <h2 class="text-center">Edit product</h2>
-            <?php if ($successMessage): ?>
-            <div class="alert alert-success">
-                <?php echo $successMessage; ?>
-            </div>
+            <?php if ($successMessage) : ?>
+                <div class="alert alert-success">
+                    <?php echo $successMessage; ?>
+                </div>
             <?php endif; ?>
             <div class="card mt-4 border-white border-3 bg-dark text-white">
                 <div class="card-body">
                     <form action="" method="POST">
                         <div class="form-floating mb-3 mt-3">
-                            <select class="form-select mt-3" required name="prodid" id="pid"
-                                onchange="this.form.submit()">
+                            <select class="form-select mt-3" required name="prodid" id="pid" onchange="this.form.submit()">
                                 <?php
                                 $sql = "SELECT * FROM items WHERE userName = '$username';";
                                 $result = mysqli_query($connection, $sql);
@@ -120,18 +119,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
                     <form action="edit-product.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="prodid" value="<?php echo isset($prodId) ? $prodId : ''; ?>">
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name"
-                                name="prodName" value="<?php echo isset($prodName) ? $prodName : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name" name="prodName" value="<?php echo isset($prodName) ? $prodName : ''; ?>" required>
                             <label for="prodName" class="text-dark">Edit Product Name</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Description"
-                                name="prodDis" value="<?php echo isset($prodDis) ? $prodDis : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Description" name="prodDis" value="<?php echo isset($prodDis) ? $prodDis : ''; ?>" required>
                             <label for="prodDis" class="text-dark">Edit Product Description</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodPrice" placeholder="Product Price"
-                                name="prodPrice" value="<?php echo isset($prodPrice) ? $prodPrice : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodPrice" placeholder="Product Price" name="prodPrice" value="<?php echo isset($prodPrice) ? $prodPrice : ''; ?>" required>
                             <label for="prodPrice" class="text-dark">Edit Product Price</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
