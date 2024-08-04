@@ -32,6 +32,22 @@ if (!$connection) {
 </head>
 
 <body class="bg-dark text-white">
+    <div class="py-3">
+        <div class="ms-5 me-5 d-flex justify-content-between align-items-center">
+            <div class="logo h3 mb-0">
+                <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                Eureka Innovation Management System
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="./index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./Assets/Pages/signup.php">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <?php
     // Display the IMS logo and title
     ?>
@@ -187,7 +203,7 @@ class User
             // Redirect to the Admin dashboard
             $this->makeuseractive();
             echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
-        
+
         } else if ($this->role == "Buyer") {
             // Redirect to the forum
             $this->makeuseractive();

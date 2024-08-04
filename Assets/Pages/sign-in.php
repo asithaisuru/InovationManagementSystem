@@ -1,19 +1,6 @@
 <?php
 // Start the session
 session_start();
-
-// Include the autoloader for Composer packages
-require_once __DIR__ . '\..\..\vendor\autoload.php';
-
-// Load the environment variables from the .env file
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ .'\..\..');
-$dotenv->load();
-
-// Establish a connection to the database using the environment variables
-$connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +25,7 @@ if (!$connection) {
     <div class="container mt-5">
         <div class="card p-4 bg-dark border-white border-3">
             <div class="mt-2 p-3 bg-primary text-white rounded">
-                <img class="card-img-top mx-auto d-block" src="./Assets/img/LogoWhite.png" alt="Logo"
+                <img class="card-img-top mx-auto d-block" src="../img/LogoWhite.png" alt="Logo"
                     style="width:150px;height:150px;">
                 <div class="my-3">
                     <h1 class="text-center">Innovation Management System</h1>
@@ -124,7 +111,7 @@ if (!$connection) {
 <?php
 
 // Include the password.php file
-include './Assets/Pages/password.php';
+include './password.php';
 
 class User
 {
@@ -178,20 +165,20 @@ class User
         if ($this->role == 'Innovator') {
             // Redirect to the Innovator dashboard
             $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
+            echo "<script>window.location.href='./Innovator/innovator-dashboard.php';</script>";
         } else if ($this->role == 'Supplier') {
             // Redirect to the Supplier dashboard
             $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
+            echo "<script>window.location.href='./Supplier/supplier-dashboard.php';</script>";
         } else if ($this->role == "Admin" || $this->role == "Moderator") {
             // Redirect to the Admin dashboard
             $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
+            echo "<script>window.location.href='./Admin/admin-dashboard.php';</script>";
         
         } else if ($this->role == "Buyer") {
             // Redirect to the forum
             $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Forum/forum.php';</script>";
+            echo "<script>window.location.href='./Forum/forum.php';</script>";
         }
 
     }

@@ -4,7 +4,7 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } else {
     // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 

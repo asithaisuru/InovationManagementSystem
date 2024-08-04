@@ -8,12 +8,12 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
             echo "<script>window.location.href='../error.php?msj=Access Denied';</script>";
             exit();
         }
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
     // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 

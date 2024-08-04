@@ -4,7 +4,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
 } else {
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 
