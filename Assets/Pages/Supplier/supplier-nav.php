@@ -3,14 +3,12 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Supplier') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
-
-
 } else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -30,7 +28,6 @@ if ($result && mysqli_num_rows($result) > 0) {
     $profilePic = "../../img/profilePics/" . $row['image_url'];
 } else {
     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
-
 }
 
 ?>
@@ -56,10 +53,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 <body class="text-center">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
         <div class="container">
-            <a class="navbar-brand" href="./supplier-dashboard.php"><img src="../../img/LogoWhite.png"
-                    style="width:50px;height:50px;"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="./supplier-dashboard.php"><img src="../../img/LogoWhite.png" style="width:50px;height:50px;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -71,8 +66,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Product Management
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -99,13 +93,11 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </li>
                     <li class="nav-item dropdown mt-2">
                         <a class="" href="../Innovator/view-profile.php?userName=<?php echo $username ?>">
-                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2"
-                                style="width:50px;height:50px;">
+                            <img src="<?php echo $profilePic ?>" alt="Profile" class="rounded-circle me-2" style="width:50px;height:50px;">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span><?php echo $username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
@@ -124,17 +116,17 @@ if ($result && mysqli_num_rows($result) > 0) {
     <hr class="text-white border-3">
 
     <script>
-    function logout() {
-        fetch('../logout.php')
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '../../../index.php';
-                } else {
-                    console.error('Logout failed');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
+        function logout() {
+            fetch('../logout.php')
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '../../../index.php';
+                    } else {
+                        console.error('Logout failed');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
     </script>
 
 </body>

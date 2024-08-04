@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] != 'Supplier') {
-    header("Location: ../../../index.php");
+    header("Location: ../../../sign-in.php");
     exit();
 }
 

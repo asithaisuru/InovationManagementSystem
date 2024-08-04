@@ -4,12 +4,11 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Supplier' && $role != 'Innovator') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
-} else {
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+} else {;
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 ?>
@@ -47,7 +46,7 @@ if (isset($_SESSION['username'])) {
                 //<!-- get the following data from db -->
                 echo '<h2>' . $row["prodName"] . '</h2>';
                 echo '<p>' . $row["prodDis"] . '</p>';
-                echo '<p> Rs. ' . $row["prodPrice"] . '</p>';                
+                echo '<p> Rs. ' . $row["prodPrice"] . '</p>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
