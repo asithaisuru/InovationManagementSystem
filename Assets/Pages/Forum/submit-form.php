@@ -6,13 +6,13 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $role = $_SESSION['role'];
     // Redirect not an Innovator
     if ($role != 'Innovator' && $role != 'Supplier') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
     // Redirect to the login page if the user is not logged in
-    // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    // header("Location: ../../../sign-in.php");
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 
