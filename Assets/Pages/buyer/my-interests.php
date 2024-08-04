@@ -4,11 +4,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Buyer') {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 
@@ -67,7 +67,9 @@ mysqli_close($conn);
 </head>
 
 <body class="bg-dark text-white">
+
     <?php include 'buyer-nav.php'; ?>
+    
     <div class="container mt-5">
         <h1 class="text-center mb-4">My Interests</h1>
         <div class="d-flex flex-column align-items-center">

@@ -4,7 +4,7 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } else {
     // If session username is not set, redirect to index.php
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 ?>
@@ -25,6 +25,9 @@ if (isset($_SESSION['username'])) {
     } else if ($_SESSION['role'] == "Innovator") {
         // Include innovator navigation if user role is Innovator
         include '../Innovator/innovator-nav.php';
+    }else if ($_SESSION['role'] == "Buyer") {
+        // Include innovator navigation if user role is Innovator
+        include '../Buyer/buyer-nav.php';
     }
     ?>
 

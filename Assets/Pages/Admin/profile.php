@@ -4,7 +4,7 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } else {
     // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 include '../dbconnection.php';
@@ -47,9 +47,10 @@ if ($result && mysqli_num_rows($result) > 0) {
         include '../Innovator/innovator-nav.php';
     } else if ($_SESSION['role'] == "Supplier") {
         include '../Supplier/supplier-nav.php';
+    } else if ($_SESSION['role'] == "Buyer") {
+        include '../Buyer/buyer-nav.php';
     }
-    ?>
-    <div class="container">
+     echo '<div class="container">'; ?>
         <?php
         $status = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : "";
         $msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : "";

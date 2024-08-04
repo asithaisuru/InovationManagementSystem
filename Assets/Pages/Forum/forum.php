@@ -272,7 +272,7 @@ include '../dbconnection.php';
                         const postId = this.getAttribute('data-post-id');
                         const btn = this;
             
-                        fetch('add_to_interests.php', {
+                        fetch('../buyer/add_to_interests.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
