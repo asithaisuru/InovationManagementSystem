@@ -36,7 +36,7 @@ require './Assets/Pages/dbconnection.php';
     </div>
 
 
-    
+
     <!-- Hero Section with Carousel Behind Search Bar -->
     <div class="hero text-center position-relative">
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -95,19 +95,24 @@ require './Assets/Pages/dbconnection.php';
             <div class="row mt-4">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Service 1">
+                        <img class="card-img-top" src="Assets/img/woman-office-exploring-statistics.jpg" alt="Service 1">
                         <div class="card-body">
-                            <h3 class="card-title">Service Title 1</h3>
-                            <p class="card-text">Description of the service provided by the freelancer.</p>
+                            <h3 class="card-title">Market Research and Analysis</h3>
+                            
+                            <p class="card-text">Gain insights into industry trends, competitors, and customer needs to identify opportunities and reduce risks.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Service 2">
+                        <img class="card-img-top" src="Assets\img\partnership-handshake-innovation-corporate-business-concept.jpg" alt="Service 2">
                         <div class="card-body">
-                            <h3 class="card-title">Service Title 2</h3>
-                            <p class="card-text">Description of the service provided by the freelancer.</p>
+                            <h3 class="card-title">Strategic Partnerships and Networking</h3>
+                            <p class="card-text">Form key partnerships and collaborations to boost your innovation and business reach.</p>
+
+
+
+</p>
                         </div>
                     </div>
                 </div>
@@ -115,8 +120,8 @@ require './Assets/Pages/dbconnection.php';
                     <div class="card h-100">
                         <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Service 3">
                         <div class="card-body">
-                            <h3 class="card-title">Service Title 3</h3>
-                            <p class="card-text">Description of the service provided by the freelancer.</p>
+                            <h3 class="card-title">Technology Scouting and Integration</h3>
+                            <p class="card-text">Find and integrate cutting-edge technologies to boost your innovation</p>
                         </div>
                     </div>
                 </div>
