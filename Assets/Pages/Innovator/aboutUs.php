@@ -25,6 +25,8 @@ if (isset($_SESSION['username'])) {
         include './innovator-nav.php';
     } else if ($_SESSION['role'] == "Supplier") {
         include '../Supplier/supplier-nav.php';
+    }else if ($_SESSION['role'] == "Buyer") {
+        include '../buyer/buyer-nav.php';
     }
     ?>
     <div class="container">

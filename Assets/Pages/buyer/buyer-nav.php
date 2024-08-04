@@ -65,25 +65,10 @@ if ($result && mysqli_num_rows($result) > 0) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../Supplier/Supplier-dashboard.php">Home</a>
+                        <a class="nav-link" href="buyer-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Product Management
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../Supplier/addproduct.php">Add Product</a>
-                            </li>
-                            <li><a class="dropdown-item" href="../Supplier/edit-product.php">Edit Product</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="../Supplier/delete-prod.php">Delete Product</a></li>
-                        </ul>
                     </li>
                 </ul>
                 <div class="navbar-nav">
