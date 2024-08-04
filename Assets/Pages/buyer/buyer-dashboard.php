@@ -24,8 +24,8 @@ function dbconnection() {
 
 $conn = dbconnection();
 
-// Fetch all posts in most recent order
-$query = "SELECT postid, title, content, date FROM posts ORDER BY date DESC";
+// Fetch the three most recent posts
+$query = "SELECT postid, title, content, date FROM posts ORDER BY date DESC LIMIT 3";
 $result = mysqli_query($conn, $query);
 $recent_posts = [];
 if ($result) {
@@ -74,7 +74,9 @@ mysqli_close($conn);
 </head>
 
 <body class="bg-dark text-white">
+
     <?php include 'buyer-nav.php'; ?>
+    
     <div class="container mt-5">
         <h1 class="text-center mb-4">Welcome to Buyer Dashboard, <?php echo htmlspecialchars($username); ?>!</h1>
         <div class="d-flex flex-column align-items-center">
@@ -89,16 +91,15 @@ mysqli_close($conn);
                                 <h3><?php echo htmlspecialchars($post['title']); ?></h3>
                                 <p><?php echo htmlspecialchars($post['content']); ?></p>
                                 <small><?php echo htmlspecialchars($post['date']); ?></small>
-                                <form method="post" class="mt-3">
-                                    <input type="hidden" name="post_id" value="<?php echo $post['postid']; ?>">
-                                    <button type="submit" name="add_to_interests" class="btn btn-primary">Add to Interests</button>
-                                </form>
                             </div>
                             <hr>
                         <?php endforeach; ?>
                     <?php else : ?>
                         <p>No recent posts available.</p>
                     <?php endif; ?>
+                    <div class="mt-4">
+                                <a href="../Forum/forum.php" class="btn btn-secondary">See More</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,7 +108,6 @@ mysqli_close($conn);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

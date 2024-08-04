@@ -67,7 +67,9 @@ mysqli_close($conn);
 </head>
 
 <body class="bg-dark text-white">
+
     <?php include 'buyer-nav.php'; ?>
+    
     <div class="container mt-5">
         <h1 class="text-center mb-4">My Interests</h1>
         <div class="d-flex flex-column align-items-center">

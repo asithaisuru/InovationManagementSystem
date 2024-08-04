@@ -71,6 +71,8 @@ if ($result && mysqli_num_rows($result) > 0) {
         include './innovator-nav.php';
     elseif ($role == 'Supplier')
         include '../Supplier/supplier-nav.php';
+    elseif ($role == 'Buyer')
+        include '../Buyer/buyer-nav.php';
     ?>
     <div class="container">
         <?php
@@ -124,6 +126,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         </div>
                     </div>
                 </div>
+                <?php if($role != "Buyer"): ?>
                 <div class="card mt-4 border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <h2>Skills</h2>
@@ -142,8 +145,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
+        <?php if($role != "Buyer"): ?>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card mt-4 border-white border-3 bg-dark text-white">
@@ -214,6 +219,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
         <?php if ($viewRole == 'Innovator'): ?>
             <div class="row">
                 <div class="col-lg-12">

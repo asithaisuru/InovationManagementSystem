@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != 'Supplier') {
+    if ($role != 'Innovator' && $role != 'Supplier' && $role != 'Buyer') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -47,7 +47,7 @@ if ($result && $result->num_rows > 0) {
         $likeCountResult = $likeCountStmt->get_result();
         $likeCountRow = $likeCountResult->fetch_assoc();
         $likeCount = $likeCountRow['like_count'];
-
+        
         // Display post details
         echo "<div class='card bg-dark text-white border-1 border-white p-3 mb-3'>";
         echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
@@ -59,8 +59,51 @@ if ($result && $result->num_rows > 0) {
         echo "<div class='d-flex align-items-center'>";
         echo "<button class='btn btn-sm " . ($isLiked ? "btn-success" : "btn-primary") . " like-btn' data-post-id='" . htmlspecialchars($postid) . "' style='width: 55px; margin-top: 5px;'>" . ($isLiked ? "Liked" : "Like") . "</button>";
         echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold' data-post-id='" . htmlspecialchars($postid) . "'>$likeCount</span>";
-        echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
+        echo "<span class='mt-1 ms-0.3 me-2 like-icon animate_animated animate_bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
         echo "</div>";
+
+    
+        $interests = []; // Define the $interests variable as an empty array
+        if ($role == 'Buyer') {
+            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn' data-post-id='" . $row['postid'] . "'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
+        }
+        echo <<<HTML
+        <!-- Handle form submission to add to interests -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToInterestsButtons = document.querySelectorAll('.add-to-interests-btn');
+
+            addToInterestsButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post-id');
+                const btn = this;
+
+                fetch('add_to_interests.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'post_id=' + postId
+                })
+                .then(response => response.text())
+                .then(data => {
+                if (data === 'added') {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-success');
+                    btn.textContent = 'Already in your interests';
+                } else if (data === 'already') {
+                    alert('This post is already in your interests.');
+                } else {
+                    alert('Failed to add post to interests.');
+                }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+            });
+        });
+        </script>
+    HTML;
+
         echo "</div>";
     }
 } else {

@@ -4,7 +4,7 @@ session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != 'Supplier') {
+    if ($role != 'Innovator' && $role != 'Supplier' && $role != 'Buyer') {
         echo "<script>window.location.href='../../../index.php';</script>";
         exit();
     }
@@ -16,7 +16,9 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 // Include db
 include '../dbconnection.php';
 
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -49,6 +51,8 @@ include '../dbconnection.php';
         include '../Innovator/innovator-nav.php';
     elseif ($role == 'Supplier')
         include '../Supplier/supplier-nav.php';
+    elseif ($role == 'Buyer')
+        include '../Buyer/buyer-nav.php';
     ?>
 
     <body>
@@ -60,7 +64,11 @@ include '../dbconnection.php';
             <div>
                 <!-- Link story btn -->
                 <div class="text-center">
-                    <a href="./submit-form.php" class="btn btn-success btn-lg animate__animated animate__zoomIn">Create your story</a>
+                    <?php
+                    if ($role != 'Buyer') {
+                        echo "<a href='./submit-form.php' class='btn btn-success btn-lg animate__animated animate__zoomIn'>Create your story</a>";
+                    }
+                    ?>
                 </div>
             </div> <br>
             <div class="card-body border-3 border-white bg-dark mb-3">
@@ -127,9 +135,19 @@ include '../dbconnection.php';
                         echo "<span class='mt-2 ms-2 me-1 like-count .text-white fw-bold animate__animated animate__zoomIn' data-post-id='" . htmlspecialchars($postid) . "' data-mdb-animation-start='onLoad'>$likeCount</span>";
                         echo "<span class='mt-1 ms-0.3 me-2 like-icon animate__animated animate__bounce'><i class='fas fa-thumbs-up .text-white fs-6'></i></span>";
                         echo "</div>";
+                        
+                        
+                        $interests = []; // Define the $interests variable as an empty array
+                        if ($role == 'Buyer') {
+                            echo "<button class='btn " . (in_array($row['postid'], $interests) ? "btn-success" : "btn-primary") . " add-to-interests-btn' data-post-id='" . $row['postid'] . "'>" . (in_array($row['postid'], $interests) ? "Already in your interests" : "Add to Interests") . "</button>";
+                        }
+                      
+                        
+
                         echo "</div>";
                     }
                 } else {
+                    // No posts found
                 }
                 ?>
             </div>
@@ -210,6 +228,7 @@ include '../dbconnection.php';
                     });
                 });
             }
+      
 
             // Initial call to add listeners to the initially loaded posts
             addLikeButtonListeners();
@@ -238,6 +257,87 @@ include '../dbconnection.php';
                     .catch(error => console.error('Error:', error));
             });
             </script>
+            
+            <!-- // Handle form submission to add to interests -->
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const addToInterestsButtons = document.querySelectorAll('.add-to-interests-btn');
+            
+                addToInterestsButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const postId = this.getAttribute('data-post-id');
+                        const btn = this;
+            
+                        fetch('add_to_interests.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'post_id=' + postId
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            if (data === 'added') {
+                                btn.classList.remove('btn-primary');
+                                btn.classList.add('btn-success');
+                                btn.textContent = 'Already in your interests';
+                                // Update the buyer_interests table in the database
+                                updateBuyerInterests(postId, 'added');
+                            } else if (data === 'already') {
+                                alert('This post is already in your interests.');
+                            } else {
+                                alert('Failed to add post to interests.');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });
+            
+                    // Retrieve the state of the button from the buyer_interests table on page load
+                    const postId = button.getAttribute('data-post-id');
+                    const state = getBuyerInterests(postId);
+                    if (state === 'added') {
+                        button.classList.remove('btn-primary');
+                        button.classList.add('btn-success');
+                        button.textContent = 'Already in your interests';
+                    }
+                });
+            });
+
+            // Function to update the buyer_interests table in the database
+            function updateBuyerInterests(postId, state) {
+                // Send POST request to update buyer_interests table
+                fetch('update_buyer_interests.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'post_id=' + postId + '&state=' + state
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Handle response if needed
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            // Function to get the state of the button from the buyer_interests table in the database
+            function getBuyerInterests(postId) {
+                // Send POST request to get buyer_interests table
+                return fetch('get_buyer_interests.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'post_id=' + postId
+                })
+                .then(response => response.text())
+                .then(data => {
+                    return data;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+            </script>
+            
             <!-- Include jQuery additional functionality -->
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

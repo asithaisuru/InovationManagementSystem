@@ -65,18 +65,13 @@ if ($result && mysqli_num_rows($result) > 0) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="buyer-dashboard.php">Home</a>
+                        <a class="nav-link" href="../Buyer/buyer-dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
                 </ul>
                 <div class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link me-2 mt-3" href="../Supplier/store.php">
-                            <i class="fas fa-store" style="color: #ffffff;"></i>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
                             <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
