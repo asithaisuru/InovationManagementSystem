@@ -47,13 +47,13 @@ require './Assets/Pages/dbconnection.php';
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="https://wallpaperaccess.com/full/2461288.jpg" alt="First slide">
+                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/9061969.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="https://wallpaperaccess.com/full/2461292.jpg" alt="Second slide">
+                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/1968289.jpg" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="https://wallpaperaccess.com/full/2461288.jpg" alt="Third slide">
+                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/7270297.jpg" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
@@ -81,9 +81,8 @@ require './Assets/Pages/dbconnection.php';
             <h2 class="text-white">Explore Categories</h2>
             <div class="d-flex justify-content-center flex-wrap mt-4">
                 <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-pen-nib"></i><span class="text-white ms-2">Graphics & Design</span></button>
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><img src="https://via.placeholder.com/32" class="mr-2" alt="Icon 2"><span class="text-white">Digital Marketing</span></button>
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><img src="https://via.placeholder.com/32" class="mr-2" alt="Icon 3"><span class="text-white">Writing & Translation</span></button>
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><img src="https://via.placeholder.com/32" class="mr-2" alt="Icon 4"><span class="text-white">Video & Animation</span></button>
+                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-bullhorn"></i><span class="text-white ms-2">Writing & Translation</span></button>
+                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-film"></i><span class="text-white ms-2">Video & Animation</span></button>
             </div>
         </div>
     </section>
@@ -118,7 +117,7 @@ require './Assets/Pages/dbconnection.php';
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Service 3">
+                        <img class="card-img-top" src="Assets\img\adventure-travel-tourism-hike-people-concept-three-girls-forest.jpg" alt="Service 3">
                         <div class="card-body">
                             <h3 class="card-title">Technology Scouting and Integration</h3>
                             <p class="card-text">Find and integrate cutting-edge technologies to boost your innovation</p>
