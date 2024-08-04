@@ -4,11 +4,11 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
     if ($role != 'Admin' && $role != "Moderator") {
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 ?>

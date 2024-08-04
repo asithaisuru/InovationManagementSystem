@@ -23,6 +23,22 @@ session_start();
 </head>
 
 <body class="bg-dark">
+    <div class="py-3">
+        <div class="ms-5 me-5 d-flex justify-content-between align-items-center">
+            <div class="logo h3 mb-0 text-white">
+                <img src="../img/LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                Eureka Innovation Management System
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="../../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="../../sign-in.php">Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./signup.php">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="container mt-5">
         <div class="card p-5 bg-dark border-white border-3">
             <div class="mt-2 p-3 bg-primary text-white rounded">

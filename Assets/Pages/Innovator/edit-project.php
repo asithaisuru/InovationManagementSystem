@@ -8,11 +8,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
             echo "<script>window.location.href='../error.php?msj=Access Denied';</script>";
             exit();
         }
-        echo "<script>window.location.href='../../../index.php';</script>";
+        echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
 } else {
-    echo "<script>window.location.href='../../../index.php';</script>";
+    echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
 $pidfrompdetails = isset($_GET['pid']) ? htmlspecialchars($_GET['pid']) : "";
