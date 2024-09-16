@@ -14,7 +14,7 @@ $result = mysqli_query($connection, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    if ($row['role'] == 'Admin' || $row['role'] == 'Moderator') {
+    if ($row['role'] == 'Admin') {
         $msj = "User not found";
         echo "<script>window.location.href='../error.php?msj=$msj';</script>";
         exit();
@@ -65,7 +65,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <body class="bg-dark text-white">
     <?php
-    if ($role == 'Admin' || $role == "Moderator")
+    if ($role == 'Admin')
         include '../Admin/admin-nav.php';
     elseif ($role == 'Innovator')
         include './innovator-nav.php';

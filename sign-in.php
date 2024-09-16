@@ -1,5 +1,5 @@
 <?php
-// Start the session
+
 session_start();
 
 // Include the autoloader for Composer packages
@@ -32,11 +32,15 @@ if (!$connection) {
 </head>
 
 <body class="bg-dark text-white">
-    <div class="py-3">
+    <div class="py-3 mb-5">
         <div class="ms-5 me-5 d-flex justify-content-between align-items-center">
-            <div class="logo h3 mb-0">
-                <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
-                Eureka Innovation Management System
+            <div class="logo h3 mb-0 row">
+                <div class="col-lg-1">
+                    <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                </div>
+                <div class="col-lg-11">
+                    Eureka Innovation Management System
+                </div>
             </div>
             <nav>
                 <ul class="nav">
@@ -51,7 +55,52 @@ if (!$connection) {
     <?php
     // Display the IMS logo and title
     ?>
-    <div class="container mt-5">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mt-2 p-3 bg-primary text-white rounded">
+                    <img class="card-img-top mx-auto d-block" src="./Assets/img/LogoWhite.png" alt="Logo"
+                        style="width:125px;height:125px;">
+                    <div class="my-3">
+                        <h1 class="text-center">Innovation Management System</h1>
+
+                    </div>
+                    <hr>
+                    <h3 class="text-center">Login</h3>
+                </div>
+            </div>
+            <div class="col-lg-6 text-dark">
+                <form action="sign-in.php" method="POST">
+                    <div class="form-floating mb-3 mt-3">
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                            name="username">
+                        <label for="username">Username</label>
+                    </div>
+
+                    <div class="form-floating mt-3 mb-3 position-relative">
+                        <input type="password" class="form-control" id="password" placeholder="Enter password"
+                            name="password">
+                        <label for="password">Password</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y border-0"
+                            id="togglePassword"
+                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;height:58px;">
+                            <i class="fa fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-block"><Strong>Login</Strong></button>
+                        <hr style="border-top: 3px solid white; width: 100%; margin-top: 5px; margin-bottom: 5px;">
+                        <span class="text-center text-white">Don't have an Account ?</span>
+                        <a href="Assets/Pages/signup.php" class="btn btn-success btn-block">Signup</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container mt-5">
         <div class="card p-4 bg-dark border-white border-3">
             <div class="mt-2 p-3 bg-primary text-white rounded">
                 <img class="card-img-top mx-auto d-block" src="./Assets/img/LogoWhite.png" alt="Logo"
@@ -92,7 +141,7 @@ if (!$connection) {
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
     <div>
         <footer class="bg-dark text-white">
             <div class="container py-4">
@@ -142,93 +191,95 @@ if (!$connection) {
 // Include the password.php file
 include './Assets/Pages/password.php';
 
-class User
-{
-    private $username;
-    private $password;
-    private $role;
+// class User
+// {
+//     private $username;
+//     private $password;
+//     private $role;
 
-    function __construct($username, $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
-    }
+//     function __construct($username, $password)
+//     {
+//         $this->username = $username;
+//         $this->password = $password;
+//     }
 
-    function makeuseractive()
-    {
-        require_once './Assets/Pages/dbconnection.php';
-        $username = $_SESSION['username'];
-        $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
-        $result = mysqli_query($connection, $sql);
-        if (!$result) {
-            echo "unable to Active user";
-        }
-    }
+//     function makeuseractive()
+//     {
+//         require_once './Assets/Pages/dbconnection.php';
+//         $username = $_SESSION['username'];
+//         $sql = "UPDATE users SET active = 1 WHERE userName = '$username'";
+//         $result = mysqli_query($connection, $sql);
+//         if (!$result) {
+//             echo "unable to Active user";
+//         }
+//     }
 
-    function getPasswordfromDB($connection)
-    {
-        $username = $this->username;
-        $query = "SELECT pass,role FROM users WHERE userName = ?";
-        $statement = mysqli_prepare($connection, $query);
-        mysqli_stmt_bind_param($statement, "s", $username);
-        mysqli_stmt_execute($statement);
-        $result = mysqli_stmt_get_result($statement);
+//     function getPasswordfromDB($connection)
+//     {
+//         $username = $this->username;
+//         $query = "SELECT pass,role FROM users WHERE userName = ?";
+//         $statement = mysqli_prepare($connection, $query);
+//         mysqli_stmt_bind_param($statement, "s", $username);
+//         mysqli_stmt_execute($statement);
+//         $result = mysqli_stmt_get_result($statement);
 
-        return $result;
-    }
+//         return $result;
+//     }
 
-    function setSession()
-    {
-        $_SESSION['username'] = $this->username;
-        $_SESSION['role'] = $this->role;
-        // $_SESSION['pass'] = $this->password;
-    }
+//     function setSession()
+//     {
+//         $_SESSION['username'] = $this->username;
+//         $_SESSION['role'] = $this->role;
+//         // $_SESSION['pass'] = $this->password;
+//     }
 
-    function verifyPassword($password, $hash)
-    {
-        return password_verify($password, $hash);
-    }
+//     function verifyPassword($password, $hash)
+//     {
+//         return password_verify($password, $hash);
+//     }
 
-    function redirecttopages()
-    {
-        if ($this->role == 'Innovator') {
-            // Redirect to the Innovator dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
-        } else if ($this->role == 'Supplier') {
-            // Redirect to the Supplier dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
-        } else if ($this->role == "Admin" || $this->role == "Moderator") {
-            // Redirect to the Admin dashboard
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
+//     function redirecttopages()
+//     {
+//         if ($this->role == 'Innovator') {
+//             // Redirect to the Innovator dashboard
+//             $this->makeuseractive();
+//             echo "<script>window.location.href='Assets/Pages/Innovator/innovator-dashboard.php';</script>";
+//         } else if ($this->role == 'Supplier') {
+//             // Redirect to the Supplier dashboard
+//             $this->makeuseractive();
+//             echo "<script>window.location.href='Assets/Pages/Supplier/supplier-dashboard.php';</script>";
+//         } else if ($this->role == "Admin" || $this->role == "Moderator") {
+//             // Redirect to the Admin dashboard
+//             $this->makeuseractive();
+//             echo "<script>window.location.href='Assets/Pages/Admin/admin-dashboard.php';</script>";
 
-        } else if ($this->role == "Buyer") {
-            // Redirect to the forum
-            $this->makeuseractive();
-            echo "<script>window.location.href='Assets/Pages/buyer/buyer-dashboard.php';</script>";
-        }
+//         } else if ($this->role == "Buyer") {
+//             // Redirect to the forum
+//             $this->makeuseractive();
+//             echo "<script>window.location.href='Assets/Pages/buyer/buyer-dashboard.php';</script>";
+//         }
 
-    }
+//     }
 
-    function login($connection)
-    {
-        $result = $this->getPasswordfromDB($connection);
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $this->role = $row['role'];
-            $hash = $row['pass'];
-            if ($this->verifyPassword($this->password, $hash)) {
-                $this->setSession();
-                $this->redirecttopages();
-            } else {
-                // Display an error message for invalid username or password
-                echo "<script>alert('Invalid Username or Password')</script>;";
-            }
-        }
-    }
-}
+//     function login($connection)
+//     {
+//         $result = $this->getPasswordfromDB($connection);
+//         if ($result && mysqli_num_rows($result) > 0) {
+//             $row = mysqli_fetch_assoc($result);
+//             $this->role = $row['role'];
+//             $hash = $row['pass'];
+//             if ($this->verifyPassword($this->password, $hash)) {
+//                 $this->setSession();
+//                 $this->redirecttopages();
+//             } else {
+//                 // Display an error message for invalid username or password
+//                 echo "<script>alert('Invalid Username or Password')</script>;";
+//             }
+//         }
+//     }
+// }
+
+require_once './Assets/Pages/User.php';
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {

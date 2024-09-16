@@ -65,42 +65,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li class="nav-item">
                         <a class="nav-link" href="../Innovator/aboutUs.php">About Us</a>
                     </li>
-                    <?php if ($_SESSION['role'] !== "Moderator"): ?>
-                        <div id="user_management">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin Management
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#add-user">Add User</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#remove-user">Remove
-                                            User</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all
-                                            users</a></li>
-                                </ul>
-                            </li>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($_SESSION['role'] == "Moderator"): ?>
-                        <div id="user_management">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin Management
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="../Admin/user-management.php#admin-list">View all
-                                            Admin users</a></li>
-                                </ul>
-                            </li>
-                        </div>
-                    <?php endif; ?>
-                    <!-- User Management -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">

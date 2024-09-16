@@ -187,7 +187,7 @@ session_start();
 <?php
 include './dbconnection.php';
 include './password.php';
-require_once './signup-process.php';
+require_once './User.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // $file = $_FILES["file"];
@@ -199,17 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $repassword = $_POST["repassword"];
     $role = $_POST["role"];
 
-    $signup = new Signup($username, $firstname, $lastname, $email, $role, $password, $repassword);
-    $signup->signup($connection);
-    if ($signup->getSuccessStatusOfUserRegister()) {
-        $_SESSION['username'] = $signup->getUsername();
-        $_SESSION['role'] = $signup->getRole();
-        // $_SESSION['pass'] = $this->password;
-        $msg = "User Registered Successfully. Edit your profile to add more details.";
-        echo "<script>window.location.href='./Admin/profile.php?status=success&msg=" . $msg . "';</script>";
-    } else {
-        echo '<script>alert("User Register Failed.");</script>';
-    }
-    $connection->close();
+    $signup = new User($username, $password, $role, $firstname, $lastname, $email, $repassword);
+    $signup->register($connection);
 }
 ?>

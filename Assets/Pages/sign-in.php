@@ -170,7 +170,7 @@ class User
             // Redirect to the Supplier dashboard
             $this->makeuseractive();
             echo "<script>window.location.href='./Supplier/supplier-dashboard.php';</script>";
-        } else if ($this->role == "Admin" || $this->role == "Moderator") {
+        } else if ($this->role == "Admin") {
             // Redirect to the Admin dashboard
             $this->makeuseractive();
             echo "<script>window.location.href='./Admin/admin-dashboard.php';</script>";

@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != "Admin" && $role != "Moderator") {
+    if ($role != "Admin") {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }

@@ -4,7 +4,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin" && $role != "Moderator") {
+    if ($role != 'Innovator' && $role != "Admin") {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
@@ -31,7 +31,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     // echo $addedByrole;
     // echo $role;
     // exit();
-    if (($addedByrole == 'Admin' || $addedByrole == "Moderator") && ($role != 'Admin' && $role != "Moderator")) {
+    if (($addedByrole == 'Admin') && ($role != 'Admin')) {
         echo "<script>window.location.href='./add-contributor.php?removecontributor=error';</script>";
         exit();
     } else {

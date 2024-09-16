@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Admin' && $role != "Moderator") {
+    if ($role != 'Admin') {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
@@ -82,7 +82,7 @@ if (isset($_SESSION['username'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM users WHERE role!='Admin' AND role!='Moderator'";
+                            $sql = "SELECT * FROM users WHERE role!='Admin'";
                             if (isset($_GET['role']) && !empty($_GET['role'])) {
                                 $role = $_GET['role'];
                                 $sql .= " AND role='$role'";

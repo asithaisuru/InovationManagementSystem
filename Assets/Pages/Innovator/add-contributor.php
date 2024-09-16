@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Innovator' && $role != "Admin"  && $role != "Moderator") {
+    if ($role != 'Innovator' && $role != "Admin") {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
@@ -28,10 +28,10 @@ include '../dbconnection.php';
 </head>
 
 <body class="bg-dark text-white">
-    <?php 
+    <?php
     if ($role == 'Innovator') {
         include './innovator-nav.php';
-    } elseif ($role == 'Admin' || $role == "Moderator"){
+    } elseif ($role == 'Admin') {
         include '../Admin/admin-nav.php';
     }
     ?>
@@ -93,9 +93,6 @@ include '../dbconnection.php';
                                 <th class="bg-secondary">Role</th>
                                 <th class="bg-secondary">View Profile</th>
                                 <th class="bg-secondary">Remove</th>
-                                <?php if ($role == 'Admin' || $role == "Moderator") {
-                                    echo "<th class='bg-secondary'>Added By</th>";
-                                } ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,28 +104,20 @@ include '../dbconnection.php';
                                     echo "<tr>";
                                     echo "<td>" . $row['userName'] . "</td>";
                                     // }                            
-                                    $sql1 = "SELECT fname, lname, role FROM users WHERE userName = '".$row['userName']."';";
+                                    $sql1 = "SELECT fname, lname, role FROM users WHERE userName = '" . $row['userName'] . "';";
                                     $result1 = mysqli_query($connection, $sql1);
                                     $row1 = mysqli_fetch_assoc($result1);
                                     echo "<td>" . $row1['fname'] . " " . $row1['lname'] . "</td>";
                                     echo "<td>" . $row1['role'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $row['userName'] . "'>View</a></td>";
-                                    $sql2 = "SELECT role FROM users WHERE userName = '".$row['addedBy']."';";
+                                    $sql2 = "SELECT role FROM users WHERE userName = '" . $row['addedBy'] . "';";
                                     $result2 = mysqli_query($connection, $sql2);
                                     $row2 = mysqli_fetch_assoc($result2);
-                                    if ($row2['role'] == 'Innovator' || $role == 'Admin' || $role == "Moderator") {
+                                    if ($row2['role'] == 'Innovator' || $role == 'Admin') {
                                         echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
-                                        if ($role == 'Admin' || $role == "Moderator") {
-                                            if ($row2['role'] == 'Innovator')                                            
-                                           echo "<td><p class='text-center'>".$row['addedBy']."</p></td>";
-                                        if ($row2['role'] == 'Admin' || $row2['role'] == 'Moderator')                                            
-                                           echo "<td><p class='text-center bg-danger'>".$row['addedBy']."</p></td>";
-                                        }
-                                        echo "";
                                     } else {
                                         echo "<td><p class='text-center'>Unable to remove contributor due to<br>added by an admin</p></td>";
                                     }
-                                    // echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
                                     echo "</tr>";
                                 }
                             } else {

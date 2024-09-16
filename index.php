@@ -11,7 +11,9 @@ require './Assets/Pages/dbconnection.php';
     <title>Modern Web Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -20,15 +22,20 @@ require './Assets/Pages/dbconnection.php';
 
     <div class="py-3">
         <div class="ms-5 me-5 d-flex justify-content-between align-items-center">
-            <div class="logo h3 mb-0">
-                <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
-                Eureka Innovation Management System
+            <div class="logo h3 mb-0 row">
+                <div class="col-lg-1">
+                    <img src="Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                </div>
+                <div class="col-lg-11">
+                    Eureka Innovation Management System
+                </div>
             </div>
             <nav>
                 <ul class="nav">
-                    <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="./Assets/Pages/signup.php">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./Assets/Pages/signup.php">Sign Up</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -46,13 +53,16 @@ require './Assets/Pages/dbconnection.php';
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/9061969.jpg" alt="First slide">
+                    <img style="height: 625px; object-fit: cover; object-position: right;" class="d-block w-100"
+                        src="https://wallpaperaccess.com/full/9061969.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/1968289.jpg" alt="Second slide">
+                    <img style="height: 625px; object-fit: cover; object-position: center;" class="d-block w-100"
+                        src="https://wallpaperaccess.com/full/1968289.jpg" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img style="height: 625px;" class="d-block w-100" src="https://wallpaperaccess.com/full/7270297.jpg" alt="Third slide">
+                    <img style="height: 625px; object-fit: cover; object-position: left;" class="d-block w-100"
+                        src="https://wallpaperaccess.com/full/7270297.jpg" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
@@ -79,9 +89,12 @@ require './Assets/Pages/dbconnection.php';
         <div class="container text-center">
             <h2 class="text-white">Explore Categories</h2>
             <div class="d-flex justify-content-center flex-wrap mt-4">
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-pen-nib"></i><span class="text-white ms-2">Graphics & Design</span></button>
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-bullhorn"></i><span class="text-white ms-2">Writing & Translation</span></button>
-                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-film"></i><span class="text-white ms-2">Video & Animation</span></button>
+                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-pen-nib"></i><span
+                        class="text-white ms-2">Graphics & Design</span></button>
+                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-bullhorn"></i><span
+                        class="text-white ms-2">Writing & Translation</span></button>
+                <button class="btn btn-outline-light m-2 d-flex align-items-center"><i class="fas fa-film"></i><span
+                        class="text-white ms-2">Video & Animation</span></button>
             </div>
         </div>
     </section>
@@ -93,33 +106,41 @@ require './Assets/Pages/dbconnection.php';
             <div class="row mt-4">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="Assets/img/woman-office-exploring-statistics.jpg" alt="Service 1">
+                        <img class="card-img-top" src="Assets/img/woman-office-exploring-statistics.jpg"
+                            alt="Service 1">
                         <div class="card-body">
                             <h3 class="card-title">Market Research and Analysis</h3>
-                            
-                            <p class="card-text">Gain insights into industry trends, competitors, and customer needs to identify opportunities and reduce risks.</p>
+
+                            <p class="card-text">Gain insights into industry trends, competitors, and customer needs to
+                                identify opportunities and reduce risks.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="Assets\img\partnership-handshake-innovation-corporate-business-concept.jpg" alt="Service 2">
+                        <img class="card-img-top"
+                            src="Assets\img\partnership-handshake-innovation-corporate-business-concept.jpg"
+                            alt="Service 2">
                         <div class="card-body">
                             <h3 class="card-title">Strategic Partnerships and Networking</h3>
-                            <p class="card-text">Form key partnerships and collaborations to boost your innovation and business reach.</p>
+                            <p class="card-text">Form key partnerships and collaborations to boost your innovation and
+                                business reach.</p>
 
 
 
-</p>
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="Assets\img\adventure-travel-tourism-hike-people-concept-three-girls-forest.jpg" alt="Service 3">
+                        <img class="card-img-top"
+                            src="Assets\img\adventure-travel-tourism-hike-people-concept-three-girls-forest.jpg"
+                            alt="Service 3">
                         <div class="card-body">
                             <h3 class="card-title">Technology Scouting and Integration</h3>
-                            <p class="card-text">Find and integrate cutting-edge technologies to boost your innovation</p>
+                            <p class="card-text">Find and integrate cutting-edge technologies to boost your innovation
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -127,14 +148,61 @@ require './Assets/Pages/dbconnection.php';
         </div>
     </section>
 
+    <div class="container">
+        <div class="container">
+            <h2 class="text-center mb-4">Roles and Benefits</h2>
+            <div class="row mb-2">
+                <div class="col-lg-6 bg-primary rounded p-5">
+                    <h3 class="text-center">Innovator</h3>
+                </div>
+                <div class="col-lg-6">
+                    <p><strong>Functions:</strong></p>
+                    <ul>
+                        <li>Submit new ideas for innovative products.</li>
+                        <li>Develop prototypes based on submitted ideas.</li>
+                        <li>Collaborate with sellers and buyers to refine products.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-6 bg-primary rounded p-5">
+                    <h3 class="text-center">Seller</h3>
+                </div>
+                <div class="col-lg-6">
+                    <p><strong>Functions:</strong></p>
+                    <ul>
+                        <li>List products for sale on the platform.</li>
+                        <li>Manage sales and orders efficiently.</li>
+                        <li>Provide prompt customer support for buyers.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-6 bg-primary rounded p-5">
+                    <h3 class="text-center">Buyer</h3>
+                </div>
+                <div class="col-lg-6">
+                    <p><strong>Functions:</strong></p>
+                    <ul>
+                        <li>Browse and search for products of interest.</li>
+                        <li>Make purchases securely through the platform.</li>
+                        <li>Offer feedback and reviews on purchased products.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!---Tabale section -->
-    <section>
+    <!-- <section>
         <div class="container w-50">
             <h2 class="text-center mb-4">Roles and Benefits</h2>
             <div>
+
                 <table class="table border-2 border-dark">
                     <tr>
-                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">Innovator</td>
+                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">
+                            Innovator</td>
                         <td class="rounded-end-4">
                             <div class="ms-3">
                                 <p><strong>Functions:</strong></p>
@@ -147,7 +215,8 @@ require './Assets/Pages/dbconnection.php';
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">Seller</td>
+                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">Seller
+                        </td>
                         <td class="rounded-end-4">
                             <div class="ms-3">
                                 <p><strong>Functions:</strong></p>
@@ -160,7 +229,8 @@ require './Assets/Pages/dbconnection.php';
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">Buyer</td>
+                        <td class="text-center bg-primary text-white fw-bold align-middle rounded-start-4 fs-4">Buyer
+                        </td>
                         <td class="rounded-end-4">
                             <div class="ms-3">
                                 <p><strong>Functions:</strong></p>
@@ -175,7 +245,7 @@ require './Assets/Pages/dbconnection.php';
                 </table>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Recent Posts Section -->
     <section class="posts py-5 bg-dark">

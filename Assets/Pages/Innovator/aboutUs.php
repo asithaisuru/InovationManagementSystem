@@ -19,7 +19,7 @@ if (isset($_SESSION['username'])) {
 
 <body class="bg-dark text-white">
     <?php
-    if ($_SESSION['role'] == "Admin" || $_SESSION['role'] == "Moderator") {
+    if ($_SESSION['role'] == "Admin") {
         include '../Admin/admin-nav.php';
     } else if ($_SESSION['role'] == "Innovator") {
         include './innovator-nav.php';
