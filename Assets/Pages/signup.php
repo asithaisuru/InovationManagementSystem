@@ -187,7 +187,7 @@ session_start();
 <?php
 include './dbconnection.php';
 include './password.php';
-require_once './User.php';
+require_once './Classes/User.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // $file = $_FILES["file"];

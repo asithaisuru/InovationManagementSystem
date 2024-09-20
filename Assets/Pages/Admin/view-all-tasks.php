@@ -14,6 +14,8 @@ if (isset($_SESSION['username'])) {
 }
 
 include '../dbconnection.php';
+require_once "../Classes/Administrator.php";
+$admin = new Administrator(null, null);
 ?>
 
 <!DOCTYPE html>
@@ -85,8 +87,10 @@ include '../dbconnection.php';
                                 $keyword = $_GET['keyword'];
                                 $sql .= " WHERE $filter LIKE '%$keyword%'";
                             }
-                            $result = mysqli_query($connection, $sql);
-                            if ($result && mysqli_num_rows($result) > 0) {
+                            $result = $admin->getAllTasks($connection);
+                            if ($result != null) {
+                                // $result = mysqli_query($connection, $sql);
+                                // if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['pid'] . "</td>";
@@ -127,4 +131,5 @@ include '../dbconnection.php';
 
 </body>
 <?php include '../footer.php'; ?>
+
 </html>

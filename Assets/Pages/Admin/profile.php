@@ -1,4 +1,6 @@
 <?php
+require_once "../Classes/User.php";
+
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -8,25 +10,31 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 include '../dbconnection.php';
-$query = "SELECT * FROM users WHERE userName = '$username'";
-$result = mysqli_query($connection, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $fname = $row['fname'];
-    $lname = $row['lname'];
-    $email = $row['email'];
-}
-$query = "SELECT * FROM profilePic WHERE userName = '$username'";
-$result = mysqli_query($connection, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $profilePic = "../../img/profilePics/" . $row['image_url'];
-    $_SESSION['image_url'] = $row['image_url'];
-    // echo $_SESSION['image_url'];
-} else {
-    $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
-}
+$user = new User($username, null);
+$row = $user->getProfileData($connection);
+
+// $query = "SELECT * FROM users WHERE userName = '$username'";
+// $result = mysqli_query($connection, $query);
+// if ($result && mysqli_num_rows($result) > 0) {
+//     $row = mysqli_fetch_assoc($result);
+$fname = $row['fname'];
+$lname = $row['lname'];
+$email = $row['email'];
+
+$profilePic = $user->getProfilePicture($connection);
+
+// $query = "SELECT * FROM profilePic WHERE userName = '$username'";
+// $result = mysqli_query($connection, $query);
+// if ($result && mysqli_num_rows($result) > 0) {
+//     $row = mysqli_fetch_assoc($result);
+//     $profilePic = "../../img/profilePics/" . $row['image_url'];
+//     $_SESSION['image_url'] = $row['image_url'];
+//     // echo $_SESSION['image_url'];
+// } else {
+//     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
+
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,8 +141,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 <legend class="text-white">Skills:</legend>
                                 <div id="selected-skills" class="list-group-item list-group-item-action">
                                     <?php
-                                    $sql = "SELECT * FROM user_skills WHERE userName = '$username'";
-                                    $result1 = mysqli_query($connection, $sql);
+                                    $result1 = $user->getUserSkills($connection);
                                     if (mysqli_num_rows($result1) > 0) {
                                         while ($row1 = mysqli_fetch_assoc($result1)) {
                                             echo "<span class='text-white badge bg-secondary me-2 mb-2' id='skill-" . $row1['id'] . "'>";
@@ -200,6 +207,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 </body>
 
 </html>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

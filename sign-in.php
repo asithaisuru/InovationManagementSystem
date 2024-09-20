@@ -279,7 +279,7 @@ include './Assets/Pages/password.php';
 //     }
 // }
 
-require_once './Assets/Pages/User.php';
+require_once './Assets/Pages/Classes/User.php';
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {

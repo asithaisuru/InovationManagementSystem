@@ -25,7 +25,7 @@ if (isset($_SESSION['username'])) {
     } else if ($_SESSION['role'] == "Innovator") {
         // Include innovator navigation if user role is Innovator
         include '../Innovator/innovator-nav.php';
-    }else if ($_SESSION['role'] == "Buyer") {
+    } else if ($_SESSION['role'] == "Buyer") {
         // Include innovator navigation if user role is Innovator
         include '../Buyer/buyer-nav.php';
     }
@@ -134,60 +134,65 @@ if (isset($_SESSION['username'])) {
 
 <?php
 include '../password.php';
+require_once '../Classes/User.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $oldpassword = $_POST['oldpassword'];
     $newpassword = $_POST['newpassword'];
     $confirmpassword = $_POST['confirmpassword'];
 
-    if ($newpassword == $confirmpassword) {
-        // Check if the new password and confirm password match
-        $sql = "SELECT * FROM users WHERE userName = '$username'";
-        $result = mysqli_query($connection, $sql);
+    $user = new User($username, $oldpassword);
+    $user->resetPassword($connection, $newpassword, $confirmpassword);
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            if ($row = mysqli_fetch_assoc($result)) {
-                $hash = $row['pass'];
-                if (verifyPassword($oldpassword, $hash)) {
-                    // Verify old password
-                    $hashnewpassword = hashPassword($newpassword);
-                    $sql = "UPDATE users SET pass = '$hashnewpassword' WHERE userName = '$username'";
-                    $result = mysqli_query($connection, $sql);
+    // if ($newpassword == $confirmpassword) {
+    //     // Check if the new password and confirm password match
+    //     $sql = "SELECT * FROM users WHERE userName = '$username'";
+    //     $result = mysqli_query($connection, $sql);
 
-                    if ($result) {
-                        // Password reset successful
-                        echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
-                        <strong>Success!</strong> Password Reset Successful.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    } else {
-                        // Password reset failed
-                        echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                        <strong>ERROR!!</strong> Password Reset Failed.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    }
-                } else {
-                    // Old password is incorrect
-                    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <strong>ERROR!!</strong> Old Password is Incorrect.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>';
-                }
-            } else {
-                // User not found
-                echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <strong>ERROR!!</strong> User not found.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>';
-            }
-        } else {
-            // New password and confirm password do not match
-            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <strong>ERROR!!</strong> New Password and Confirm Password do not match.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>';
-        }
-    }
+    //     if ($result && mysqli_num_rows($result) > 0) {
+    //         if ($row = mysqli_fetch_assoc($result)) {
+    //             $hash = $row['pass'];
+    //             if (verifyPassword($oldpassword, $hash)) {
+    //                 // Verify old password
+    //                 $hashnewpassword = hashPassword($newpassword);
+    //                 $sql = "UPDATE users SET pass = '$hashnewpassword' WHERE userName = '$username'";
+    //                 $result = mysqli_query($connection, $sql);
+
+    //                 if ($result) {
+    //                     // Password reset successful
+    //                     echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+    //                     <strong>Success!</strong> Password Reset Successful.
+    //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //                 </div>';
+    //                 } else {
+    //                     // Password reset failed
+    //                     echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    //                     <strong>ERROR!!</strong> Password Reset Failed.
+    //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //                 </div>';
+    //                 }
+    //             } else {
+    //                 // Old password is incorrect
+    //                 echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    //             <strong>ERROR!!</strong> Old Password is Incorrect.
+    //             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //             </div>';
+    //             }
+    //         } else {
+    //             // User not found
+    //             echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    //             <strong>ERROR!!</strong> User not found.
+    //             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //             </div>';
+    //         }
+    //     } else {
+    //         // New password and confirm password do not match
+    //         echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    //             <strong>ERROR!!</strong> New Password and Confirm Password do not match.
+    //             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //         </div>';
+    //     }
+    // }
 }
 
 include '../footer.php';

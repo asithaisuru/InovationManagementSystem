@@ -8,18 +8,14 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
-include '../dbconnection.php'; 
+include '../dbconnection.php';
 
 if (isset($_POST['id'])) {
     $skill_id = $_POST['id'];
-    $delete_sql = "DELETE FROM `user_skills` WHERE id = '".$skill_id."' ";
-    if (mysqli_query($connection, $delete_sql)) {
-        echo 'success';
-    } else {
-        echo 'error';
-    }
+    require_once '../Classes/Administrator.php';
+    $admin = new Administrator($username, null);
+    echo $admin->deleteSkill($connection, $skill_id);
 } else {
     echo 'error';
 }
 ?>
-

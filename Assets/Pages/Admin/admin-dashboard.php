@@ -13,6 +13,8 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 include '../dbconnection.php';
+require_once "../Classes/Administrator.php";
+$admin = new Administrator(null, null);
 ?>
 
 <!DOCTYPE html>
@@ -72,12 +74,18 @@ include '../dbconnection.php';
                         <h1 class="card-text">
                             <?php
                             $sql = "SELECT * FROM project";
-                            $result = $connection->query($sql);
-                            if ($result) {
+                            $result = $admin->sqlExecutor($connection, $sql);
+                            if ($result != null) {
                                 echo $result->num_rows;
                             } else {
                                 echo "Error executing query: " . $connection->error;
                             }
+                            // $result = $connection->query($sql);
+                            // if ($result) {
+                            //     echo $result->num_rows;
+                            // } else {
+                            //     echo "Error executing query: " . $connection->error;
+                            // }
                             ?>
                         </h1>
                     </div>
@@ -90,7 +98,7 @@ include '../dbconnection.php';
                         <h1 class="card-text">
                             <?php
                             $sql = "SELECT * FROM users WHERE role!='Admin'";
-                            $result = $connection->query($sql);
+                            $result = $admin->sqlExecutor($connection, $sql);
                             if ($result) {
                                 echo $result->num_rows;
                             } else {
@@ -108,7 +116,7 @@ include '../dbconnection.php';
                         <h1 class="card-text">
                             <?php
                             $sql = "SELECT * FROM contributors";
-                            $result = $connection->query($sql);
+                            $result = $admin->sqlExecutor($connection, $sql);
                             if ($result) {
                                 echo $result->num_rows;
                             } else {
@@ -130,7 +138,7 @@ include '../dbconnection.php';
                             <h1 class="card-text" id="activeUsers">
                                 <?php
                                 $sql = "SELECT * FROM users WHERE role!='Admin' AND active='1'";
-                                $result = $connection->query($sql);
+                                $result = $admin->sqlExecutor($connection, $sql);
                                 if ($result) {
                                     echo $result->num_rows;
                                 } else {

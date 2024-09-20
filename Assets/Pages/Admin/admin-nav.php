@@ -1,4 +1,7 @@
 <?php
+require_once "../Classes/User.php";
+require_once "../Classes/Administrator.php";
+
 // Check if the user is logged in
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -20,16 +23,8 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Retrieve the user's profile picture from the database
-$query = "SELECT * FROM profilePic WHERE userName = '$username'";
-$result = mysqli_query($connection, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $profilePic = "../../img/profilePics/" . $row['image_url'];
-} else {
-    // If no profile picture found, use a default image
-    $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
-}
+$user = new Administrator($username, null);
+$profilePic = $user->getProfilePicture($connection);
 ?>
 
 <!DOCTYPE html>

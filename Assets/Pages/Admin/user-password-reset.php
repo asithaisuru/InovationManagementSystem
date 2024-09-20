@@ -47,7 +47,8 @@ include '../dbconnection.php';
                 <form action="user-password-reset.php" method="POST">
                     <div class="form-floating mb-3 mt-3">
                         <input type="text" class="form-control" id="username" placeholder="Username" name="username"
-                            required value="<?php echo isset($_GET['userName']) ? htmlspecialchars($_GET['userName']) : '' ?>">
+                            required
+                            value="<?php echo isset($_GET['userName']) ? htmlspecialchars($_GET['userName']) : '' ?>">
                         <label for="username" class="text-dark">Username</label>
                     </div>
                     <div class="form-floating mt-3 mb-3 position-relative">
@@ -88,22 +89,23 @@ include '../dbconnection.php';
 <?php
 include '../password.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $passwordresetusername = $_POST['username'];
-    $password = $_POST['password'];
 
-    $sendingPassword = hashPassword($password);
+    $admin = new Administrator(null, null);
+    $admin->userPasswordReset($connection, $_POST['username'], $_POST['password']);
+    // $passwordresetusername = $_POST['username'];
+    // $password = $_POST['password'];
 
-    $sql = "UPDATE users SET pass = ? WHERE userName = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->bind_param('ss', $sendingPassword, $passwordresetusername);
+    // $sendingPassword = hashPassword($password);
 
-    if ($stmt->execute()) {
-        echo "<script>window.location.href='./user-password-reset.php?userpasswordreset=success';</script>";
-    } else {
-        echo "<script>window.location.href='./user-password-reset.php?userpasswordreset=error';</script>";
-    }
+    // $sql = "UPDATE users SET pass = ? WHERE userName = ?";
+    // $stmt = $connection->prepare($sql);
+    // $stmt->bind_param('ss', $sendingPassword, $passwordresetusername);
 
-    $stmt->close();
-    $connection->close();
+    // if ($stmt->execute()) {
+    //     echo "<script>window.location.href='./user-password-reset.php?userpasswordreset=success';</script>";
+    // } else {
+    //     echo "<script>window.location.href='./user-password-reset.php?userpasswordreset=error';</script>";
+    // }
+
 }
 ?>

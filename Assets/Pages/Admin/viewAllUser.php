@@ -11,6 +11,9 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
+
+require_once "../Classes/Administrator.php";
+$admin = new Administrator(null, null);
 ?>
 
 <!DOCTYPE html>
@@ -99,8 +102,11 @@ if (isset($_SESSION['username'])) {
                                 $name = $_GET['name'];
                                 $sql .= " AND (fname LIKE '%$name%' OR lname LIKE '%$name%')";
                             }
-                            $result = mysqli_query($connection, $sql);
-                            if (mysqli_num_rows($result) > 0) {
+
+                            $result = $admin->sqlExecutor($connection, $sql);
+                            if ($result != null) {
+                                // $result = mysqli_query($connection, $sql);
+                                // if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['userName'] . "</td>";
@@ -108,8 +114,8 @@ if (isset($_SESSION['username'])) {
                                     echo "<td>" . $row['lname'] . "</td>";
                                     echo "<td>" . $row['email'] . "</td>";
                                     echo "<td>" . $row['role'] . "</td>";
-                                    echo "<td><a class='btn btn-primary text-center d-block' href='../Innovator/view-profile.php?userName=". $row['userName'] . "'>View</a></td>";
-                                    echo "<td><a class='btn btn-danger text-center d-block' href='../Admin/user-password-reset.php?userName=". $row['userName'] . "'>Reset Password</a></td>";
+                                    echo "<td><a class='btn btn-primary text-center d-block' href='../Innovator/view-profile.php?userName=" . $row['userName'] . "'>View</a></td>";
+                                    echo "<td><a class='btn btn-danger text-center d-block' href='../Admin/user-password-reset.php?userName=" . $row['userName'] . "'>Reset Password</a></td>";
                                     echo "</tr>";
                                 }
                             } else {

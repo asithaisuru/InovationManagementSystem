@@ -20,6 +20,11 @@ class User
         $this->repassword = $repassword;
     }
 
+    function getUsername()
+    {
+        return $this->username;
+    }
+
     // Signup process
     function register($connection)
     {
@@ -141,6 +146,119 @@ class User
             echo '<script>
                     window.location.href = "profile.php?status=error&msg=' . $ms . '";
                 </script>';
+        }
+    }
+
+    function deleteSkill($connection, $skill_id)
+    {
+        $delete_sql = "DELETE FROM `user_skills` WHERE id = '" . $skill_id . "' ";
+        if (mysqli_query($connection, $delete_sql)) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+    }
+
+    function getProfileData($connection)
+    {
+        $query = "SELECT * FROM users WHERE userName = '$this->username'";
+        $result = mysqli_query($connection, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+        }
+        return $row;
+    }
+
+    function getProfilePicture($connection)
+    {
+
+        $query = "SELECT * FROM profilePic WHERE userName = '$this->username'";
+        $result = mysqli_query($connection, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $profilePic = "../../img/profilePics/" . $row['image_url'];
+        } else {
+            // If no profile picture found, use a default image
+            $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
+        }
+
+        return $profilePic;
+    }
+
+    function getUserSkills($connection)
+    {
+
+        $sql = "SELECT * FROM user_skills WHERE userName = '$this->username'";
+        $result = mysqli_query($connection, $sql);
+
+
+        return $result;
+    }
+
+    function resetPassword($connection, $newpassword, $confirmpassword)
+    {
+        $oldpassword = $this->password;
+        if ($newpassword == $confirmpassword) {
+            // Check if the new password and confirm password match
+            $sql = "SELECT * FROM users WHERE userName = '$this->username'";
+            $result = mysqli_query($connection, $sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $hash = $row['pass'];
+                    if (verifyPassword($oldpassword, $hash)) {
+                        // Verify old password
+                        $hashnewpassword = hashPassword($newpassword);
+                        $sql = "UPDATE users SET pass = '$hashnewpassword' WHERE userName = '$this->username'";
+                        $result = mysqli_query($connection, $sql);
+
+                        if ($result) {
+                            // Password reset successful
+                            echo '<div class="container alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <strong>Success!</strong> Password Reset Successful.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                        } else {
+                            // Password reset failed
+                            echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <strong>ERROR!!</strong> Password Reset Failed.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                        }
+                    } else {
+                        // Old password is incorrect
+                        echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <strong>ERROR!!</strong> Old Password is Incorrect.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                    }
+                } else {
+                    // User not found
+                    echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <strong>ERROR!!</strong> User not found.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                }
+            } else {
+                // New password and confirm password do not match
+                echo '<div class="container alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <strong>ERROR!!</strong> New Password and Confirm Password do not match.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+            }
+        }
+    }
+
+    function updateSkill($connection, $skill)
+    {
+        $sql = "INSERT INTO user_skills (userName,skill) VALUES ('$this->username','$skill')";
+        //showing response messages
+        if ($connection->query($sql) === TRUE) {
+            $em = "Skill update successfully.";
+            header("Location: ./profile.php?status=success&msg=$em");
+        } else {
+            $em = "Skill update failed.";
+            header("Location: ./profile.php?status=error&msg=$em");
         }
     }
 }
