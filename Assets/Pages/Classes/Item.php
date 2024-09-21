@@ -5,6 +5,7 @@ class Item
     private $prodName;
     private $prodDis;
     private $prodImg;
+    private $prodPrice;
     private $userName;
 
     function __construct($prodid, $prodName, $prodDis, $prodImg, $userName)
@@ -28,34 +29,42 @@ class Item
         }
     }
 
-    function read($connection)
+    function sqlExecutor($connection, $sql)
     {
-        $sql = "SELECT * FROM items";
-        $result = mysqli_query($connection, $sql);
-        return $result;
+        $result1 = mysqli_query($connection, $sql);
+        if (mysqli_num_rows($result1) > 0) {
+            return $result1;
+        } else {
+            return null;
+        }
     }
 
     function update($connection)
     {
-        $sql = "UPDATE items SET prodName = ?, prodDis = ?, prodImg = ? WHERE prodid = ?";
-        $statement = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($statement, "sssi", $this->prodName, $this->prodDis, $this->prodImg, $this->prodid);
-
-        if (!mysqli_stmt_execute($statement)) {
-            echo '<script>alert("Failed to update item.");</script>';
-            return;
+        $sql = "UPDATE items SET prodName = '$this->prodName', prodDis = '$this->prodDis', prodPrice = '$this->prodPrice', prodImg = '$this->prodImg' WHERE prodId = '$this->prodid' AND userName = '$this->userName'";
+        if (mysqli_query($connection, $sql)) {
+            $successMessage = "Product updated successfully.";
+        } else {
+            echo "Error updating product: " . mysqli_error($connection);
         }
+
+        return $successMessage;
     }
 
     function delete($connection)
     {
-        $sql = "DELETE FROM items WHERE prodid = ?";
-        $statement = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($statement, "i", $this->prodid);
+        $sql = "DELETE FROM items WHERE prodId = ? AND userName = ?";
+        if ($stmt = $connection->prepare($sql)) {
+            $stmt->bind_param('is', $this->prodid, $this->userName);
 
-        if (!mysqli_stmt_execute($statement)) {
-            echo '<script>alert("Failed to delete item.");</script>';
-            return;
+            if ($stmt->execute()) {
+                echo "<script>window.location.href='delete-prod.php?projectdeletestatus=success';</script>";
+            } else {
+                echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
+            }
+            $stmt->close();
+        } else {
+            echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
         }
     }
 }

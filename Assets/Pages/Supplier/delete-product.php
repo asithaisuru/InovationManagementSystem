@@ -1,4 +1,6 @@
 <?php
+require_once "../Classes/Item.php";
+
 session_start();
 
 if (isset($_SESSION['username'])) {
@@ -19,20 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($connection)) {
         $prodid = ($_POST['prodid']);
 
+        $item = new Item($prodid,"","","",$username);
+        $item->delete($connection);
         // Prepare the SQL statement to prevent SQL injection
-        $sql = "DELETE FROM items WHERE prodId = ? AND userName = ?";
-        if ($stmt = $connection->prepare($sql)) {
-            $stmt->bind_param('is', $prodid, $username);
+        // $sql = "DELETE FROM items WHERE prodId = ? AND userName = ?";
+        // if ($stmt = $connection->prepare($sql)) {
+        //     $stmt->bind_param('is', $prodid, $username);
 
-            if ($stmt->execute()) {
-                echo "<script>window.location.href='delete-prod.php?projectdeletestatus=success';</script>";
-            } else {
-                echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
-            }
-            $stmt->close();
-        } else {
-            echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
-        }
+        //     if ($stmt->execute()) {
+        //         echo "<script>window.location.href='delete-prod.php?projectdeletestatus=success';</script>";
+        //     } else {
+        //         echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
+        //     }
+        //     $stmt->close();
+        // } else {
+        //     echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";
+        // }
         $connection->close();
     } else {
         echo "<script>window.location.href='delete-prod.php?projectdeletestatus=error';</script>";

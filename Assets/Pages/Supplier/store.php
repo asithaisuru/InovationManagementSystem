@@ -1,4 +1,6 @@
 <?php
+
+require_once "../Classes/Item.php";
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -40,7 +42,9 @@ include '../dbconnection.php';
 
         <form method="GET" class="mb-5">
             <div class="input-group">
-                <input type="text" name="nameFilter" id="nameFilter" class="form-control" placeholder="Enter product name" value="<?php echo isset($_GET['nameFilter']) ? $_GET['nameFilter'] : ''; ?>">
+                <input type="text" name="nameFilter" id="nameFilter" class="form-control"
+                    placeholder="Enter product name"
+                    value="<?php echo isset($_GET['nameFilter']) ? $_GET['nameFilter'] : ''; ?>">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
             </div>
         </form>
@@ -52,8 +56,11 @@ include '../dbconnection.php';
                 $nameFilter = $_GET['nameFilter'];
                 $sql .= " WHERE prodName LIKE '%$nameFilter%'";
             }
-            $result = mysqli_query($connection, $sql);
-            if (mysqli_num_rows($result) > 0) {
+            $item = new Item("", "", "", "", "", );
+            $result = $item->sqlExecutor($connection, $sql);
+            if ($result != null) {
+                // $result = mysqli_query($connection, $sql);
+                // if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo '<div class="col-md-6 col-lg-4 mb-4">';
                     echo '<div class="card border-3 border-white bg-dark text-white h-100">';

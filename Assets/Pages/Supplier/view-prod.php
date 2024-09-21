@@ -7,7 +7,8 @@ if (isset($_SESSION['username'])) {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
-} else {;
+} else {
+    ;
     echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
@@ -47,6 +48,7 @@ if (isset($_SESSION['username'])) {
                 echo '<h2>' . $row["prodName"] . '</h2>';
                 echo '<p>' . $row["prodDis"] . '</p>';
                 echo '<p> Rs. ' . $row["prodPrice"] . '</p>';
+                echo '<p>Seller : <a href="../Innovator/view-profile.php?userName=' . $row["userName"] . '">' . $row["userName"] . '</p>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';

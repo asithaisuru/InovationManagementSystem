@@ -62,12 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
         }
     }
 
-    $sql = "UPDATE items SET prodName = '$prodName', prodDis = '$prodDis', prodPrice = '$prodPrice', prodImg = '$prodImg' WHERE prodId = '$prodId' AND userName = '$username'";
-    if (mysqli_query($connection, $sql)) {
-        $successMessage = "Product updated successfully.";
-    } else {
-        echo "Error updating product: " . mysqli_error($connection);
-    }
+    $item = new Item($prodId, $prodName,$prodDis,$prodImg,$username);
+    $successMessage = $item->update($connection);
+
+    // $sql = "UPDATE items SET prodName = '$prodName', prodDis = '$prodDis', prodPrice = '$prodPrice', prodImg = '$prodImg' WHERE prodId = '$prodId' AND userName = '$username'";
+    // if (mysqli_query($connection, $sql)) {
+    //     $successMessage = "Product updated successfully.";
+    // } else {
+    //     echo "Error updating product: " . mysqli_error($connection);
+    // }
 }
 ?>
 
