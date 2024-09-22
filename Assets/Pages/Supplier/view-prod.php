@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != 'Supplier' && $role != 'Innovator') {
+    if ($role != 'Supplier' && $role != 'Innovator' && $role != 'Admin') {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
@@ -28,11 +28,32 @@ if (isset($_SESSION['username'])) {
         include './supplier-nav.php';
     else if ($role == 'Innovator')
         include '../Innovator/innovator-nav.php';
+    else if ($role == 'Admin')
+        include '../Admin/admin-nav.php';
     ?>
 
     <div class="container">
         <h2 class="text-center mb-5">Product View</h2>
         <?php
+        if ($role == 'Admin') {
+            echo '<div class="mt-5 row">';
+            echo '<div class="col-lg-2">';
+            echo '<h4>Approval : </h4>';
+            echo '</div>';
+            echo '<div class="col-lg-9">';
+            echo '<form action="../Admin/approval.php" method="POST">';
+            echo '<input type="hidden" name="prodId" value="'.$_GET["prodId"].'">';
+            echo '<select name="status" id="status" class="form-select mb-3">';
+            echo '<option value="Approved">Approved</option>';
+            echo '<option value="Rejected">Rejected</option>';
+            echo '</select>';
+            echo '</div>';
+            echo '<div class="col-lg-1">';
+            echo '<button type="submit" class="btn btn-primary">Submit</button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</div>';
+        }
         $sql = "SELECT * FROM items WHERE prodId = '$_GET[prodId]'";
         $result = mysqli_query($connection, $sql);
         if (mysqli_num_rows($result) > 0) {
@@ -48,13 +69,15 @@ if (isset($_SESSION['username'])) {
                 echo '<h2>' . $row["prodName"] . '</h2>';
                 echo '<p>' . $row["prodDis"] . '</p>';
                 echo '<p> Rs. ' . $row["prodPrice"] . '</p>';
-                echo '<p>Seller : <a href="../Innovator/view-profile.php?userName=' . $row["userName"] . '">' . $row["userName"] . '</p>';
+                echo '<p>Seller : <a href="../Innovator/view-profile.php?userName=' . $row["userName"] . '">' . $row["userName"] . '</a></p>';
+                
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
             }
         }
+
         ?>
     </div>
 </body>

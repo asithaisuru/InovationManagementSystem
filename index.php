@@ -32,6 +32,7 @@ require './Assets/Pages/dbconnection.php';
             </div>
             <nav>
                 <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="./Assets/Pages/Innovator/aboutUs.php">About Us</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="./index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="./sign-in.php">Sign In</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="./Assets/Pages/signup.php">Sign Up</a>

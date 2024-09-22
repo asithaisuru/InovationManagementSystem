@@ -48,8 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Insert into database
             include('../dbconnection.php'); // Include your database connection file
 
-            $stmt = $connection->prepare("INSERT INTO items (prodName, prodDis, prodImg, prodPrice, userName) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssds", $prodName, $prodDis, $target_file, $prodPrice, $userName);
+            $status = "Pending";
+
+            $stmt = $connection->prepare("INSERT INTO items (prodName, prodDis, prodImg, prodPrice, userName, status) VALUES (?, ?, ?, ?, ?,?)");
+            $stmt->bind_param("sssds", $prodName, $prodDis, $target_file, $prodPrice, $userName, $status);
 
             if ($stmt->execute()) {
                 echo "<script>alert('New item added successfully!'); window.location.href = './addproduct.php';</script>";

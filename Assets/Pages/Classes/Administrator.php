@@ -31,15 +31,14 @@ class Administrator extends User
         }
     }
 
-    function getAllTasks($connection)
+    function updateProdStatus($connection, $prodid, $status)
     {
-        $sql = "SELECT * FROM tasks";
-        $result = mysqli_query($connection, $sql);
-        if ($result && mysqli_num_rows($result) > 0) {
-            return $result;
-        } else {
-            return null;
+        $sql = "UPDATE items SET status = '$status' WHERE prodId = '$prodid'";
+        if (mysqli_query($connection, $sql)) {
+            return true;
         }
+
+        return false;
     }
 
 }

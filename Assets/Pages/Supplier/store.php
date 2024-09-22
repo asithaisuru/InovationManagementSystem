@@ -51,10 +51,10 @@ include '../dbconnection.php';
 
         <div class="row">
             <?php
-            $sql = "SELECT * FROM items";
+            $sql = "SELECT * FROM items WHERE status = 'Approved'";
             if (isset($_GET['nameFilter'])) {
                 $nameFilter = $_GET['nameFilter'];
-                $sql .= " WHERE prodName LIKE '%$nameFilter%'";
+                $sql .= " AND prodName LIKE '%$nameFilter%'";
             }
             $item = new Item("", "", "", "", "", );
             $result = $item->sqlExecutor($connection, $sql);

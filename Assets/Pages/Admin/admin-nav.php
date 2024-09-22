@@ -91,6 +91,17 @@ $profilePic = $user->getProfilePicture($connection);
                             </li>
                         </ul>
                     </li>
+                    <!-- item management -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Product Management
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <!-- <li><a class="dropdown-item" href="#"> Change Project detalis</a></li> -->
+                            <li><a class="dropdown-item" href="../Admin/view-all-products.php">View all Products</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <div class="navbar-nav">
                     <li class="nav-item dropdown">

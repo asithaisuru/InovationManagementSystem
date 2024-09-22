@@ -4,8 +4,8 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } else {
     // header("Location: ../../../index.php");
-    echo "<script>window.location.href='../../../sign-in.php';</script>";
-    exit();
+    // echo "<script>window.location.href='../../../sign-in.php';</script>";
+    // exit();
 }
 ?>
 <!DOCTYPE html>
@@ -19,14 +19,41 @@ if (isset($_SESSION['username'])) {
 
 <body class="bg-dark text-white">
     <?php
-    if ($_SESSION['role'] == "Admin") {
-        include '../Admin/admin-nav.php';
-    } else if ($_SESSION['role'] == "Innovator") {
-        include './innovator-nav.php';
-    } else if ($_SESSION['role'] == "Supplier") {
-        include '../Supplier/supplier-nav.php';
-    }else if ($_SESSION['role'] == "Buyer") {
-        include '../buyer/buyer-nav.php';
+    if (isset($_SESSION['username'])) {
+        if ($_SESSION['role'] == "Admin") {
+            include '../Admin/admin-nav.php';
+        } else if ($_SESSION['role'] == "Innovator") {
+            include './innovator-nav.php';
+        } else if ($_SESSION['role'] == "Supplier") {
+            include '../Supplier/supplier-nav.php';
+        } else if ($_SESSION['role'] == "Buyer") {
+            include '../buyer/buyer-nav.php';
+        }
+    } else {
+        echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">';
+        echo '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
+
+        echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
+        echo '<div class="py-3">';
+        echo '<div class="ms-5 me-5 d-flex justify-content-between align-items-center mb-5">';
+        echo '<div class="logo h3 mb-0 row">';
+        echo '<div class="col-lg-1">';
+        echo '<img src="..\..\..\Assets\img\LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">';
+        echo '</div>';
+        echo '<div class="col-lg-11">';
+        echo 'Eureka Innovation Management System';
+        echo '</div>';
+        echo '</div>';
+        echo '<nav>';
+        echo '<ul class="nav">';
+        echo '<li class="nav-item"><a class="nav-link text-white" href="./aboutUs.php">About Us</a></li>';
+        echo '<li class="nav-item"><a class="nav-link text-white" href="../../../index.php">Home</a></li>';
+        echo '<li class="nav-item"><a class="nav-link text-white" href="../../../sign-in.php">Sign In</a></li>';
+        echo '<li class="nav-item"><a class="nav-link text-white" href="../signup.php">Sign Up</a>';
+        echo '</li>';
+        echo '</ul>';
+        echo '</nav>';
+        echo '</div>';
     }
     ?>
     <div class="container">

@@ -1,9 +1,11 @@
 <?php
+
+require_once "../Classes/Administrator.php";
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
-    if ($role != "Admin") {
+    if ($role != 'Admin') {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
@@ -12,7 +14,6 @@ if (isset($_SESSION['username'])) {
     echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
 }
-
 include '../dbconnection.php';
 require_once "../Classes/Administrator.php";
 $admin = new Administrator(null, null);
@@ -24,7 +25,7 @@ $admin = new Administrator(null, null);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMS - View All Tasks</title>
+    <title>IMS - Manage Products</title>
 </head>
 
 <body class="bg-dark text-white">
@@ -34,34 +35,24 @@ $admin = new Administrator(null, null);
     <div class="container">
         <div class="card mt-4 border-white border-3 bg-dark text-white">
             <div class="card-body">
-                <h2 class="text-center">All Tasks</h2>
-                <div class="mt-3">
+                <h2 class="text-center">Product Approval List</h2>
+                <!-- <div class="mt-3">
                     <form method="GET">
                         <div class="mb-3">
                             <div class="row">
-                                <div class="col-lg-2 mb-2">
-                                    <select name="filter" id="filter" class="form-select">
-                                        <option value="taskID">Task ID</option>
-                                        <option value="taskName">Task Name</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-9 mb-2">
-                                    <input type="text" name="keyword" id="keyword" class="form-control">
+
+                                <div class="col-lg-11 mb-2">
+                                    <input type="text" name="keyword" id="keyword" class="form-control"
+                                        placeholder="Product Name">
                                 </div>
                                 <div class="col-lg-1 mb-2">
                                     <button type="submit" class="btn btn-primary text-center d-block">Filter</button>
                                 </div>
                             </div>
-                            <!-- <label for="filter" class="form-label">Filter by:</label> -->
-
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="keyword" class="form-label">Keyword:</label>
-
-                        </div> -->
 
                     </form>
-                </div>
+                </div> -->
                 <div class="mt-3 table-responsive">
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>
@@ -73,48 +64,33 @@ $admin = new Administrator(null, null);
                                 <th>Task Status</th>
                                 <!-- <th>Task Deadline</th> -->
                                 <th>Task Assigned To</th>
-                                <th>Task Assigned By</th>
-                                <th>Task Assigned On</th>
-                                <th>Task Updated On</th>
                                 <th>View</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM tasks";
-                            if (isset($_GET['filter']) && isset($_GET['keyword'])) {
-                                $filter = $_GET['filter'];
-                                $keyword = $_GET['keyword'];
-                                $sql .= " WHERE $filter LIKE '%$keyword%'";
-                            }
+                            $sql = "SELECT * FROM items ORDER BY prodId DESC";
                             $result = $admin->sqlExecutor($connection, $sql);
                             if ($result != null) {
                                 // $result = mysqli_query($connection, $sql);
                                 // if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['pid'] . "</td>";
-                                    echo "<td>" . $row['taskID'] . "</td>";
-                                    echo "<td>" . $row['taskName'] . "</td>";
-                                    // echo "<td>" . $row['discription'] . "</td>";
-                                    if ($row['status'] == "Completed") {
+                                    echo "<td>" . $row['prodId'] . "</td>";
+                                    echo "<td>" . $row['prodName'] . "</td>";
+                                    echo "<td>" . $row['prodPrice'] . "</td>";
+                                    echo "<td>" . $row['userName'] . "</td>";
+                                    // echo "<tdෆ>" . $row['discription'] . "</tdෆ>";
+                                    if ($row['status'] == "Approved") {
                                         echo "<td class='bg-success'>" . $row['status'] . "</td>";
-                                    } else if ($row['status'] == "In Progress") {
-                                        echo "<td class='bg-warning'>" . $row['status'] . "</td>";
-                                    } else if ($row['status'] == "Not Assigned") {
-                                        echo "<td class='bg-danger'>" . $row['status'] . "</td>";
-                                    } else if ($row['status'] == "Assigned") {
-                                        echo "<td class='bg-info'>" . $row['status'] . "</td>";
                                     } else if ($row['status'] == "Pending") {
-                                        echo "<td class='bg-primary'>" . $row['status'] . "</td>";
+                                        echo "<td class='bg-warning'>" . $row['status'] . "</td>";
+                                    } else if ($row['status'] == "Rejected") {
+                                        echo "<td class='bg-danger'>" . $row['status'] . "</td>";
                                     }
                                     // echo "<td>" . $row['status'] . "</td>";
-                                    // echo "<td>" . $row['tdeadline'] . "</td>";
-                                    echo "<td>" . $row['assignedTo'] . "</td>";
-                                    echo "<td>" . $row['assignedby'] . "</td>";
-                                    echo "<td>" . $row['assignedon'] . "</td>";
-                                    echo "<td>" . $row['updatedon'] . "</td>";
-                                    echo "<td><a href='../Innovator/project-details.php?pid=" . $row['pid'] . "#" . $row['taskID'] . "' class='btn btn-primary'>View</a></td>";
+                                    // echo "<td>" . $row['tdeadline'] . "</td>";                                    
+                                    echo "<td><a href='../Supplier/view-prod.php?prodId=" . $row['prodId']. "' class='btn btn-primary'>View</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -128,8 +104,6 @@ $admin = new Administrator(null, null);
         </div>
     </div>
 
-
 </body>
-<?php include '../footer.php'; ?>
 
 </html>
