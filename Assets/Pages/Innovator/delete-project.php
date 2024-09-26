@@ -90,6 +90,18 @@ include '../dbconnection.php';
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pid = $_POST['pid'];
+    echo "<script>
+        if (confirm('Are you sure you want to delete this project?')) {
+            window.location.href = 'delete-project.php?confirm=true&pid=' + $pid;
+        } else {
+            window.location.href = 'delete-project.php';
+        }
+    </script>";
+    exit();
+}
+
+if (isset($_GET['confirm']) && $_GET['confirm'] == 'true' && isset($_GET['pid'])) {
+    $pid = htmlspecialchars($_GET['pid']);
     $sql = "DELETE FROM tasks WHERE pid = '$pid';"; // Removing from tasks
     if (mysqli_query($connection, $sql)) {
         $sql = "DELETE FROM contributors WHERE pid = '$pid';"; // Removing from contributors
@@ -100,17 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit();
             } else {
                 echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-                // echo "Error: " . $sql . "<br>" . mysqli_error($connection);
                 exit();
             }
         } else {
             echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-            // echo "Error: " . $sql . "<br>" . mysqli_error($connection);
             exit();
         }
     } else {
         echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-        // echo "Error: " . $sql . "<br>" . mysqli_error($connection);
         exit();
     }
 }
