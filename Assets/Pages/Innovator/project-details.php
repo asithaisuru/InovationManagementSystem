@@ -1,8 +1,11 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
+
+    $innovator = new Innovator($username, null);
 } else {
     echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
@@ -17,38 +20,22 @@ if (isset($_GET['pid'])) {
 
 include '../dbconnection.php';
 
-function getCurrentTime() {
+function getCurrentTime()
+{
     date_default_timezone_set('Asia/Colombo');
     $current_time = date("Y-m-d H:i:s");
     return $current_time;
 }
 
-$query = "SELECT * FROM project WHERE pid = '$pid'";
-$result = mysqli_query($connection, $query);
+$result = $innovator->getProjectDetails($connection, $pid);
 $row = mysqli_fetch_assoc($result);
 $createdBy = $row['userName'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['taskID']) && isset($_POST['assignedTo'])) {
-        $taskID = $_POST['taskID'];
-        $assignedTo = $_POST['assignedTo'];
-        $time = getCurrentTime();
-        $updateQuery = "UPDATE tasks SET assignedTo = '$assignedTo', status = 'Assigned', assignedby = '$username', assignedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
-        if (!$connection->query($updateQuery)) {
-            echo "<script>window.location.href='./project-details.php?projectupdatestatus=error';</script>";
-        } else {
-            echo "<script>window.location.href='./project-details.php?projectupdatestatus=success';</script>";
-        }
+        $innovator->updateTaskAssignedTo($connection, $_POST['taskID'], $_POST['assignedTo'], $pid, $username, getCurrentTime());
     } else if (isset($_POST['status']) && isset($_POST['taskID'])) {
-        $status = $_POST['status'];
-        $taskID = $_POST['taskID'];
-        $time = getCurrentTime();
-        $updateStatusQuery = "UPDATE tasks SET status = '$status', updatedon='$time' WHERE taskID = '$taskID' AND pid = '$pid'";
-        if (!$connection->query($updateStatusQuery)) {
-            echo "<script>window.location.href='./project-details.php?taskstatusupdate=error';</script>";
-        } else {
-            echo "<script>window.location.href='./project-details.php?taskstatusupdate=success';</script>";
-        }
+        $innovator->updateTaskStatus($connection, $pid, $_POST['taskID'], $_POST['status'], getCurrentTime());
     }
 }
 ?>
@@ -117,13 +104,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="list-group">
                                 <h3 class="card-title text-center">Task Status</h3>
                                 <?php
-                                $query = "SELECT * FROM tasks WHERE pid = '$pid'";
-                                $result = mysqli_query($connection, $query);
+                                $result = $innovator->getTasksFromAPID($connection, $pid);
                                 $completedTasks = 0;
                                 $pendingTasks = 0;
                                 $totalTasks = 0;
                                 $notAssignedTasks = 0;
-                                if ($result && mysqli_num_rows($result) > 0) {
+                                if ($result != "0") {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         if ($row['status'] == 'Completed') {
                                             $completedTasks++;
@@ -184,17 +170,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             <?php endif; ?>
-            <div
-                class="<?php echo ($createdBy == $username || $role == "Admin") ? 'col-lg-9' : 'col-lg-12'; ?>">
+            <div class="<?php echo ($createdBy == $username || $role == "Admin") ? 'col-lg-9' : 'col-lg-12'; ?>">
                 <div class="card border-white border-3 bg-dark text-white">
                     <div class="card-body">
                         <?php
-                        $query = "SELECT * FROM project WHERE pid = '$pid'";
-                        $result = mysqli_query($connection, $query);
+                        $result = $innovator->getProjectDetails($connection, $pid);
                         $row = mysqli_fetch_assoc($result);
                         echo '<h5 class="text-secondary"><strong>Owner</strong></h5>';
-                        $Query = "SELECT fname, lname FROM users WHERE userName = '" . $row['userName'] . "'";
-                        $Result = mysqli_query($connection, $Query);
+                        $Result = $innovator->getUserDetailsFromAUsername($connection, $row['userName']);
                         $Row = mysqli_fetch_assoc($Result);
                         echo '<h4 class="mt-1"> <a href="./view-profile.php?userName=' . $row['userName'] . '">' . htmlspecialchars($row['userName']) . '</a> - ' . $Row['fname'] . ' ' . $Row['lname'] . '</h4>';
                         echo '<hr class="border-white border-5 ">';
@@ -210,9 +193,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo '<hr class="border-white border-5 ">';
                         echo '<h5 class="text-secondary mt-3"><strong>Project Tasks</strong></h5>';
                         echo '<hr class="border-white border-3 ">';
-                        $query = "SELECT * FROM tasks WHERE pid = '$pid'";
-                        $result = mysqli_query($connection, $query);
-                        if ($result && mysqli_num_rows($result) > 0) {
+                        $result = $innovator->getTasksFromAPID($connection, $pid);
+                        if ($result != "0") {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 if ($createdBy == $username || $role == "Admin") {
                                     if ($row['status'] != "Completed" || $role == "Admin")
@@ -226,15 +208,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         echo '<select class="form-select mt-3" required name="assignedTo" id="assignedTo">';
                                     echo '<option value="" selected disabled>-- Select Innovator --</option>';
 
-                                    $sql = "SELECT * FROM contributors WHERE pid = '$pid'";
-                                    $result1 = mysqli_query($connection, $sql);
-                                    if ($result1 && mysqli_num_rows($result1) > 0) {
+                                    $result1 = $innovator->getContributorsWithPID($connection, $pid);
+                                    if ($result1 != "0") {
                                         while ($row1 = mysqli_fetch_assoc($result1)) {
                                             $sql1 = "SELECT role FROM users WHERE userName = '" . $row1['userName'] . "'";
                                             $result2 = mysqli_query($connection, $sql1);
                                             $row2 = mysqli_fetch_assoc($result2);
                                             $selected = $row['assignedTo'] == $row1['userName'] ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . ' - '.$row2["role"].'</option>';
+                                            echo '<option value="' . htmlspecialchars($row1["userName"]) . '" ' . $selected . '>' . htmlspecialchars($row1["userName"]) . ' - ' . $row2["role"] . '</option>';
                                         }
                                     } else {
                                         echo '<option value="" disabled>No Contributors Found</option>';
@@ -321,5 +302,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <?php include '../footer.php'; ?>
 </body>
+
 </html>
-<?php $connection->close(); ?>

@@ -1,17 +1,17 @@
 <?php
+require_once "../Classes/Innovator.php";
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
+    $innovator = new Innovator($username, null);
 } else {
     echo "<script>window.location.href='../../../index.php';</script>";
     exit();
 }
 include '../dbconnection.php';
 $viewUserName = $_GET['userName'];
-$query = "SELECT * FROM users WHERE userName = '$viewUserName'";
-$result = mysqli_query($connection, $query);
-
+$result = $innovator->getUserDetailsFromAUsername($connection, $viewUserName);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     if ($row['role'] == 'Admin') {
@@ -31,15 +31,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     exit();
 }
 
-$query = "SELECT * FROM profilePic WHERE userName = '$viewUserName'";
-$result = mysqli_query($connection, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $viewerprofilePic = "../../img/profilePics/" . $row['image_url'];
-    $_SESSION['image_url'] = $row['image_url'];
-} else {
-    $viewerprofilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
-}
+$viewerprofilePic = $innovator->viewProfileGetProfilePic($connection, $viewUserName);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,9 +124,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <h2>Skills</h2>
                             <div>
                                 <?php
-                                $sql = "SELECT * FROM user_skills WHERE userName = '$viewUserName'";
-                                $result1 = mysqli_query($connection, $sql);
-                                if (mysqli_num_rows($result1) > 0) {
+                                $result1 = $innovator->viewProfileGetUserSkills($connection, $viewUserName);
+                                if ($result1 != "0") {
                                     while ($row1 = mysqli_fetch_assoc($result1)) {
                                         echo "<span class='text-white badge bg-secondary me-2 mb-2 p-3' id='skill-" . $row1['id'] . "'>";
                                         echo $row1['skill'];
@@ -160,8 +151,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     $ratingvalueCount = 0;
                                     $maxRating = 5;
 
-                                    $query = "SELECT * FROM user_ratings WHERE userName = '$viewUserName'";
-                                    $result = mysqli_query($connection, $query);
+                                    $result = $innovator->viewProfileGetUserRatings($connection, $viewUserName);
                                     if ($result && mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             $ratingvalueCount += $row['rating'];
@@ -238,8 +228,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT * FROM project WHERE userName = '$viewUserName';";
-                                        $result = mysqli_query($connection, $sql);
+                                        $result = $innovator->getAllProjectsForAUsername($connection, $viewUserName);
                                         if (mysqli_num_rows($result) > 0) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
@@ -282,15 +271,13 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT * FROM contributors WHERE userName = '$viewUserName';";
-                                        $result = mysqli_query($connection, $sql);
+                                        $result = $innovator->getContributorsWithUsername($connection, $viewUserName);
                                         if (mysqli_num_rows($result) > 0) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>" . $row['pid'] . "</td>";
 
-                                                $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
-                                                $result1 = mysqli_query($connection, $sql);
+                                                $result1 = $innovator->getProjectDetails($connection, $row['pid']);
                                                 if (mysqli_num_rows($result1) > 0) {
                                                     while ($row1 = mysqli_fetch_assoc($result1)) {
                                                         echo "<td>" . $row1['pname'] . "</td>";
@@ -323,13 +310,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <h1 class="text-center mb-3">My Products</h1>
                         <div class="row">
                             <?php
-                            if ($viewUserName != $username) {
-                                $sql = "SELECT * FROM items WHERE userName = '$viewUserName' AND status = 'Approved';";
-                            } else {
-                                $sql = "SELECT * FROM items WHERE userName = '$viewUserName';";
+                            $viewUsernameEqualsUsername = false;
+                            if ($viewUserName == $username) {
+                                $viewUsernameEqualsUsername = true;
                             }
-                            $result = mysqli_query($connection, $sql);
-                            if (mysqli_num_rows($result) > 0) {
+                            $result = $innovator->getProducts($connection, $viewUserName, $viewUsernameEqualsUsername);
+                            if ($result != "0") {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo '<div class="col-md-6 col-lg-4 mb-4">';
                                     echo '<div class="card border-3 border-white bg-dark text-white h-100">';

@@ -1,4 +1,5 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
@@ -11,6 +12,8 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
+
+    $innovator = new Innovator($username, null);
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../sign-in.php';</script>";
@@ -56,10 +59,9 @@ include '../dbconnection.php';
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="pid" id="pid">
                             <?php
-                            $sql = "SELECT * FROM project WHERE userName = '$username';";
-                            $result = mysqli_query($connection, $sql);
+                            $result = $innovator->getAllProjectsForAUsername($connection, $username);
                             echo "<option disabled selected></option>";
-                            if (mysqli_num_rows($result) > 0) {
+                            if ($result != "0") {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<option value=" . $row['pid'] . ">" . $row['pid'] . " - " . $row['pname'] . "</option>";
                                     if ($row['pid'] == htmlspecialchars($_GET['pid'])) {
@@ -85,42 +87,12 @@ include '../dbconnection.php';
 </body>
 
 </html>
-
-<!-- document.getElementById("getProject").submit(); -->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pid = $_POST['pid'];
-    echo "<script>
-        if (confirm('Are you sure you want to delete this project?')) {
-            window.location.href = 'delete-project.php?confirm=true&pid=' + $pid;
-        } else {
-            window.location.href = 'delete-project.php';
-        }
-    </script>";
-    exit();
+    $innovator->projectDeleteConfermation($_POST['pid']);
 }
 
 if (isset($_GET['confirm']) && $_GET['confirm'] == 'true' && isset($_GET['pid'])) {
-    $pid = htmlspecialchars($_GET['pid']);
-    $sql = "DELETE FROM tasks WHERE pid = '$pid';"; // Removing from tasks
-    if (mysqli_query($connection, $sql)) {
-        $sql = "DELETE FROM contributors WHERE pid = '$pid';"; // Removing from contributors
-        if (mysqli_query($connection, $sql)) {
-            $sql = "DELETE FROM project WHERE pid = '$pid';"; // Removing from project
-            if (mysqli_query($connection, $sql)) {
-                echo "<script>window.location.href='delete-project.php?projectdeletestatus=success';</script>";
-                exit();
-            } else {
-                echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-                exit();
-            }
-        } else {
-            echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-            exit();
-        }
-    } else {
-        echo "<script>window.location.href='delete-project.php?projectdeletestatus=error';</script>";
-        exit();
-    }
+    $innovator->deleteAProject($connection, $_GET['pid']);
 }
 ?>

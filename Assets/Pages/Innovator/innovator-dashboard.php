@@ -1,4 +1,5 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
@@ -7,6 +8,8 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
+
+    $innovator = new Innovator($username, null);
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../sign-in.php';</script>";
@@ -78,9 +81,8 @@ include '../dbconnection.php';
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM project WHERE userName = '$username';";
-                            $result = mysqli_query($connection, $sql);
-                            if (mysqli_num_rows($result) > 0) {
+                            $result = $innovator->getAllProjectsForAUsername($connection, $username);
+                            if ($result != "0") {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['pid'] . "</td>";
@@ -122,20 +124,15 @@ include '../dbconnection.php';
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM contributors WHERE userName = '$username';";
-                            $result = mysqli_query($connection, $sql);
+                            $result = $innovator->getContributorsWithUsername($connection, $username);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['pid'] . "</td>";
 
-                                    $sql = "SELECT * FROM project WHERE pid = " . $row['pid'] . ";";
-                                    $result1 = mysqli_query($connection, $sql);
-                                    // var_dump($result1);
+                                    $result1 = $innovator->getProjectDetails($connection, $row['pid']);
                                     if (mysqli_num_rows($result1) > 0) {
-                                        // echo mysqli_num_rows($result1);
                                         while ($row1 = mysqli_fetch_assoc($result1)) {
-                                            // var_dump($row1);
                                             echo "<td>" . $row1['pname'] . "</td>";
                                             echo "<td>" . $row1['sdate'] . "</td>";
                                             echo "<td>" . $row1['edate'] . "</td>";
@@ -147,8 +144,6 @@ include '../dbconnection.php';
                                                 echo "<td class = 'text-center bg-warning text-dark'></td>";
                                         }
                                     }
-                                    // echo "<td>" . $row['pdis'] . "</td>";
-                            
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./project-details.php?pid=" . $row['pid'] . "'>View</a></td>";
                                     echo "</tr>";
                                 }

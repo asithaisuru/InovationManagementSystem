@@ -1,4 +1,5 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
@@ -7,6 +8,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
+    $innovator = new Innovator($username, null);
 } else {
     // header("Location: ../../../index.php");
     echo "<script>window.location.href='../../../sign-in.php';</script>";
@@ -59,8 +61,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                 <label for="pdis" class="text-dark">Project Description</label>
             </div>
 
-            <a type="button" class="btn" style="background-color: gold; color: black;"
-                onclick="genarateResponse()">
+            <a type="button" class="btn" style="background-color: gold; color: black;" onclick="genarateResponse()">
                 <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Breakdown Tasks using AI
             </a>
             <!-- genardate response script -->
@@ -79,8 +80,8 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
             <input type="hidden" name="taskCount" id="taskCount" value="1">
             <a class="btn btn-primary" onclick="addTask()">Add Task</a>
             <button class="btn btn-danger delete-task" onclick="deleteTask()">Delete Task</button>
-            
-            <script>              
+
+            <script>
                 let taskCount = 1;
                 disableDeleteButton();
 
@@ -180,24 +181,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $numOfTasks = $_POST['taskCount'];
     // echo "numoftasks : ".$numOfTasks;
 
-    $sql = "INSERT INTO project (pname, pdis, noOfTasks, sdate, edate, pcategory, userName) VALUES ('$pname', '$pdis', '$numOfTasks', '$sdate', '$edate', '$projectCategory', '$username')";
-    $result = mysqli_query($connection, $sql);
-    echo "result :" . $result;
-    if ($result) {
-        $projectID = mysqli_insert_id($connection);
-        for ($i = 1; $i <= $numOfTasks; $i++) {
-            $taskID = 'p' . $projectID . 'task' . $i;
-            $taskName = $_POST['task' . $i];
-            $taskDescription = $_POST['t' . $i . 'dis'];
-            $sql = "INSERT INTO tasks (taskID, taskName, discription, pid, status) VALUES ('$taskID', '$taskName', '$taskDescription', '$projectID', 'Not Assigned')";
-            $result = mysqli_query($connection, $sql);
-        }
-        $em = "Project creation successfull.";
-        echo "<script>window.location.href='./project-creation.php?projectcreationstatus=success&msg=$em';</script>";
-    } else {
-        $em = "Project creation failed.";
-        echo "<script>window.location.href='./project-creation.php?projectcreationstatus=error&msg=$em';</script>";
-        // echo "<script>alert('Failed to create project. error: ')</script>";
-    }
+    $innovator->createAProject($connection, $pname, $pdis, $numOfTasks, $sdate, $edate, $projectCategory, $username);
 }
 ?>

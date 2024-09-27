@@ -1,4 +1,5 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
     $username = $_SESSION['username'];
@@ -11,6 +12,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
     }
+    $innovator = new Innovator($username, null);
 } else {
     echo "<script>window.location.href='../../../sign-in.php';</script>";
     exit();
@@ -67,8 +69,9 @@ include '../dbconnection.php'; ?>
                     <div class="form-floating mb-3 mt-3">
                         <select class="form-select mt-3" required name="pid" id="pid">
                             <?php
-                            $sql = "SELECT * FROM project WHERE userName = '$username';";
-                            $result = mysqli_query($connection, $sql);
+                            $result = $innovator->getAllProjectsForAUsername($connection, $username);
+                            // $sql = "SELECT * FROM project WHERE userName = '$username';";
+                            // $result = mysqli_query($connection, $sql);
                             echo "<option disabled selected></option>";
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -212,10 +215,9 @@ include '../dbconnection.php'; ?>
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $pid = $_POST["pid"];
     echo '<script>document.getElementById("pid2nd").value = "' . $pid . '";</script>';
-    $sql = "SELECT * FROM project WHERE pid = '$pid'";
     echo '<script>document.getElementById("pid").value = "' . $pid . '";</script>';
-    $result = mysqli_query($connection, $sql);
-    if (mysqli_num_rows($result) > 0) {
+    $result = $innovator->getProjectDetails($connection, $pid);
+    if ($result != "0") {
         echo '<script>document.getElementById("projectDetailsContainer").removeAttribute("style");</script>';
         $row = mysqli_fetch_assoc($result);
         $noOfTasks = $row['noOfTasks'];
@@ -228,9 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo '<script>document.getElementById("sdate").value = "' . $row['sdate'] . '";</script>';
         echo '<script>document.getElementById("edate").value = "' . $row['edate'] . '";</script>';
 
-
-        $sql = "SELECT * FROM tasks WHERE pid = '$pid'";
-        $result = mysqli_query($connection, $sql);
+        $result = $innovator->getTasksFromAPID($connection, $pid);
         for ($i = 0; $i < $noOfTasks; $i++) {
             $row = mysqli_fetch_assoc($result);
             echo '<script>document.getElementById("task' . ($i + 1) . '").value = "' . $row['taskName'] . '";</script>';

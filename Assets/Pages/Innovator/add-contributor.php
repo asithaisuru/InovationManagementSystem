@@ -1,8 +1,10 @@
 <?php
+require_once '../Classes/Innovator.php';
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
+    $innovator = new Innovator($username, null);
     if ($role != 'Innovator' && $role != "Admin") {
         echo "<script>window.location.href='../../../sign-in.php';</script>";
         exit();
@@ -37,7 +39,7 @@ include '../dbconnection.php';
     ?>
 
     <div class="container">
-
+        <a href="./project-details.php?pid=<?= $_GET['pid'] ?>" class="btn btn-primary mt-3">Back to Project</a>
         <?php
         $status = isset($_GET['removecontributor']) ? htmlspecialchars($_GET['removecontributor']) : "";
         if ($status == "success") {
@@ -97,21 +99,24 @@ include '../dbconnection.php';
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM contributors WHERE pid = '$pid';";
-                            $result = mysqli_query($connection, $sql);
-                            if (mysqli_num_rows($result) > 0) {
+                            $result = $innovator->getContributorsWithPID($connection, $pid);
+                            // $sql = "SELECT * FROM contributors WHERE pid = '$pid';";
+                            // $result = mysqli_query($connection, $sql);
+                            if ($result != "0") {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>" . $row['userName'] . "</td>";
-                                    // }                            
-                                    $sql1 = "SELECT fname, lname, role FROM users WHERE userName = '" . $row['userName'] . "';";
-                                    $result1 = mysqli_query($connection, $sql1);
+                                    // }       
+                                    $result1 = $innovator->getUserDetailsFromAUsername($connection, $row['userName']);
+                                    // $sql1 = "SELECT fname, lname, role FROM users WHERE userName = '" . $row['userName'] . "';";
+                                    // $result1 = mysqli_query($connection, $sql1);
                                     $row1 = mysqli_fetch_assoc($result1);
                                     echo "<td>" . $row1['fname'] . " " . $row1['lname'] . "</td>";
                                     echo "<td>" . $row1['role'] . "</td>";
                                     echo "<td><a class='btn btn-primary text-center d-block' href='./view-profile.php?userName=" . $row['userName'] . "'>View</a></td>";
-                                    $sql2 = "SELECT role FROM users WHERE userName = '" . $row['addedBy'] . "';";
-                                    $result2 = mysqli_query($connection, $sql2);
+                                    $result2 = $innovator->getIfAddedByAnAdmin($connection, $row['addedBy']);
+                                    // $sql2 = "SELECT role FROM users WHERE userName = '" . $row['addedBy'] . "';";
+                                    // $result2 = mysqli_query($connection, $sql2);
                                     $row2 = mysqli_fetch_assoc($result2);
                                     if ($row2['role'] == 'Innovator' || $role == 'Admin') {
                                         echo "<td><a class='btn btn-danger text-center d-block' href='./remove-contributor.php?userName=" . $row['userName'] . "&pid=" . $pid . "'>Remove</a></td>";
@@ -143,29 +148,6 @@ include '../dbconnection.php';
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $cname = $_POST['cname'];
-    // echo $cname . "<br>";
-    $sql = "SELECT * FROM users WHERE BINARY userName = '$cname'";
-    $result = mysqli_query($connection, $sql);
-    // echo "result :" . $result;
-    // echo mysqli_num_rows($result) . "<br>";
-    // echo "pid : " . $_SESSION['pid'] . "<br>";
-    if (mysqli_num_rows($result) > 0) {
-        $sql = "INSERT INTO contributors (pid, userName,addedBy) VALUES ('$pid', '$cname','$username')";
-        $result = mysqli_query($connection, $sql);
-        if ($result) {
-            echo "<script>window.location.href='./add-contributor.php?addcontributor=success';</script>";
-            // echo "<script>alert('Contributor Added Successfully');</script>";
-            // echo "<script>window.location.href='add-contributor.php?pid=" . $_SESSION['pid'] . "';</script>";
-        } else {
-            echo "<script>window.location.href='./add-contributor.php?addcontributor=error';</script>";
-            // echo "<script>alert('Failed to Add Contributor');</script>";
-            // echo "<script>window.location.href='add-contributor.php?pid=" . $_SESSION['pid'] . "';</script>";
-        }
-    } else {
-        echo "<script>window.location.href='./add-contributor.php?addcontributor=error';</script>";
-        // echo "<script>alert('Contributor Not Found');</script>";
-        // echo "<script>window.location.href='./add-contributor.php?pid=" . $_SESSION['pid'] . "';</script>";
-    }
+    $innovator->addAContributor($connection, $_POST['cname'], $pid, $username);
 }
 ?>
