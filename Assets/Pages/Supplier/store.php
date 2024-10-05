@@ -1,5 +1,6 @@
 <?php
 
+require_once "../Classes/Innovator.php";
 require_once "../Classes/Item.php";
 session_start();
 if (isset($_SESSION['username'])) {

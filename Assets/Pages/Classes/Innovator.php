@@ -392,12 +392,12 @@ class Innovator extends User
     function viewProfileGetProfilePic($connection, $viewUserName)
     {
         $viewerprofilePic = "";
-        $query = "SELECT * FROM profilePic WHERE userName = '$viewUserName'";
+        $query = "SELECT profilePic FROM users WHERE userName = '$viewUserName'";
         $result = mysqli_query($connection, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            $viewerprofilePic = "../../img/profilePics/" . $row['image_url'];
-            $_SESSION['image_url'] = $row['image_url'];
+            $viewerprofilePic = "../../img/profilePics/" . $row['profilePic'];
+            $_SESSION['image_url'] = $row['profilePic'];
         } else {
             $viewerprofilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
         }

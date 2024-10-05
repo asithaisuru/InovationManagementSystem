@@ -1,4 +1,7 @@
 <?php
+require_once '../Classes/User.php';
+require_once '../Classes/Innovator.php';
+require_once '../Classes/Administrator.php';
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];

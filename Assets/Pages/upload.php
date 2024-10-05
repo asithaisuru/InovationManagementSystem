@@ -39,7 +39,7 @@ if (isset($_POST['submit']) && isset($_FILES['profile-pic'])) {
                 move_uploaded_file($tmp_name, $img_upload_path);
 
                 // Insert into Database
-                $sql = "INSERT INTO profilePic(userName,image_url) VALUES('$username','$new_img_name') ON DUPLICATE KEY UPDATE image_url = '$new_img_name'";
+                $sql = "INSERT INTO users(userName,profilePic) VALUES('$username','$new_img_name') ON DUPLICATE KEY UPDATE profilePic = '$new_img_name'";
                 if (mysqli_query($connection, $sql)) {
                     echo "<p class='text-white'>Records inserted successfully.</p>";
                     // Remove old file
