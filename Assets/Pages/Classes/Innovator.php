@@ -84,7 +84,7 @@ class Innovator extends User
         if (confirm('Are you sure you want to delete this project?')) {
             window.location.href = 'delete-project.php?confirm=true&pid=' + $pid;
         } else {
-            window.location.href = 'delete-project.php';
+            window.location.href = 'delete-project.php?pid=' + $pid;
         }
     </script>";
         exit();
