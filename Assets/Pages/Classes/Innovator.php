@@ -432,9 +432,9 @@ class Innovator extends User
     function getProducts($connection, $viewUserName, $viewUsernameEqualsUsername)
     {
         if ($viewUsernameEqualsUsername) {
-            $sql = "SELECT * FROM items WHERE userName = '$viewUserName' AND status = 'Approved';";
-        } else {
             $sql = "SELECT * FROM items WHERE userName = '$viewUserName';";
+        } else {
+            $sql = "SELECT * FROM items WHERE userName = '$viewUserName' AND status = 'Approved';";
         }
 
         $result = mysqli_query($connection, $sql);

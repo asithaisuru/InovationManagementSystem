@@ -42,7 +42,7 @@ if (isset($_SESSION['username'])) {
             echo '</div>';
             echo '<div class="col-lg-9">';
             echo '<form action="../Admin/approval.php" method="POST">';
-            echo '<input type="hidden" name="prodId" value="'.$_GET["prodId"].'">';
+            echo '<input type="hidden" name="prodId" value="' . $_GET["prodId"] . '">';
             echo '<select name="status" id="status" class="form-select mb-3">';
             echo '<option value="Approved">Approved</option>';
             echo '<option value="Rejected">Rejected</option>';
@@ -70,7 +70,9 @@ if (isset($_SESSION['username'])) {
                 echo '<p>' . $row["prodDis"] . '</p>';
                 echo '<p> Rs. ' . $row["prodPrice"] . '</p>';
                 echo '<p>Seller : <a href="../Innovator/view-profile.php?userName=' . $row["userName"] . '">' . $row["userName"] . '</a></p>';
-                
+                if ($row['userName'] == $username) {
+                    echo "<a href='./edit-product.php?prodID=$_GET[prodId]' class='btn btn-primary text-end'>Edit Product</a>";
+                }
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';

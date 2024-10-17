@@ -1,4 +1,5 @@
 <?php
+require_once '../Classes/Item.php';
 session_start();
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -62,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
         }
     }
 
-    $item = new Item($prodId, $prodName,$prodDis,$prodImg,$username);
-    $successMessage = $item->update($connection);
+    $item = new Item($prodId, $prodName, $prodDis, $prodImg, $username);
+    $successMessage = $item->update($connection, $prodPrice);
 
     // $sql = "UPDATE items SET prodName = '$prodName', prodDis = '$prodDis', prodPrice = '$prodPrice', prodImg = '$prodImg' WHERE prodId = '$prodId' AND userName = '$username'";
     // if (mysqli_query($connection, $sql)) {
@@ -88,27 +89,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
     <div class="container mt-5">
         <div>
             <h2 class="text-center">Edit product</h2>
-            <?php if ($successMessage) : ?>
+            <?php if ($successMessage): ?>
                 <div class="alert alert-success">
                     <?php echo $successMessage; ?>
                 </div>
             <?php endif; ?>
             <div class="card mt-4 border-white border-3 bg-dark text-white">
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="" method="POST" id="selectAProduct">
                         <div class="form-floating mb-3 mt-3">
-                            <select class="form-select mt-3" required name="prodid" id="pid" onchange="this.form.submit()">
+                            <select class="form-select mt-3" required name="prodid" id="pid"
+                                onchange="this.form.submit()">
                                 <?php
                                 $sql = "SELECT * FROM items WHERE userName = '$username';";
                                 $result = mysqli_query($connection, $sql);
                                 echo "<option disabled selected></option>";
                                 if ($result && mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='" . $row['prodId'] . "'>" . $row['prodId'] . " - " . $row['prodName'] . "</option>";
+                                        if (isset($_GET['prodID']) && !empty($_GET['prodID'])) {
+                                            if ($_GET['prodID'] == $row['prodId']) {
+                                                echo "<option value='" . $row['prodId'] . "'>" . $row['prodId'] . " - " . $row['prodName'] . " - " . $row['status'] . "</option>";
+                                            }
+                                        } else
+                                            echo "<option value='" . $row['prodId'] . "'>" . $row['prodId'] . " - " . $row['prodName'] . " - " . $row['status'] . "</option>";
                                     }
                                 } else {
                                     echo "<option disabled>--Products not found--</option>";
                                 }
+
                                 ?>
                             </select>
                             <label for="pid">Select Product</label>
@@ -122,15 +130,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
                     <form action="edit-product.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="prodid" value="<?php echo isset($prodId) ? $prodId : ''; ?>">
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name" name="prodName" value="<?php echo isset($prodName) ? $prodName : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodName" placeholder="Enter Product Name"
+                                name="prodName" value="<?php echo isset($prodName) ? $prodName : ''; ?>" required>
                             <label for="prodName" class="text-dark">Edit Product Name</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Description" name="prodDis" value="<?php echo isset($prodDis) ? $prodDis : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodDis" placeholder="Enter Product Description"
+                                name="prodDis" value="<?php echo isset($prodDis) ? $prodDis : ''; ?>" required>
                             <label for="prodDis" class="text-dark">Edit Product Description</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
-                            <input type="text" class="form-control" id="prodPrice" placeholder="Product Price" name="prodPrice" value="<?php echo isset($prodPrice) ? $prodPrice : ''; ?>" required>
+                            <input type="text" class="form-control" id="prodPrice" placeholder="Product Price"
+                                name="prodPrice" value="<?php echo isset($prodPrice) ? $prodPrice : ''; ?>" required>
                             <label for="prodPrice" class="text-dark">Edit Product Price</label>
                         </div>
                         <div class="form-floating mb-3 mt-4 ms-3 me-3">
