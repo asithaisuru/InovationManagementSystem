@@ -84,7 +84,7 @@ class Innovator extends User
         if (confirm('Are you sure you want to delete this project?')) {
             window.location.href = 'delete-project.php?confirm=true&pid=' + $pid;
         } else {
-            window.location.href = 'delete-project.php';
+            window.location.href = 'delete-project.php?pid=' + $pid;
         }
     </script>";
         exit();
@@ -429,9 +429,9 @@ class Innovator extends User
     function getProducts($connection, $viewUserName, $viewUsernameEqualsUsername)
     {
         if ($viewUsernameEqualsUsername) {
-            $sql = "SELECT * FROM items WHERE userName = '$viewUserName' AND status = 'Approved';";
-        } else {
             $sql = "SELECT * FROM items WHERE userName = '$viewUserName';";
+        } else {
+            $sql = "SELECT * FROM items WHERE userName = '$viewUserName' AND status = 'Approved';";
         }
 
         $result = mysqli_query($connection, $sql);

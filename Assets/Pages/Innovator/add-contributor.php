@@ -27,6 +27,32 @@ include '../dbconnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMS - Add Contributors</title>
+
+    <style>
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            overflow: hidden;
+            width: 40px;
+            transition: width 0.8s ease-in-out, background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            width: auto;
+            background-color: #0056b3;
+        }
+
+        .back-text {
+            opacity: 0;
+            margin-left: 8px;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        .back-button:hover .back-text {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body class="bg-dark text-white">
@@ -39,7 +65,12 @@ include '../dbconnection.php';
     ?>
 
     <div class="container">
-        <a href="./project-details.php?pid=<?= $_GET['pid'] ?>" class="btn btn-primary mt-3">Back to Project</a>
+        <a href="./project-details.php?pid=<?= $_GET['pid'] ?>" class="btn btn-primary mt-3 back-button"
+            id="backToProject">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <span id="backText" class="back-text color-wh"> Back to Project</span>
+        </a>
+
         <?php
         $status = isset($_GET['removecontributor']) ? htmlspecialchars($_GET['removecontributor']) : "";
         if ($status == "success") {

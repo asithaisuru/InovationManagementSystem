@@ -103,7 +103,7 @@ $admin = new Administrator(null, null);
             </div>
         </div>
     </div>
-
 </body>
+<?php include '../footer.php'; ?>   
 
 </html>

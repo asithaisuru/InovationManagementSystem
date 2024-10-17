@@ -1,5 +1,5 @@
 <?php
-require_once "../../Classes/Innovator.php";
+require_once "../Classes/Innovator.php";
 
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];

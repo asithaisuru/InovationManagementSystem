@@ -39,9 +39,9 @@ class Item
         }
     }
 
-    function update($connection)
+    function update($connection, $prodPrice)
     {
-        $sql = "UPDATE items SET prodName = '$this->prodName', prodDis = '$this->prodDis', prodPrice = '$this->prodPrice', prodImg = '$this->prodImg' WHERE prodId = '$this->prodid' AND userName = '$this->userName'";
+        $sql = "UPDATE items SET prodName = '$this->prodName', prodDis = '$this->prodDis', prodPrice = '$prodPrice', prodImg = '$this->prodImg' , status = 'Pending' WHERE prodId = '$this->prodid' AND userName = '$this->userName'";
         if (mysqli_query($connection, $sql)) {
             $successMessage = "Product updated successfully.";
         } else {
