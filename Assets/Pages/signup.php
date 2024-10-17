@@ -24,24 +24,19 @@ session_start();
 
 <body class="bg-dark">
     <div class="py-3">
-        <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-6 col-12 text-center text-md-start mb-3 mb-md-0">
-                    <div class="logo h3 mb-0 text-white">
-                        <img src="../img/LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
-                        Eureka Innovation Management System
-                    </div>
-                </div>
-                <div class="col-md-6 col-12 text-center text-md-end">
-                    <nav>
-                        <ul class="nav justify-content-center justify-content-md-end">
-                            <li class="nav-item"><a class="nav-link text-white" href="../../index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" href="../../sign-in.php">Sign In</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" href="./signup.php">Sign Up</a></li>
-                        </ul>
-                    </nav>
-                </div>
+        <div class="ms-5 me-5 d-flex justify-content-between align-items-center">
+            <div class="logo h3 mb-0 text-white">
+                <img src="../img/LogoWhite.png" alt="Logo" style="height: 40px; margin-right: 20px;">
+                Eureka Innovation Management System
             </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="../../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="../../sign-in.php">Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="./signup.php">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
     <div class="container mt-5">
