@@ -189,7 +189,6 @@ class Innovator extends User
                         exit();
                         // echo "error in task creation. dbnoOfTasks > numOfTasks | Update";
                     }
-
                 }
 
                 for ($i = $numOfTasks + 1; $i <= $dbnoOfTasks; $i++) {
@@ -222,7 +221,6 @@ class Innovator extends User
                         exit();
                         // echo "error in task creation. dbnoOfTasks == numOfTasks | Update";
                     }
-
                 }
                 $em = "Project update successfull.";
                 echo "<script>window.location.href='./edit-project.php?projectupdatestatus=success&msg=$em';</script>";
@@ -359,7 +357,6 @@ class Innovator extends User
                         // echo "error";
                         exit();
                     }
-
                 } else {
                     if ($stmt->affected_rows > 0) {
                         echo "<script>window.location.href='./add-contributor.php?pid=" . $pid . "&removecontributor=success';</script>";
@@ -445,5 +442,4 @@ class Innovator extends User
             return "0";
         }
     }
-
 }
