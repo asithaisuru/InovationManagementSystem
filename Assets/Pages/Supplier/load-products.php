@@ -41,4 +41,5 @@ if ($result != null) {
     }
 } else {
     echo '<p class="text-center">No more products found.</p>';
+    echo '<script>document.getElementById("LoadMoreButton").style.display="none"</script>';
 }

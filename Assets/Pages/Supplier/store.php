@@ -51,10 +51,10 @@ include '../dbconnection.php';
         </form>
 
         <div class="row" id="product-container">
-            <!-- Products will be loaded here via AJAX -->
+            <!-- Products will be loaded here -->
         </div>
 
-        <div class="text-center">
+        <div class="text-center" id="LoadMoreButton">
             <button class="btn btn-primary" id="load-more" data-page="1">Load More</button>
         </div>
     </div>

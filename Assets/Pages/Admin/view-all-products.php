@@ -57,19 +57,25 @@ $admin = new Administrator(null, null);
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>
                             <tr>
-                                <th>Project ID</th>
-                                <th>Task ID</th>
-                                <th>Task Name</th>
+                                <th>Product ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
                                 <!-- <th>Task Description</th> -->
-                                <th>Task Status</th>
+                                <th>Username</th>
                                 <!-- <th>Task Deadline</th> -->
-                                <th>Task Assigned To</th>
+                                <th>Status</th>
                                 <th>View</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM items ORDER BY prodId DESC";
+                            $sql = "SELECT * FROM items ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END";
                             $result = $admin->sqlExecutor($connection, $sql);
                             if ($result != null) {
                                 // $result = mysqli_query($connection, $sql);
@@ -94,7 +100,7 @@ $admin = new Administrator(null, null);
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td class='text-center' colspan='10'>No Tasks Found</td></tr>";
+                                echo "<tr><td class='text-center' colspan='10'>No Products Found</td></tr>";
                             }
                             ?>
                         </tbody>
