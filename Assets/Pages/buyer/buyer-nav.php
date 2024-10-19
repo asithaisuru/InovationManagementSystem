@@ -74,7 +74,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
-                            <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
+                        <img src="../../img/Forum1.png" alt="" style="width:30px; height:auto; filter: brightness(0) invert(1);">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-2">
