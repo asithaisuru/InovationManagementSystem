@@ -137,11 +137,11 @@ $profilePic = $user->getProfilePicture($connection);
                         </fieldset>
                     </form>
                     <?php if ($_SESSION['role'] != "Admin"): ?>
-                        <form id="skill-form" action="skill_update.php" method="POST">
-                            <fieldset>
-                                <legend class="text-white">Skills:</legend>
-                                <div id="selected-skills" class="list-group-item list-group-item-action">
-                                    <?php
+                    <form id="skill-form" action="skill_update.php" method="POST">
+                        <fieldset>
+                            <legend class="text-white">Skills:</legend>
+                            <div id="selected-skills" class="list-group-item list-group-item-action">
+                                <?php
                                     $result1 = $user->getUserSkills($connection);
                                     if (mysqli_num_rows($result1) > 0) {
                                         while ($row1 = mysqli_fetch_assoc($result1)) {
@@ -152,50 +152,52 @@ $profilePic = $user->getProfilePicture($connection);
                                         }
                                     }
                                     ?>
-                                </div>
-                                <div class="mb-3">
-                                    <div id="selected-skills" class="mb-3">
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control" id="skill-input" name="skill-input"
-                                                placeholder="Enter Skill">
-                                            <label for="skill-input">Skilled languages</label>
-                                        </div>
-                                        <div id="suggestions" class="list-group mt-1"></div>
+                            </div>
+                            <div class="mb-3">
+                                <div id="selected-skills" class="mb-3">
+                                    <div class="form-floating mb-3 mt-3">
+                                        <input type="text" class="form-control" id="skill-input" name="skill-input"
+                                            placeholder="Enter Skill">
+                                        <label for="skill-input">Skilled languages</label>
                                     </div>
-                                    <div class="mb-3 ms-auto" style="width: 200px;">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
+                                    <div id="suggestions" class="list-group mt-1"></div>
                                 </div>
-                            </fieldset>
-                        </form>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script>
-                            $(document).ready(function () {
-                                $('.delete-skill').on('click', function () {
-                                    var skillId = $(this).data('id');
-                                    var skillElement = $('#skill-' + skillId);
+                                <div class="mb-3 ms-auto" style="width: 200px;">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                    $(document).ready(function() {
+                        $('.delete-skill').on('click', function() {
+                            var skillId = $(this).data('id');
+                            var skillElement = $('#skill-' + skillId);
 
-                                    $.ajax({
-                                        url: './delete_skill.php',
-                                        type: 'POST',
-                                        data: { "id": skillId },
-                                        success: function (response) {
-                                            if (response.trim() === "success") {
-                                                console.log("Skill deletion successful");
-                                                //  alert("Skill removed succesfully!");
-                                                skillElement.remove();
-                                            } else {
-                                                console.log("Unexpected response:", response);
-                                                alert('Error deleting skill.');
-                                            }
-                                        },
-                                        error: function () {
-                                            alert('Error deleting skill.');
-                                        }
-                                    });
-                                });
+                            $.ajax({
+                                url: './delete_skill.php',
+                                type: 'POST',
+                                data: {
+                                    "id": skillId
+                                },
+                                success: function(response) {
+                                    if (response.trim() === "success") {
+                                        console.log("Skill deletion successful");
+                                        //  alert("Skill removed succesfully!");
+                                        skillElement.remove();
+                                    } else {
+                                        console.log("Unexpected response:", response);
+                                        alert('Error deleting skill.');
+                                    }
+                                },
+                                error: function() {
+                                    alert('Error deleting skill.');
+                                }
                             });
-                        </script>
+                        });
+                    });
+                    </script>
                     <?php endif; ?>
                 </div>
             </div>
@@ -212,7 +214,7 @@ $profilePic = $user->getProfilePicture($connection);
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    require_once '../User.php';
+    // require_once '../User.php';
 
     $newfname = mysqli_real_escape_string($connection, $_POST['fname']);
     $newlname = mysqli_real_escape_string($connection, $_POST['lname']);
