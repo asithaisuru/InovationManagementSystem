@@ -4,7 +4,7 @@ include '../dbconnection.php';
 
 // Set the number of products per page
 $productsPerPage = 9;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $productsPerPage;
 
 // Set up the base query
@@ -20,7 +20,7 @@ if (isset($_GET['nameFilter']) && !empty($_GET['nameFilter'])) {
 $sql .= " ORDER BY prodId DESC LIMIT $offset, $productsPerPage";
 
 // Fetch the products
-$item = new Item("", "", "", "", "",);
+$item = new Item("", "", "", "", "", "");
 $result = $item->sqlExecutor($connection, $sql);
 
 if ($result != null) {
@@ -40,5 +40,6 @@ if ($result != null) {
         echo '</div>';
     }
 } else {
-    echo '<p class="text-center">No more products found.</p>';
+    echo "<div class='alert alert-warning text-center'>No more Items to show</div>";
+    echo '<script>document.getElementById("LoadMoreButton").style.display="none"</script>';
 }

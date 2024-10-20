@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
         }
     }
 
-    $item = new Item($prodId, $prodName, $prodDis, $prodImg, $username);
+    $item = new Item($prodId, $prodName, $prodDis, $prodImg, $username, "");
     $successMessage = $item->update($connection, $prodPrice);
 
     // $sql = "UPDATE items SET prodName = '$prodName', prodDis = '$prodDis', prodPrice = '$prodPrice', prodImg = '$prodImg' WHERE prodId = '$prodId' AND userName = '$username'";

@@ -8,24 +8,27 @@ class Item
     private $prodPrice;
     private $userName;
 
-    function __construct($prodid, $prodName, $prodDis, $prodImg, $userName)
+    function __construct($prodid, $prodName, $prodDis, $prodImg, $userName, $prodPrice)
     {
         $this->prodid = $prodid;
         $this->prodName = $prodName;
         $this->prodDis = $prodDis;
         $this->prodImg = $prodImg;
         $this->userName = $userName;
+        $this->prodPrice = $prodPrice;
     }
 
-    function create($connection)
+    function create($connection, $target_file)
     {
-        $sql = "INSERT INTO items (prodName, prodDis, prodImg, userName) VALUES (?, ?, ?, ?)";
-        $statement = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($statement, "ssss", $this->prodName, $this->prodDis, $this->prodImg, $this->userName);
+        $status = "Pending";
 
-        if (!mysqli_stmt_execute($statement)) {
-            echo '<script>alert("Failed to create item.");</script>';
-            return;
+        $stmt = $connection->prepare("INSERT INTO items (prodName, prodDis, prodImg, prodPrice, userName, status) VALUES (?, ?, ?, ?, ?,?)");
+        $stmt->bind_param("sssdss", $this->prodName, $this->prodDis, $target_file, $this->prodPrice, $this->userName, $status);
+
+        if ($stmt->execute()) {
+            return "<script>alert('New item added successfully!'); window.location.href = './addproduct.php';</script>";
+        } else {
+            return "Error: " . $stmt->error;
         }
     }
 
