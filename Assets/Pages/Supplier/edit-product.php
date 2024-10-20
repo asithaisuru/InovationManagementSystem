@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
         }
     }
 
-    $item = new Item($prodId, $prodName, $prodDis, $prodImg, $username);
+    $item = new Item($prodId, $prodName, $prodDis, $prodImg, $username, "");
     $successMessage = $item->update($connection, $prodPrice);
 
     // $sql = "UPDATE items SET prodName = '$prodName', prodDis = '$prodDis', prodPrice = '$prodPrice', prodImg = '$prodImg' WHERE prodId = '$prodId' AND userName = '$username'";
@@ -90,9 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
         <div>
             <h2 class="text-center">Edit product</h2>
             <?php if ($successMessage): ?>
-                <div class="alert alert-success">
-                    <?php echo $successMessage; ?>
-                </div>
+            <div class="alert alert-success">
+                <?php echo $successMessage; ?>
+            </div>
             <?php endif; ?>
             <div class="card mt-4 border-white border-3 bg-dark text-white">
                 <div class="card-body">
@@ -156,6 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['prodName'], $_POST['pr
             </div>
         </div>
     </div>
+
+    <?php include '../footer.php'; ?>
 </body>
 
 </html>

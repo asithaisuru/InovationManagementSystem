@@ -1,8 +1,12 @@
 <?php
+require_once '../Classes/Item.php';
+
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] != 'Supplier') {
     header("Location: ../../../sign-in.php");
     exit();
+} else {
+    $username = $_SESSION['username'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -48,19 +52,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Insert into database
             include('../dbconnection.php'); // Include your database connection file
 
-            $status = "Pending";
+            $item = new Item("", $prodName, $prodDis, $uniqueName, $username, $prodPrice);
+            echo $item->create($connection, $target_file);
+            // $status = "Pending";
 
-            $stmt = $connection->prepare("INSERT INTO items (prodName, prodDis, prodImg, prodPrice, userName, status) VALUES (?, ?, ?, ?, ?,?)");
-            $stmt->bind_param("sssdss", $prodName, $prodDis, $target_file, $prodPrice, $userName, $status);
+            // $stmt = $connection->prepare("INSERT INTO items (prodName, prodDis, prodImg, prodPrice, userName, status) VALUES (?, ?, ?, ?, ?,?)");
+            // $stmt->bind_param("sssdss", $prodName, $prodDis, $target_file, $prodPrice, $userName, $status);
 
-            if ($stmt->execute()) {
-                echo "<script>alert('New item added successfully!'); window.location.href = './addproduct.php';</script>";
-            } else {
-                echo "Error: " . $stmt->error;
-            }
+            // if ($stmt->execute()) {
+            //     echo "<script>alert('New item added successfully!'); window.location.href = './addproduct.php';</script>";
+            // } else {
+            //     echo "Error: " . $stmt->error;
+            // }
 
-            $stmt->close(); // Close the statement
-            $connection->close(); // Close the database connection
+            // $stmt->close(); // Close the statement
+            // $connection->close(); // Close the database connection
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
