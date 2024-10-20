@@ -1,4 +1,6 @@
 <?php
+require_once '../Classes/User.php';
+
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $role = $_SESSION['role'];
@@ -23,15 +25,17 @@ $connection = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSW
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$query = "SELECT * FROM profilePic WHERE userName = '$username'";
-$result = mysqli_query($connection, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $profilePic = "../../img/profilePics/" . $row['image_url'];
-} else {
-    $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
+// $query = "SELECT * FROM profilePic WHERE userName = '$username'";
+// $result = mysqli_query($connection, $query);
+// if ($result && mysqli_num_rows($result) > 0) {
+//     $row = mysqli_fetch_assoc($result);
+//     $profilePic = "../../img/profilePics/" . $row['image_url'];
+// } else {
+//     $profilePic = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1716576375~exp=1716579975~hmac=be6ca419460bee7ca7e72244b5462a3ce71eff32f244d69b7646c4e984e6f4ee&w=740";
 
-}
+// }
+$user = new User($username,"");
+$profilePic = $user->getProfilePicture($connection);
 
 ?>
 
@@ -74,7 +78,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link me-2 mt-3" href="../Forum/forum.php">
-                            <img src="../../img/Forum.png" alt="" style="width:30px; height:auto;">
+                        <img src="../../img/Forum1.png" alt="" style="width:30px; height:auto; filter: brightness(0) invert(1);">
                         </a>
                     </li>
                     <li class="nav-item dropdown mt-2">
@@ -104,17 +108,17 @@ if ($result && mysqli_num_rows($result) > 0) {
     <hr class="text-white border-3">
 
     <script>
-    function logout() {
-        fetch('../logout.php')
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '../../../index.php';
-                } else {
-                    console.error('Logout failed');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
+        function logout() {
+            fetch('../logout.php')
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '../../../index.php';
+                    } else {
+                        console.error('Logout failed');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
     </script>
 
 </body>

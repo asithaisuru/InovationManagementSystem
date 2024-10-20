@@ -14,15 +14,6 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 
 include '../dbconnection.php';
 
-function dbconnection() {
-    $conn = mysqli_connect("localhost", "root", "", "ims"); 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    return $conn;
-}
-
-$conn = dbconnection();
 
 // Fetch posts added to interests
 $query = "
@@ -31,7 +22,7 @@ $query = "
     INNER JOIN Buyer_Interests ON posts.postid = Buyer_Interests.post_id 
     WHERE Buyer_Interests.buyer_username = '$username' 
     ORDER BY posts.date DESC";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($connection, $query);
 $interests_posts = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -39,7 +30,6 @@ if ($result) {
     }
 }
 
-mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">

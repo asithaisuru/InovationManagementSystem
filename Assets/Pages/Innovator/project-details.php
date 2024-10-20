@@ -54,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         include './innovator-nav.php';
     elseif ($role == 'Admin')
         include '../Admin/admin-nav.php';
+    elseif ($role == 'Supplier')
+        include '../Supplier/supplier-nav.php';
     ?>
     <div class="container">
         <?php

@@ -54,22 +54,78 @@ $admin = new Administrator(null, null);
                     </form>
                 </div> -->
                 <div class="mt-3 table-responsive">
+                    <form action="" method="get">
+                        <select name="filter" id="filter" class="form-select mb-3" onchange="this.form.submit()">
+                            <option value="">-- Status --</option>
+                            <option value="All">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Approved">Approved</option>
+                        </select>
+                    </form>
                     <table class="table table-bordered table-hover table-dark table-lg bg-dark">
                         <thead>
                             <tr>
-                                <th>Project ID</th>
-                                <th>Task ID</th>
-                                <th>Task Name</th>
+                                <th>Product ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
                                 <!-- <th>Task Description</th> -->
-                                <th>Task Status</th>
+                                <th>Username</th>
                                 <!-- <th>Task Deadline</th> -->
-                                <th>Task Assigned To</th>
+                                <th>Status</th>
                                 <th>View</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM items ORDER BY prodId DESC";
+                            if (isset($_GET['filter'])) {
+                                switch ($_GET['filter']) {
+                                    case "All":
+                                        $sql = "SELECT * FROM items ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        -- WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END, prodID ASC";
+                                        break;
+                                    case "Pending":
+                                        $sql = "SELECT * FROM items WHERE status = 'Pending' ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        -- WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END, prodID ASC";
+                                        break;
+                                    case "Approved":
+                                        $sql = "SELECT * FROM items WHERE status = 'Approved' ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        -- WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END, prodID ASC";
+                                        break;
+                                    case "Rejected":
+                                        $sql = "SELECT * FROM items WHERE status = 'Rejected' ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        -- WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END, prodID ASC";
+                                        break;
+                                }
+                            } else {
+                                $sql = "SELECT * FROM items ORDER BY 
+                                    CASE 
+                                        WHEN status = 'Pending' THEN 1 
+                                        WHEN status = 'Rejected' THEN 2 
+                                        -- WHEN status = 'Approved' THEN 3 
+                                        ELSE 4 
+                                    END, prodID ASC";
+                            }
                             $result = $admin->sqlExecutor($connection, $sql);
                             if ($result != null) {
                                 // $result = mysqli_query($connection, $sql);
@@ -90,11 +146,11 @@ $admin = new Administrator(null, null);
                                     }
                                     // echo "<td>" . $row['status'] . "</td>";
                                     // echo "<td>" . $row['tdeadline'] . "</td>";                                    
-                                    echo "<td><a href='../Supplier/view-prod.php?prodId=" . $row['prodId']. "' class='btn btn-primary'>View</a></td>";
+                                    echo "<td><a href='../Supplier/view-prod.php?prodId=" . $row['prodId'] . "' class='btn btn-primary'>View</a></td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td class='text-center' colspan='10'>No Tasks Found</td></tr>";
+                                echo "<tr><td class='text-center' colspan='10'>No Products Found</td></tr>";
                             }
                             ?>
                         </tbody>
@@ -104,6 +160,6 @@ $admin = new Administrator(null, null);
         </div>
     </div>
 </body>
-<?php include '../footer.php'; ?>   
+<?php include '../footer.php'; ?>
 
 </html>

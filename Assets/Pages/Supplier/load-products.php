@@ -40,6 +40,6 @@ if ($result != null) {
         echo '</div>';
     }
 } else {
-    echo "<div class='alert alert-warning text-center'>No more Items to show</div>";
+    echo '<p class="text-center">No more products found.</p>';
     echo '<script>document.getElementById("LoadMoreButton").style.display="none"</script>';
 }

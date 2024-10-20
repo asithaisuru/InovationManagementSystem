@@ -83,5 +83,6 @@ if (isset($_SESSION['username'])) {
         ?>
     </div>
 </body>
+<?php include '../footer.php'; ?>
 
 </html>
