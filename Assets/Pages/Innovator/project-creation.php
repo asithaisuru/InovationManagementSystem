@@ -156,7 +156,8 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
                 </div>
                 <div class="col-md-6 text-center">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="edate" name="edate" required>
+                        <input type="date" class="form-control" id="edate" name="edate" required
+                            min="<?php echo date('Y-m-d'); ?>">
                         <label for="edate">End Date</label>
                     </div>
                 </div>
@@ -168,6 +169,30 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 </body>
 
 </html>
+
+<script>
+    document.getElementById('sdate').addEventListener('change', function () {
+        const today = new Date();
+        const selectedDate = new Date(this.value);
+        today.setHours(0, 0, 0, 0); // Set the time to midnight to compare only the date part
+        if (selectedDate.getTime() !== today.getTime()) {
+            alert('Cannot change the start date.');
+            today.setDate(today.getDate() + 1);
+            this.value = today.toISOString().split('T')[0];
+        }
+    });
+
+    // Check if the selected date and time are in the future
+    document.getElementById('edate').addEventListener('change', function () {
+        const endDate = new Date(this.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set the time to midnight to compare only the date part
+        if (endDate < today) {
+            alert('End date cannot be in the past. Please change the date.');
+            this.value = today;
+        }
+    });
+</script>
 
 <?php
 include '../dbconnection.php';

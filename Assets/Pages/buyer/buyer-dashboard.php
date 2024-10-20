@@ -48,17 +48,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Start of Tawk.to Script -->
     <script type="text/javascript">
-    var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
-    (function() {
-        var s1 = document.createElement("script"),
-            s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/664344a19a809f19fb30bb2f/1htrc868i';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        s0.parentNode.insertBefore(s1, s0);
-    })();
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/664344a19a809f19fb30bb2f/1htrc868i';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
     <!-- End of Tawk.to Script -->
 </head>
@@ -66,33 +66,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
 <body class="bg-dark text-white">
 
     <?php include 'buyer-nav.php'; ?>
-    
+
     <div class="container mt-5">
         <h1 class="text-center mb-4">Welcome to Buyer Dashboard, <?php echo htmlspecialchars($username); ?>!</h1>
-        <div class="d-flex flex-column align-items-center">
-        <a href="my-interests.php" class="btn btn-primary mt-3">My Interests</a>
-            <h1 class="card-title">Recent Posts</h1>
-
-            <div class="card bg-dark text-white text-center mt-4 w-50">
-                <div class="card-body">
-                    <?php if (!empty($recent_posts)) : ?>
-                        <?php foreach ($recent_posts as $post) : ?>
-                            <div class="mb-3">
-                                <h3><?php echo htmlspecialchars($post['title']); ?></h3>
-                                <p><?php echo htmlspecialchars($post['content']); ?></p>
-                                <small><?php echo htmlspecialchars($post['date']); ?></small>
-                            </div>
-                            <hr>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No recent posts available.</p>
-                    <?php endif; ?>
-                    <div class="mt-4">
-                                <a href="../Forum/forum.php" class="btn btn-secondary">See More</a>
+        <!-- <div class="d-flex flex-column align-items-center"> -->
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="d-flex justify-content-center">
+                    <a href="my-interests.php" class="btn btn-primary mt-3 w-100">My Interests</a>
+                </div>
+            </div>
+            <div class="col-lg-10 d-flex justify-content-center">
+                <div class="w-75">
+                    <h1 class="card-title text-center">Recent Posts</h1>
+                    <div class="card bg-dark text-white text-center mt-4 border-white border-3">
+                        <div class="card-body">
+                            <?php if (!empty($recent_posts)): ?>
+                                <?php foreach ($recent_posts as $post): ?>
+                                    <div class="mb-3">
+                                        <h3><?php echo htmlspecialchars($post['title']); ?></h3>
+                                        <p><?php echo htmlspecialchars($post['content']); ?></p>
+                                        <small><?php echo htmlspecialchars($post['date']); ?></small>
+                                    </div>
+                                    <hr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>No recent posts available.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <a href="../Forum/forum.php" class="btn btn-secondary">See More Posts</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- </div> -->
 
         <?php include '../footer.php'; ?>
     </div>
