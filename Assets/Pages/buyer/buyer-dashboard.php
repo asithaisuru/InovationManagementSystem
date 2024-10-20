@@ -14,19 +14,10 @@ if (isset($_SESSION['username']) || isset($_SESSION['role'])) {
 
 include '../dbconnection.php';
 
-function dbconnection() {
-    $conn = mysqli_connect("localhost", "root", "", "ims"); 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    return $conn;
-}
-
-$conn = dbconnection();
 
 // Fetch the three most recent posts
 $query = "SELECT postid, title, content, date FROM posts ORDER BY date DESC LIMIT 3";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($connection, $query);
 $recent_posts = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -39,14 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
     $buyer_username = $_SESSION['username'];
 
     $query = "INSERT INTO Buyer_Interests (buyer_username, post_id) VALUES ('$buyer_username', $post_id)";
-    if (mysqli_query($conn, $query)) {
+    if (mysqli_query($connection, $query)) {
         echo "<script>alert('Post added to your interests!');</script>";
     } else {
         echo "<script>alert('Failed to add post to your interests.');</script>";
     }
 }
 
-mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
