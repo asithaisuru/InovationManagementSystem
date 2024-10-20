@@ -75,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
                 <div class="d-flex justify-content-center">
                     <a href="my-interests.php" class="btn btn-primary mt-3 w-100">My Interests</a>
                 </div>
+                <div class="mt-3 text-center">
+                    <a href="../Forum/forum.php" class="btn btn-secondary w-100">See More Posts</a>
+                </div>
             </div>
             <div class="col-lg-10 d-flex justify-content-center">
                 <div class="w-75">
@@ -95,9 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_interests'])) {
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="mt-4 text-center">
-                        <a href="../Forum/forum.php" class="btn btn-secondary">See More Posts</a>
-                    </div>
+
                 </div>
             </div>
         </div>

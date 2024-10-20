@@ -67,7 +67,7 @@ if (isset($_SESSION['username'])) {
                         </select>
                         <label for="pid">Select Product</label>
                     </div>
-                    <button type="submit" class="btn btn-danger">Delete Product</button>
+                    <button onclick="getconfermation()" class="btn btn-danger">Delete Product</button>
                 </form>
             </div>
         </div>
@@ -76,3 +76,14 @@ if (isset($_SESSION['username'])) {
 </body>
 
 </html>
+
+<script>
+    function getconfermation() {
+        if (confirm("Are you sure you want to delete this product?")) {
+            document.querySelector('form').submit();
+        } else {
+            event.preventDefault();
+            window.location.href = 'delete-prod.php';
+        }
+    }
+</script>
